@@ -10,7 +10,6 @@ const { hasRole, isLoggedIn, clearAllKey } = utils;
 const PrivateRoute = (props) => {
   const { accessibility, component: Component, ...otherProps } = props;
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(null);
-  console.log('ini acce', accessibility);
 
   useEffect(() => {
     try {

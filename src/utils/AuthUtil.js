@@ -15,7 +15,7 @@ const isLoggedIn = () => {
   const decodedToken = jwt.decode(token, { complete: true });
   const { payload: { exp } } = decodedToken;
 
-  if (exp * 1000 > dateNow.getTime()) { console.log('hai'); return true; }
+  if (exp * 1000 > dateNow.getTime()) { return true; }
 
   return false;
 };
