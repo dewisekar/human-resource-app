@@ -11,7 +11,7 @@ import AlertModal from '../../components/AlertModal/AlertModal';
 import utils from '../../utils';
 
 const { AlertMessage, PATH } = constants;
-const { ifLoggedIn } = utils;
+const { isLoggedIn, clearAllKey } = utils;
 
 const Login = () => {
   const history = useHistory();
@@ -27,11 +27,14 @@ const Login = () => {
   useEffect(() => {
     try {
       const runApp = async () => {
-        const isLoggedIn = ifLoggedIn();
+        const isLogged = isLoggedIn();
 
-        if (isLoggedIn) {
-          history.replace(PATH.DASHBOARD_PATH);
+        if (!isLogged) {
+          clearAllKey();
+          return;
         }
+
+        history.replace(PATH.Dashboard);
       };
 
       runApp();

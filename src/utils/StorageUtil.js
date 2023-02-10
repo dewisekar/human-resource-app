@@ -24,6 +24,13 @@ const getUsername = () => sessionStorage.getItem(USERNAME_KEY);
 
 const getToken = () => sessionStorage.getItem(TOKEN_KEY);
 
+const clearAllKey = () => {
+  sessionStorage.removeItem(TOKEN_KEY);
+  sessionStorage.removeItem(NAME_KEY);
+  sessionStorage.removeItem(ID_KEY);
+  sessionStorage.removeItem(USERNAME_KEY);
+};
+
 export default {
   saveName,
   saveUserId,
@@ -35,4 +42,5 @@ export default {
   getUserId,
   getUsername,
   getToken,
+  clearAllKey,
 };

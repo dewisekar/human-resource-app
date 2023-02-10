@@ -26,7 +26,7 @@ const loginHandler = async (payload, handler) => {
     saveUsername(username);
     saveRole(role);
 
-    history.replace(PATH.DASHBOARD_PATH);
+    history.replace(PATH.Dashboard);
   } catch (error) {
     const errorMessage = error.response
       ? unpackError(error).message : AlertMessage.INTERNAL_SERVER_ERROR;

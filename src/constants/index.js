@@ -2,6 +2,7 @@ import URL from './url';
 import PATH from './path';
 
 const Accessibility = {
+  ALL: 'ALL',
   ADMIN: 'ADMIN',
   SUPERVISOR: 'SUPERVISOR',
   STAFF: 'STAFF',

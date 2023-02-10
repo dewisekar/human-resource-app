@@ -1,5 +1,6 @@
 const PATH = {
-  DASHBOARD_PATH: '/dashboard',
+  Login: '/login',
+  Dashboard: '/dashboard',
 };
 
 export default PATH;
