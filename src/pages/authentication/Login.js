@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Label, Input, Button, HelperText,
 } from '@windmill/react-ui';
+import { useHistory } from 'react-router-dom';
 
 import Images from '../../assets/images';
 import constants from '../../constants';
 import handlers from './Login.handlers';
 import AlertModal from '../../components/AlertModal/AlertModal';
+import utils from '../../utils';
 
-const { AlertMessage } = constants;
+const { AlertMessage, PATH } = constants;
+const { ifLoggedIn } = utils;
 
 const Login = () => {
+  const history = useHistory();
   const [state, setState] = useState({});
   const [isFormChecked, setIsFormChecked] = useState(false);
   const [isModalShown, setIsModalShown] = useState(false);
@@ -19,6 +23,22 @@ const Login = () => {
 
   const handleCloseModal = () => setIsModalShown(false);
   const handleShowModal = () => setIsModalShown(true);
+
+  useEffect(() => {
+    try {
+      const runApp = async () => {
+        const isLoggedIn = ifLoggedIn();
+
+        if (isLoggedIn) {
+          history.replace(PATH.DASHBOARD_PATH);
+        }
+      };
+
+      runApp();
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const onFormChange = (event) => {
     const {
@@ -37,7 +57,7 @@ const Login = () => {
   const handleSubmit = async () => {
     const emptyFields = checkAllFieldsFilled(formFields);
     setIsFormChecked(true);
-    const handler = { handleShowModal, setModalErrorMessage };
+    const handler = { handleShowModal, setModalErrorMessage, history };
 
     if (emptyFields.length === 0) {
       await handlers.loginHandler(state, handler);

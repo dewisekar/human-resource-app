@@ -13,9 +13,9 @@ function App() {
       <Router>
         <AccessibleNavigationAnnouncer />
         <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/app" component={Layout} />
           <Redirect exact from="/" to="/login" />
+          <Route path="/login" component={Login} />
+          <Route path="/" component={Layout} />
         </Switch>
       </Router>
     </>

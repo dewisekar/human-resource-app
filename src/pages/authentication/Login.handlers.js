@@ -1,18 +1,38 @@
+import CryptoJS from 'crypto-js';
+
 import utils from '../../utils';
 import constants from '../../constants';
+import { encryptKey } from '../../config';
 
-const { postRequest, unpackError } = utils;
-const { URL } = constants;
+const {
+  postRequest, unpackError, saveToken, saveName, saveUserId, saveUsername, saveRole,
+} = utils;
+const { URL, AlertMessage, PATH } = constants;
 
 const loginHandler = async (payload, handler) => {
+  const { password, username } = payload;
+  const { history } = handler;
+
   try {
-    const result = await postRequest(URL.LOGIN_URL, payload);
-    console.log('ini result', result);
+    const encryptedPassword = CryptoJS.AES.encrypt(password, encryptKey).toString();
+    const result = await postRequest(URL.LOGIN_URL, { ...payload, password: encryptedPassword });
+    const {
+      token, userId, name, role,
+    } = result;
+
+    saveToken(token);
+    saveName(name);
+    saveUserId(userId);
+    saveUsername(username);
+    saveRole(role);
+
+    history.replace(PATH.DASHBOARD_PATH);
   } catch (error) {
-    const unpackedError = unpackError(error);
+    const errorMessage = error.response
+      ? unpackError(error).message : AlertMessage.INTERNAL_SERVER_ERROR;
     const { handleShowModal, setModalErrorMessage } = handler;
 
-    setModalErrorMessage(unpackedError.message);
+    setModalErrorMessage(errorMessage);
     handleShowModal();
   }
 };
