@@ -23,7 +23,7 @@ const Header = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
-  const logOut = () => {
+  const logOut = async () => {
     clearAllKey();
     history.push(PATH.Login);
   };

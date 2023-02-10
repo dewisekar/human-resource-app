@@ -29,6 +29,7 @@ const clearAllKey = () => {
   sessionStorage.removeItem(NAME_KEY);
   sessionStorage.removeItem(ID_KEY);
   sessionStorage.removeItem(USERNAME_KEY);
+  sessionStorage.removeItem(ROLE_KEY);
 };
 
 export default {
