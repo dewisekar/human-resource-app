@@ -17,14 +17,15 @@ const loginHandler = async (payload, handler) => {
     const encryptedPassword = CryptoJS.AES.encrypt(password, encryptKey).toString();
     const result = await postRequest(URL.LOGIN_URL, { ...payload, password: encryptedPassword });
     const {
-      token, userId, name, role,
+      token, userId, name, roles,
     } = result;
 
+    console.log('ini roles', roles);
     saveToken(token);
     saveName(name);
     saveUserId(userId);
     saveUsername(username);
-    saveRole(role);
+    saveRole(roles);
 
     history.replace(PATH.Dashboard);
   } catch (error) {

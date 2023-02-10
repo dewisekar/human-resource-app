@@ -34,7 +34,7 @@ const routes = [
   {
     path: '/charts',
     component: Charts,
-    accessibility: Accessibility.ALL,
+    accessibility: Accessibility.STAFF,
   },
   {
     path: '/buttons',

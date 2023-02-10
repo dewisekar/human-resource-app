@@ -24,7 +24,7 @@ const hasRole = (pageAccessibility) => {
   const userRole = getRole();
   if (pageAccessibility === Accessibility.ALL) { return true; }
 
-  return pageAccessibility === Accessibility[userRole];
+  return userRole.includes(pageAccessibility);
 };
 
 export default { isLoggedIn, hasRole };

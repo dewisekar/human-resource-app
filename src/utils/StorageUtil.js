@@ -4,7 +4,7 @@ const ID_KEY = 'id';
 const TOKEN_KEY = 'token';
 const USERNAME_KEY = 'username';
 
-const saveRole = (role) => (sessionStorage.setItem(ROLE_KEY, role));
+const saveRole = (role) => (sessionStorage.setItem(ROLE_KEY, JSON.stringify(role)));
 
 const saveName = (name) => sessionStorage.setItem(NAME_KEY, name);
 
@@ -14,7 +14,7 @@ const saveUsername = (username) => sessionStorage.setItem(USERNAME_KEY, username
 
 const saveToken = (token) => sessionStorage.setItem(TOKEN_KEY, token);
 
-const getRole = () => sessionStorage.getItem(ROLE_KEY);
+const getRole = () => JSON.parse(sessionStorage.getItem(ROLE_KEY));
 
 const getName = () => sessionStorage.getItem(NAME_KEY);
 
