@@ -1,5 +1,5 @@
-import React from 'react'
-import classNames from 'classnames'
+import React from 'react';
+import classNames from 'classnames';
 
 function RoundIcon({
   icon: Icon,
@@ -7,14 +7,14 @@ function RoundIcon({
   bgColorClass = 'bg-purple-100 dark:bg-purple-600',
   className,
 }) {
-  const baseStyle = 'p-3 rounded-full'
+  const baseStyle = 'p-3 rounded-full';
 
-  const cls = classNames(baseStyle, iconColorClass, bgColorClass, className)
+  const cls = classNames(baseStyle, iconColorClass, bgColorClass, className);
   return (
     <div className={cls}>
       <Icon className="w-5 h-5" />
     </div>
-  )
+  );
 }
 
-export default RoundIcon
+export default RoundIcon;

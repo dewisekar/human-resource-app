@@ -1,10 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import ImageLight from '../assets/img/create-account-office.jpeg'
-import ImageDark from '../assets/img/create-account-office-dark.jpeg'
-import { GithubIcon, TwitterIcon } from '../icons'
-import { Input, Label, Button } from '@windmill/react-ui'
+import { Input, Label, Button } from '@windmill/react-ui';
+import ImageLight from '../assets/img/create-account-office.jpeg';
+import ImageDark from '../assets/img/create-account-office-dark.jpeg';
+import { GithubIcon, TwitterIcon } from '../icons';
 
 function Login() {
   return (
@@ -78,7 +78,7 @@ function Login() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

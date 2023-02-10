@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 function ChartLegend({ legends }) {
   return (
@@ -10,7 +10,7 @@ function ChartLegend({ legends }) {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
-export default ChartLegend
+export default ChartLegend;

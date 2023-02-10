@@ -359,4 +359,4 @@ export default [
     status: 'danger',
     date: 'Mon Jun 15 2020 04:04:32 GMT-0300 (Brasilia Standard Time)',
   },
-]
+];

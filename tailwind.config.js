@@ -1,5 +1,6 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-const windmill = require('@windmill/react-ui/config')
+// eslint-disable-next-line import/no-extraneous-dependencies
+const defaultTheme = require('tailwindcss/defaultTheme');
+const windmill = require('@windmill/react-ui/config');
 
 module.exports = windmill({
   purge: ['src/**/*.js'],
@@ -13,4 +14,4 @@ module.exports = windmill({
       },
     },
   },
-})
+});
