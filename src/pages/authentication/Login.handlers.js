@@ -20,7 +20,6 @@ const loginHandler = async (payload, handler) => {
       token, userId, name, roles,
     } = result;
 
-    console.log('ini roles', roles);
     saveToken(token);
     saveName(name);
     saveUserId(userId);
