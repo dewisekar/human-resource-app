@@ -38,7 +38,6 @@ function Layout() {
                     key={i}
                     exact={true}
                     path={route.path}
-                    // render={(props) => <route.component {...props} /
                     component={route.component}
                     accessibility={route.accessibility}
                   />

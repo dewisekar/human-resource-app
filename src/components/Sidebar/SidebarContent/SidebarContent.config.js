@@ -1,49 +1,42 @@
 import constants from '../../../constants';
 
-const { Accessibility } = constants;
+const { PATH } = constants;
 
 const routes = [
   {
     path: '/dashboard',
     icon: 'HomeIcon',
     name: 'Dashboard',
-    role: Accessibility.ALL,
   },
   {
     path: '/forms',
     icon: 'FormsIcon',
     name: 'Forms',
-    role: Accessibility.SUPERVISOR,
   },
   {
     path: '/cards',
     icon: 'CardsIcon',
     name: 'Cards',
-    role: Accessibility.ADMIN,
   },
   {
     path: '/charts',
     icon: 'ChartsIcon',
     name: 'Charts',
-    role: Accessibility.STAFF,
   },
   {
     path: '/buttons',
     icon: 'ButtonsIcon',
     name: 'Buttons',
-    role: Accessibility.ALL,
   },
   {
     path: '/modals',
     icon: 'ModalsIcon',
     name: 'Modals',
-    role: Accessibility.ALL,
   },
   {
     path: '/tables',
     icon: 'TablesIcon',
     name: 'Tables',
-    role: Accessibility.ALL,
   },
   {
     icon: 'PagesIcon',
@@ -53,17 +46,14 @@ const routes = [
       {
         path: '/login',
         name: 'Login',
-        role: Accessibility.ALL,
       },
       {
         path: '/404',
         name: '404',
-        role: Accessibility.ALL,
       },
       {
         path: '/blank',
         name: 'Blank',
-        role: Accessibility.ALL,
       },
     ],
   },
@@ -75,7 +65,6 @@ const sidebarRoutes = {
       path: '/dashboard',
       icon: 'HomeIcon',
       name: 'Dashboard',
-      role: Accessibility.ALL,
       type: 'MENU',
     },
   ],
@@ -88,21 +77,18 @@ const sidebarRoutes = {
       path: '/cards',
       icon: 'CardsIcon',
       name: 'Attendance',
-      role: Accessibility.ADMIN,
       type: 'MENU',
     },
     {
       path: '/cards',
       icon: 'CardsIcon',
       name: 'Reimburse',
-      role: Accessibility.ADMIN,
       type: 'MENU',
     },
     {
       path: '/cards',
       icon: 'CardsIcon',
       name: 'Overtime',
-      role: Accessibility.ADMIN,
       type: 'MENU',
     },
   ],
@@ -115,7 +101,6 @@ const sidebarRoutes = {
       path: '/cards',
       icon: 'CardsIcon',
       name: 'Buat SPV',
-      role: Accessibility.SUPERVISOR,
       type: 'MENU',
     },
     {
@@ -126,17 +111,14 @@ const sidebarRoutes = {
         {
           path: '/login',
           name: 'Login',
-          role: Accessibility.ALL,
         },
         {
           path: '/404',
           name: '404',
-          role: Accessibility.ALL,
         },
         {
           path: '/blank',
           name: 'Blank',
-          role: Accessibility.ALL,
         },
       ],
     },
@@ -146,6 +128,48 @@ const sidebarRoutes = {
     {
       name: 'Staff',
       type: 'DIVIDER',
+    },
+    {
+      icon: 'MoneyIcon',
+      name: 'Reimbursement',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.Reimbursement.ADD_REQUEST,
+          name: 'Add New Request',
+        },
+        {
+          path: '/404',
+          name: 'List Request',
+        },
+      ],
+    },
+    {
+      icon: 'ClockIcon',
+      name: 'Overtime',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: '/login',
+          name: 'Add New Request',
+        },
+        {
+          path: '/404',
+          name: 'List Request',
+        },
+      ],
+    },
+  ],
+  GENERAL: [
+    {
+      type: 'DIVIDER',
+      name: 'General',
+    },
+    {
+      path: '/cards',
+      icon: 'LockIcon',
+      name: 'Change Password',
+      type: 'MENU',
     },
   ],
 };

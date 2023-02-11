@@ -2,7 +2,7 @@ import { lazy } from 'react';
 
 import constants from '../constants';
 
-const { Accessibility } = constants;
+const { Accessibility, PATH } = constants;
 
 const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'));
 const Forms = lazy(() => import('../pages/Forms'));
@@ -13,6 +13,7 @@ const Modals = lazy(() => import('../pages/Modals'));
 const Tables = lazy(() => import('../pages/Tables'));
 const Page404 = lazy(() => import('../pages/404'));
 const Blank = lazy(() => import('../pages/Blank'));
+const ReimbursementRequest = lazy(() => import('../pages/reimbursement/ReimbursementRequest'));
 
 const routes = [
   {
@@ -59,6 +60,11 @@ const routes = [
     path: '/blank',
     component: Blank,
     accessibility: Accessibility.ALL,
+  },
+  {
+    path: PATH.Reimbursement.ADD_REQUEST,
+    component: ReimbursementRequest,
+    accessibility: Accessibility.STAFF,
   },
 ];
 
