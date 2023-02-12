@@ -21,8 +21,8 @@ const SidebarContent = () => {
   const renderSidebarMenu = (route) => {
     const RenderMenu = {
       SUBMENU_HEADER: <SidebarSubmenu route={route} key={route.name} />,
-      MENU: <SidebarMenu route={route}/>,
-      DIVIDER: <SidebarMenuDivider route={route}/>,
+      MENU: <SidebarMenu route={route} key={route.name}/>,
+      DIVIDER: <SidebarMenuDivider route={route} key={route.name}/>,
     };
 
     return RenderMenu[route.type];

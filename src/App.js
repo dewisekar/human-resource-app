@@ -4,8 +4,9 @@ import {
 } from 'react-router-dom';
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
 
-const Layout = lazy(() => import('./containers/Layout'));
 const Login = lazy(() => import('./pages/authentication/Login'));
+const AuthenticatedPages = lazy(() => import('./routes/AuthenticatedPages'));
+const Page404 = lazy(() => import('./pages/404'));
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Switch>
           <Redirect exact from="/" to="/login" />
           <Route path="/login" component={Login} />
-          <Route path="/" component={Layout} />
+          <AuthenticatedPages/>
+          <Route component={Page404} />
         </Switch>
       </Router>
     </>

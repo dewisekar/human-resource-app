@@ -36,4 +36,9 @@ const formOptions = [
   },
 ];
 
-export default { formOptions };
+const Modals = {
+  SESSION: 'SESSION',
+  ALERT: 'ALERT',
+};
+
+export default { formOptions, Modals };

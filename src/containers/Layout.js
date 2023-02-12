@@ -1,9 +1,7 @@
 import React, {
   useContext, Suspense, useEffect, lazy,
 } from 'react';
-import {
-  Switch, Route, useLocation,
-} from 'react-router-dom';
+import { Switch, useLocation } from 'react-router-dom';
 import routes from '../routes';
 
 import Sidebar from '../components/Sidebar';
@@ -12,8 +10,6 @@ import Main from './Main';
 import PrivateRoute from './PrivateRoute';
 import ThemedSuspense from '../components/ThemedSuspense';
 import { SidebarContext } from '../context/SidebarContext';
-
-const Page404 = lazy(() => import('../pages/404'));
 
 function Layout() {
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
@@ -42,7 +38,6 @@ function Layout() {
                     accessibility={route.accessibility}
                   />
               ) : null))}
-              <Route component={Page404} />
             </Switch>
           </Suspense>
         </Main>
