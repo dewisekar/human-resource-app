@@ -4,7 +4,7 @@ import constants from '../constants';
 
 const { Accessibility, PATH } = constants;
 
-const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'));
+const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
 const Forms = lazy(() => import('../pages/Forms'));
 const Cards = lazy(() => import('../pages/Cards'));
 const Charts = lazy(() => import('../pages/Charts'));
@@ -13,7 +13,7 @@ const Modals = lazy(() => import('../pages/Modals'));
 const Tables = lazy(() => import('../pages/Tables'));
 const Page404 = lazy(() => import('../pages/404'));
 const Blank = lazy(() => import('../pages/Blank'));
-const ReimbursementRequest = lazy(() => import('../pages/reimbursement/ReimbursementRequest'));
+const ReimbursementRequest = lazy(() => import('../pages/ReimbursementRequest/ReimbursementRequest'));
 
 const routes = [
   {

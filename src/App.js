@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
 
-const Login = lazy(() => import('./pages/authentication/Login'));
+const Login = lazy(() => import('./pages/Login/Login'));
 const AuthenticatedPages = lazy(() => import('./routes/AuthenticatedPages'));
 const Page404 = lazy(() => import('./pages/404'));
 
