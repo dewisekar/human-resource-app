@@ -1,6 +1,4 @@
-import React, {
-  useContext, Suspense, useEffect, lazy,
-} from 'react';
+import React, { useContext, Suspense, useEffect } from 'react';
 import { Switch, useLocation } from 'react-router-dom';
 import routes from '../routes';
 

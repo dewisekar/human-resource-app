@@ -12,6 +12,7 @@ const { Modals } = config;
 
 const submitRequest = async (payload, handlers) => {
   const { openModalHandler, setAlertMessage } = handlers;
+  const successMessage = 'Success submit reimbursement request.';
 
   const formData = new FormData();
   Object.entries(payload).map(([key, value]) => formData.append([key], value));
@@ -24,7 +25,8 @@ const submitRequest = async (payload, handlers) => {
 
     if (errorMessage === AxiosError.TOKEN_EXPIRED) { openModalHandler(Modals.SESSION); return; }
 
-    console.log('ini', errorMessage);
+    setAlertMessage(errorMessage);
+    openModalHandler(Modals.ALERT);
   }
 };
 

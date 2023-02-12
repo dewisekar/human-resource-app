@@ -28,6 +28,8 @@ import { ReactComponent as OutlineCogIcon } from './outlineCog.svg';
 import { ReactComponent as OutlineLogoutIcon } from './outlineLogout.svg';
 import { ReactComponent as LockIcon } from './lock.svg';
 import { ReactComponent as ClockIcon } from './clock.svg';
+import { ReactComponent as CheckCircleIcon } from './check-circle.svg';
+import { ReactComponent as WarningCircleIcon } from './warning-circle.svg';
 
 export {
   ButtonsIcon,
@@ -60,4 +62,6 @@ export {
   OutlineLogoutIcon,
   LockIcon,
   ClockIcon,
+  CheckCircleIcon,
+  WarningCircleIcon,
 };

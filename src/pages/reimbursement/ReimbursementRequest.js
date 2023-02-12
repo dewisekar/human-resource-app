@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Card, CardBody, Button } from '@windmill/react-ui';
 import { useHistory } from 'react-router-dom';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 import PageTitle from '../../components/Typography/PageTitle';
 import SectionTitle from '../../components/Typography/SectionTitle';
@@ -10,12 +11,10 @@ import TextAreaInput from '../../components/TextAreaInput/TextAreaInput';
 import RupiahCurrencyInput from '../../components/RupiahCurrencyInput/RupiahCurrencyInput';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import AlertModal from '../../components/AlertModal/AlertModal';
-import utils from '../../utils';
 import constants from '../../constants';
 import config from './ReimbursementRequest.config';
 import handlers from './ReimbursementRequest.handlers';
 
-const { getRequest } = utils;
 const { COLOR } = constants;
 const { submitRequest } = handlers;
 
@@ -29,6 +28,7 @@ const ReimbursementRequest = () => {
 
   const [isModalShown, setIsModalShown] = useState({});
   const [alertMessage, setAlertMessage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
 
@@ -46,7 +46,9 @@ const ReimbursementRequest = () => {
     if (fileSize > MAX_FILE_SIZE) { setError('proof', { message: 'File size can not be larger than 5MB!' }); return; }
 
     const payload = { ...data, proof: chosenFile };
+    setIsSubmitting(true);
     await submitRequest(payload, submitHandler);
+    setIsSubmitting(false);
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;
@@ -74,8 +76,11 @@ const ReimbursementRequest = () => {
     <>
         <form onSubmit={handleSubmit(onSubmit)} >
           {formOptions.map((option) => renderFormField(option))}
-          <Button className="mt-5" style={{ backgroundColor: COLOR.LIGHT_PURPLE, width: '100%' }}
+          {!isSubmitting ? <Button className="mt-5" style={{ backgroundColor: COLOR.LIGHT_PURPLE, width: '100%' }}
             type="submit">Submit</Button>
+            : <div className='grid' style={{ justifyContent: 'center' }}>
+            <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
+          </div>}
         </form>
     </>
   );
@@ -90,6 +95,8 @@ const ReimbursementRequest = () => {
         </CardBody>
       </Card>
       {isModalShown[Modals.SESSION] && <SessionExpiredModal history={history}/>}
+      {isModalShown[Modals.ALERT] && <AlertModal message={alertMessage}
+        onClose={() => closeModalHandler(Modals.ALERT)}/>}
     </>
   );
 };
