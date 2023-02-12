@@ -139,7 +139,7 @@ const sidebarRoutes = {
           name: 'Add New Request',
         },
         {
-          path: '/404',
+          path: PATH.Reimbursement.LIST_REQUEST,
           name: 'List Request',
         },
       ],
