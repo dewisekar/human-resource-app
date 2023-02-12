@@ -20,7 +20,7 @@ const { submitRequest } = handlers;
 
 const ReimbursementRequest = () => {
   const {
-    register, handleSubmit, formState: { errors }, control, setError,
+    register, handleSubmit, formState: { errors }, control, setError, reset,
   } = useForm();
   const { formOptions, Modals } = config;
   const MAX_FILE_SIZE = 5000000;
@@ -29,6 +29,7 @@ const ReimbursementRequest = () => {
   const [isModalShown, setIsModalShown] = useState({});
   const [alertMessage, setAlertMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [alertModalType, setAlertModalType] = useState(null);
 
   useEffect(() => {
 
@@ -41,7 +42,7 @@ const ReimbursementRequest = () => {
   const onSubmit = async (data) => {
     const chosenFile = data.proof[0];
     const { size: fileSize } = chosenFile;
-    const submitHandler = { openModalHandler, setAlertMessage };
+    const submitHandler = { openModalHandler, setAlertMessage, setAlertModalType };
 
     if (fileSize > MAX_FILE_SIZE) { setError('proof', { message: 'File size can not be larger than 5MB!' }); return; }
 
@@ -49,6 +50,8 @@ const ReimbursementRequest = () => {
     setIsSubmitting(true);
     await submitRequest(payload, submitHandler);
     setIsSubmitting(false);
+
+    reset();
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;
@@ -96,7 +99,7 @@ const ReimbursementRequest = () => {
       </Card>
       {isModalShown[Modals.SESSION] && <SessionExpiredModal history={history}/>}
       {isModalShown[Modals.ALERT] && <AlertModal message={alertMessage}
-        onClose={() => closeModalHandler(Modals.ALERT)}/>}
+        onClose={() => closeModalHandler(Modals.ALERT)} type={alertModalType}/>}
     </>
   );
 };

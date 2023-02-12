@@ -2,23 +2,25 @@ import utils from '../../utils';
 import constants from '../../constants';
 import config from './ReimbursementRequest.config';
 
-const {
-  postMultipartRequest, unpackError,
-} = utils;
-const {
-  URL, AlertMessage, PATH, AxiosError,
-} = constants;
+const { postMultipartRequest, unpackError } = utils;
+const { URL, AlertMessage, AxiosError } = constants;
 const { Modals } = config;
 
+const SUCCESS = 'SUCCESS';
+const successMessage = 'Success submit reimbursement request.';
+
 const submitRequest = async (payload, handlers) => {
-  const { openModalHandler, setAlertMessage } = handlers;
-  const successMessage = 'Success submit reimbursement request.';
+  const { openModalHandler, setAlertMessage, setAlertModalType } = handlers;
 
   const formData = new FormData();
   Object.entries(payload).map(([key, value]) => formData.append([key], value));
 
   try {
     await postMultipartRequest(URL.REIMBURSEMENT_URL, formData);
+
+    setAlertMessage(successMessage);
+    setAlertModalType(SUCCESS);
+    openModalHandler(Modals.ALERT);
   } catch (error) {
     const errorMessage = error.response
       ? unpackError(error).message : AlertMessage.INTERNAL_SERVER_ERROR;
