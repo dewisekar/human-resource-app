@@ -7,14 +7,16 @@ import { useHistory } from 'react-router-dom';
 import { SidebarContext } from '../context/SidebarContext';
 import { MenuIcon, OutlineLogoutIcon } from '../icons';
 import Images from '../assets/images';
-import StorageUtil from '../utils/StorageUtil';
+import utils from '../utils';
 import constants from '../constants';
 
-const { clearAllKey } = StorageUtil;
+const { clearAllKey, getName } = utils;
 const { PATH } = constants;
 
 const Header = () => {
   const history = useHistory();
+  const fullName = getName();
+  const [nickName] = fullName.split(' ');
   const { toggleSidebar } = useContext(SidebarContext);
 
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -40,6 +42,9 @@ const Header = () => {
         </button>
 
         <ul className="flex items-center flex-shrink-0 space-x-6">
+          <li className="relative">
+          <span className="text-sm font-bold text-gray-400">Hello, {nickName}</span>
+          </li>
           <li className="relative">
             <button
               className="rounded-full focus:shadow-outline-purple focus:outline-none"
