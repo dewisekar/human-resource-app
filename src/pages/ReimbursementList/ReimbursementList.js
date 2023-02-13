@@ -32,7 +32,7 @@ const ReimbursementRequest = () => {
 
   useEffect(() => {
     const init = async () => {
-      const fetchedData = await getRequest(URL.REIMBURSEMENT_URL);
+      const fetchedData = await getRequest(URL.Reimbursement.REIMBURSEMENT_URL);
       const mappedData = fetchedData.map((item) => {
         const {
           id, createdAt, name, status,

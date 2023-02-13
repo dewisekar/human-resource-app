@@ -16,7 +16,7 @@ const submitRequest = async (payload, handlers) => {
   Object.entries(payload).map(([key, value]) => formData.append([key], value));
 
   try {
-    await postMultipartRequest(URL.REIMBURSEMENT_URL, formData);
+    await postMultipartRequest(URL.Reimbursement.REIMBURSEMENT_URL, formData);
 
     setAlertMessage(successMessage);
     setAlertModalType(SUCCESS);

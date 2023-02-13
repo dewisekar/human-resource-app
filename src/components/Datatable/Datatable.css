@@ -4,5 +4,9 @@
 }
 
 .rdt_TableRow {
-font-size: 14px !important;
+    font-size: 14px !important;
+}
+
+.data-table header{
+    padding: 0 !important;
 }

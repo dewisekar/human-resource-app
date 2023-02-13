@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+}
+
+td,tr {
+    border: 1px solid #d5d6d7;
+}
+
+.heading{
+    font-weight: 700; 
+    font-size: 14px !important;
+}
+
+.content{
+    font-size: 14px !important;
+}

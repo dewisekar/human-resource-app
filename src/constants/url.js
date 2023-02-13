@@ -1,7 +1,13 @@
 const URL = {
-  LOGIN_URL: '/login',
-  USER_URL: '/user',
-  REIMBURSEMENT_URL: '/reimbursement',
+  Login: {
+    LOGIN_URL: '/login',
+  },
+  User: {
+    USER_URL: '/user',
+  },
+  Reimbursement: {
+    REIMBURSEMENT_URL: '/reimbursement',
+  },
 };
 
 export default URL;

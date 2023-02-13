@@ -16,7 +16,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const init = async () => {
-      const fetchedUserInfo = await getRequest(URL.USER_URL);
+      const fetchedUserInfo = await getRequest(URL.User.USER_URL);
       setUserInfo(fetchedUserInfo);
     };
 

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardBody, Button } from '@windmill/react-ui';
+import {
+  Card, CardBody, Button, Table,
+} from '@windmill/react-ui';
 import MoonLoader from 'react-spinners/MoonLoader';
 import { Link, useLocation, Redirect } from 'react-router-dom';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import constants from '../../constants';
 import utils from '../../utils';
+import VerticalTable from '../../components/VerticalTable/VerticalTable';
 // import config from './ReimbursementList.config';
 import * as Icons from '../../icons';
 
@@ -36,24 +39,30 @@ const ReimbursementList = () => {
       </div>
   );
 
+  const renderTable = () => (
+    <VerticalTable/>
+  );
+
   const renderCard = () => (
-      <Card className="mb-8 shadow-md">
-        <CardBody>
-        </CardBody>
-      </Card>
+    <Card className="mb-8 shadow-md">
+      <CardBody>
+        <div className="grid grid-cols-12 gap-4">
+          <div className='col-span-12'>{renderTable()}</div>
+        </div>
+      </CardBody>
+    </Card>
   );
 
   const renderPage = () => (
-        <>
-          <div className="mt-8">
-            <SectionTitle>Reimbursement Detail</SectionTitle>
-          </div>
-          {isLoading ? renderSpinner() : renderCard()}
-        </>
+    <>
+      <div className="mt-8">
+        <SectionTitle>Reimbursement Detail</SectionTitle>
+      </div>
+      {isLoading ? renderSpinner() : renderCard()}
+    </>
   );
 
-  return (<>{ isIdValid ? renderPage() : <Redirect to={PATH.Dashboard} />}</>
-  );
+  return (<>{ isIdValid ? renderPage() : <Redirect to={PATH.Dashboard} />}</>);
 };
 
 export default ReimbursementList;

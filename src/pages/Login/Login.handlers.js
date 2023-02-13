@@ -15,7 +15,10 @@ const loginHandler = async (payload, handler) => {
 
   try {
     const encryptedPassword = CryptoJS.AES.encrypt(password, encryptKey).toString();
-    const result = await postRequest(URL.LOGIN_URL, { ...payload, password: encryptedPassword });
+    const result = await postRequest(
+      URL.Login.LOGIN_URL,
+      { ...payload, password: encryptedPassword },
+    );
     const {
       token, userId, name, roles,
     } = result;
