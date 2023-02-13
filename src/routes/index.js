@@ -15,6 +15,7 @@ const Blank = lazy(() => import('../pages/Blank'));
 const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
 const ReimbursementRequest = lazy(() => import('../pages/ReimbursementRequest/ReimbursementRequest'));
 const ReimbursementList = lazy(() => import('../pages/ReimbursementList/ReimbursementList'));
+const ReimbursementDetail = lazy(() => import('../pages/ReimbursementDetail/ReimbursementDetail'));
 
 const routes = [
   {
@@ -70,6 +71,11 @@ const routes = [
   {
     path: PATH.Reimbursement.LIST_REQUEST,
     component: ReimbursementList,
+    accessibility: Accessibility.STAFF,
+  },
+  {
+    path: PATH.Reimbursement.DETAIL,
+    component: ReimbursementDetail,
     accessibility: Accessibility.STAFF,
   },
 ];

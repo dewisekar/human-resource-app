@@ -30,6 +30,8 @@ import { ReactComponent as LockIcon } from './lock.svg';
 import { ReactComponent as ClockIcon } from './clock.svg';
 import { ReactComponent as CheckCircleIcon } from './check-circle.svg';
 import { ReactComponent as WarningCircleIcon } from './warning-circle.svg';
+import { ReactComponent as DocumentIcon } from './document.svg';
+import { ReactComponent as CrossIcon } from './cross.svg';
 
 export {
   ButtonsIcon,
@@ -64,4 +66,6 @@ export {
   ClockIcon,
   CheckCircleIcon,
   WarningCircleIcon,
+  DocumentIcon,
+  CrossIcon,
 };

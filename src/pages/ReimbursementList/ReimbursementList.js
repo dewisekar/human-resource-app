@@ -9,21 +9,24 @@ import DatatableFilter from '../../components/Datatable/DatatableFilter/Datatabl
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './ReimbursementList.config';
+import * as Icons from '../../icons';
 
 import './ReimbursementList.css';
-import '../../components/Datatable/Datatable.css';
 
+const { DocumentIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest } = utils;
-const { columns, data } = config;
+const { columns } = config;
 
 const ReimbursementRequest = () => {
-  const [reimbursementData, setReimbursementData] = useState(data);
+  const [reimbursementData, setReimbursementData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filterText, setFilterText] = useState('');
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   const renderActionButton = (reimbursementId) => (
-    <Button tag={Link} to={`${PATH.Reimbursement.DETAIL}${reimbursementId}`} size="small" style={{ backgroundColor: COLOR.LIGHT_PURPLE }}>
-      Detail
+    <Button tag={Link} to={`${PATH.Reimbursement.DETAIL}?id=${reimbursementId}`} size="small" style={{ backgroundColor: COLOR.LIGHT_PURPLE }}>
+      <DocumentIcon className='w-4 h-4 mr-1'/>Detail
     </Button>
   );
 
@@ -31,17 +34,49 @@ const ReimbursementRequest = () => {
     const init = async () => {
       const fetchedData = await getRequest(URL.REIMBURSEMENT_URL);
       const mappedData = fetchedData.map((item) => {
-        const { id, createdAt } = item;
+        const {
+          id, createdAt, name, status,
+        } = item;
         const newDate = new Date(createdAt);
         const action = renderActionButton(id);
-        return { ...item, action, createdAt: newDate.toLocaleDateString('id-ID') };
+        return {
+          name, status, action, createdAt: newDate.toLocaleDateString('id-ID'),
+        };
       });
+
       setReimbursementData(mappedData);
       setIsLoading(false);
     };
 
     init();
   }, []);
+
+  const filteredItems = reimbursementData.filter(
+    (item) => {
+      const { action, ...otherItem } = item;
+      return Object.keys(otherItem).some((key) => otherItem[key]
+        .toLowerCase().includes(filterText.toLowerCase()));
+    },
+  );
+
+  const subHeaderComponent = useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DatatableFilter
+        onFilter={(e) => setFilterText(e.target.value)}
+        onClear={handleClear}
+        filterText={filterText}
+        buttonColor={COLOR.LIGHT_PURPLE}
+        size="100%"
+      />
+    );
+  }, [filterText, resetPaginationToggle]);
 
   const renderSpinner = () => (
       <div className='grid' style={{ justifyContent: 'center' }}>
@@ -50,12 +85,14 @@ const ReimbursementRequest = () => {
   );
 
   const renderCard = () => (
-      <Card className="mb-8 shadow-md">
+      <Card className="mb-8 shadow-md data-table">
         <CardBody>
           <DataTable
             columns={columns}
-            data={reimbursementData}
+            data={filteredItems}
             pagination
+            subHeader
+            subHeaderComponent={subHeaderComponent}
           />
         </CardBody>
       </Card>

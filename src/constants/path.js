@@ -4,7 +4,7 @@ const PATH = {
   Reimbursement: {
     ADD_REQUEST: '/reimbursement/add',
     LIST_REQUEST: '/reimbursement',
-    DETAIL: '/reimbursement/detail?id=',
+    DETAIL: '/reimbursement/detail',
   },
 };
 

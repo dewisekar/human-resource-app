@@ -1,44 +1,26 @@
 import React from 'react';
-import styled from 'styled-components';
 
-const Input = styled.input.attrs((props) => ({
-  type: 'text',
-  size: props.small ? 5 : undefined,
-}))`
-  height: 32px;
-  width: 200px;
-  border-radius: 3px;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border: 1px solid #e5e5e5;
-  padding: 0 32px 0 16px;
-`;
+import * as Icons from '../../../icons';
 
-const ClearButton = styled.button`
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  height: 34px;
-  width: 32px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+const { CrossIcon } = Icons;
 
-const DatatableFilter = ({ filterText, onFilter, onClear }) => (
+const DatatableFilter = ({
+  filterText, onFilter, onClear, size, buttonColor,
+}) => (
   <>
-    <Input
-      id="search"
-      type="text"
-      placeholder="Filter table data..."
-      value={filterText}
-      onChange={onFilter}
-    />
-    <ClearButton onClick={onClear}>X</ClearButton>
+    <div className="relative text-gray-500 mb-5 mt-5 focus-within:" style={{ width: size }}>
+      <input
+        className="block w-full pr-20 mt-0 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+        placeholder="Search..."
+        value={filterText}
+        onChange={onFilter}
+      />
+      <button
+        className="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+        onClick={onClear} style={{ backgroundColor: buttonColor }}>
+        <CrossIcon/>
+      </button>
+    </div>
   </>
 );
 

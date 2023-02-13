@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router, Switch, Route, Redirect,
 } from 'react-router-dom';
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
+import './components/Datatable/Datatable.css';
 
 const Login = lazy(() => import('./pages/Login/Login'));
 const AuthenticatedPages = lazy(() => import('./routes/AuthenticatedPages'));

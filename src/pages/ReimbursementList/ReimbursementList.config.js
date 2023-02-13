@@ -17,16 +17,7 @@ const columns = [
   {
     name: 'Action',
     selector: (row) => row.action,
-    sortable: true,
   },
 ];
 
-const data = [
-  {
-    id: 1,
-    title: 'Beetlejuice',
-    year: '1988',
-  },
-];
-
-export default { columns, data };
+export default { columns };
