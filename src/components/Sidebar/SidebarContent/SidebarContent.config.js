@@ -80,10 +80,19 @@ const sidebarRoutes = {
       type: 'MENU',
     },
     {
-      path: '/cards',
-      icon: 'CardsIcon',
-      name: 'Reimburse',
-      type: 'MENU',
+      icon: 'DocumentIcon',
+      name: 'Approval Request',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.Reimbursement.LIST_ADMIN,
+          name: 'Reimbursement',
+        },
+        {
+          path: PATH.Reimbursement.LIST_REQUEST,
+          name: 'Overtime',
+        },
+      ],
     },
     {
       path: '/cards',

@@ -8,6 +8,7 @@ const URL = {
   Reimbursement: {
     REIMBURSEMENT_URL: '/reimbursement',
     REIMBURSEMENT_DETAIL_URL: '/reimbursement/detail/',
+    REIMBURSEMENT_ADMIN_URL: '/reimbursement/admin',
   },
 };
 

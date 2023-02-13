@@ -8,39 +8,39 @@ import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import constants from '../../constants';
 import utils from '../../utils';
-import config from './ReimbursementList.config';
+import config from './ReimbursementListAdmin.config';
 import * as Icons from '../../icons';
 
-import './ReimbursementList.css';
+import './ReimbursementListAdmin.css';
 
-const { DocumentIcon } = Icons;
+const { SearchIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest } = utils;
 const { columns } = config;
 
-const ReimbursementList = () => {
+const ReimbursementListAdmin = () => {
   const [reimbursementData, setReimbursementData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   const renderActionButton = (reimbursementId) => (
-    <Button tag={Link} to={`${PATH.Reimbursement.DETAIL}?id=${reimbursementId}`} size="small" style={{ backgroundColor: COLOR.LIGHT_PURPLE }}>
-      <DocumentIcon className='w-4 h-4 mr-1'/>Detail
+    <Button tag={Link} to={`${PATH.Reimbursement.APPROVAL}?id=${reimbursementId}`} size="small" style={{ backgroundColor: COLOR.LIGHT_PURPLE }}>
+      <SearchIcon className='w-4 h-4 mr-1'/>View
     </Button>
   );
 
   useEffect(() => {
     const init = async () => {
-      const fetchedData = await getRequest(URL.Reimbursement.REIMBURSEMENT_URL);
+      const fetchedData = await getRequest(URL.Reimbursement.REIMBURSEMENT_ADMIN_URL);
       const mappedData = fetchedData.map((item) => {
         const {
-          id, createdAt, name, status,
+          id, createdAt, name, status, requesterName,
         } = item;
         const newDate = new Date(createdAt);
         const action = renderActionButton(id);
         return {
-          name, status, action, createdAt: newDate.toLocaleDateString('id-ID'),
+          name, status, action, createdAt: newDate.toLocaleDateString('id-ID'), requesterName,
         };
       });
 
@@ -93,6 +93,8 @@ const ReimbursementList = () => {
             pagination
             subHeader
             subHeaderComponent={subHeaderComponent}
+            defaultSortFieldId={3}
+            defaultSortAsc={false}
           />
         </CardBody>
       </Card>
@@ -101,11 +103,11 @@ const ReimbursementList = () => {
   return (
     <>
       <div className="mt-8">
-        <SectionTitle>Reimbursement History</SectionTitle>
+        <SectionTitle>Reimbursement Request</SectionTitle>
       </div>
       {isLoading ? renderSpinner() : renderCard()}
     </>
   );
 };
 
-export default ReimbursementList;
+export default ReimbursementListAdmin;
