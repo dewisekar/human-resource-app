@@ -2,15 +2,17 @@ import React from 'react';
 
 import './VerticalTable.css';
 
-const VerticalTable = () => {
-  console.log('hi');
+const VerticalTable = ({ data, fields }) => {
+  const renderRows = (item) => (
+    <tr key={item.key}>
+      <td className="py-2 px-3 heading">{item.label}</td>
+      <td className="py-2 px-3 content">{data[item.key]}</td>
+    </tr>
+  );
 
   return (
       <table className="my-4">
-        <tr>
-          <td className="py-2 px-3 heading">COBA</td>
-          <td className="py-2 px-3 content">Halo</td>
-        </tr>
+        {fields.map((item) => renderRows(item))}
       </table>
   );
 };

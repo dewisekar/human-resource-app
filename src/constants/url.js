@@ -7,6 +7,7 @@ const URL = {
   },
   Reimbursement: {
     REIMBURSEMENT_URL: '/reimbursement',
+    REIMBURSEMENT_DETAIL_URL: '/reimbursement/detail/',
   },
 };
 

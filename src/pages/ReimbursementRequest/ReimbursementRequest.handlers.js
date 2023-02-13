@@ -3,7 +3,7 @@ import constants from '../../constants';
 import config from './ReimbursementRequest.config';
 
 const { postMultipartRequest, unpackError } = utils;
-const { URL, AlertMessage, AxiosError } = constants;
+const { URL, AlertMessage, AxiosErrorMessage } = constants;
 const { Modals } = config;
 
 const SUCCESS = 'SUCCESS';
@@ -25,7 +25,7 @@ const submitRequest = async (payload, handlers) => {
     const errorMessage = error.response
       ? unpackError(error).message : AlertMessage.INTERNAL_SERVER_ERROR;
 
-    if (errorMessage === AxiosError.TOKEN_EXPIRED) { openModalHandler(Modals.SESSION); return; }
+    if (errorMessage === AxiosErrorMessage.TOKEN_EXPIRED) { openModalHandler(Modals.SESSION); return; }
 
     setAlertMessage(errorMessage);
     openModalHandler(Modals.ALERT);
