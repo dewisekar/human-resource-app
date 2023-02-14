@@ -8,7 +8,9 @@ const URL = {
   Reimbursement: {
     REIMBURSEMENT_URL: '/reimbursement',
     REIMBURSEMENT_DETAIL_URL: '/reimbursement/detail/',
-    REIMBURSEMENT_ADMIN_URL: '/reimbursement/admin',
+    REIMBURSEMENT_ADMIN_DETAIL_URL: '/admin/reimbursement/detail/',
+    REIMBURSEMENT_ADMIN_URL: '/admin/reimbursement',
+    APPROVE_URL: '/admin/reimbursement/approve/',
   },
 };
 

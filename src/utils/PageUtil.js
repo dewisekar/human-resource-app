@@ -3,4 +3,9 @@ const checkPageIdIsValid = (id) => {
   return ((id !== '') && isIdNotInteger);
 };
 
-export default { checkPageIdIsValid };
+const getRupiahString = (balance) => new Intl.NumberFormat('id-ID', {
+  style: 'currency',
+  currency: 'IDR',
+}).format(balance);
+
+export default { checkPageIdIsValid, getRupiahString };

@@ -37,7 +37,8 @@ const RupiahCurrencyInput = (props) => {
             {...otherProps} format={format} value={value}/>
           )}
         />
-        {errors[name] && <HelperText valid={false}>{ErrorMessage[errors[name].type]}</HelperText>}
+        {errors[name] && <HelperText valid={false}>{ErrorMessage[errors[name].type]
+        || errors[name].message}</HelperText>}
     </Label>
   );
 };

@@ -16,11 +16,8 @@ import config from './ReimbursementDetail.config';
 import * as Icons from '../../icons';
 
 const { DownloadIcon } = Icons;
-
-const {
-  COLOR, URL, PATH, AxiosErrorStatus,
-} = constants;
-const { getRequest, checkPageIdIsValid, unpackError } = utils;
+const { COLOR, URL, PATH } = constants;
+const { getRequest, checkPageIdIsValid } = utils;
 const { requestFields, approvalFields, dateOptions } = config;
 
 const ReimbursementDetail = () => {
@@ -77,8 +74,7 @@ const ReimbursementDetail = () => {
         const convertedData = convertData(fetchedDetail);
         setReimbursementData(convertedData);
       } catch (error) {
-        const err = unpackError(error);
-        if (err.status === AxiosErrorStatus.UNAUTHORIZED) { history.replace(PATH.Dashboard); }
+        history.replace(PATH.Dashboard);
       }
 
       setIsLoading(false);

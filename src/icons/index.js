@@ -33,6 +33,7 @@ import { ReactComponent as WarningCircleIcon } from './warning-circle.svg';
 import { ReactComponent as DocumentIcon } from './document.svg';
 import { ReactComponent as CrossIcon } from './cross.svg';
 import { ReactComponent as DownloadIcon } from './download.svg';
+import { ReactComponent as QuestionIcon } from './question.svg';
 
 export {
   ButtonsIcon,
@@ -70,4 +71,5 @@ export {
   DocumentIcon,
   CrossIcon,
   DownloadIcon,
+  QuestionIcon,
 };

@@ -25,7 +25,9 @@ const submitRequest = async (payload, handlers) => {
     const errorMessage = error.response
       ? unpackError(error).message : AlertMessage.INTERNAL_SERVER_ERROR;
 
-    if (errorMessage === AxiosErrorMessage.TOKEN_EXPIRED) { openModalHandler(Modals.SESSION); return; }
+    if (errorMessage === AxiosErrorMessage.TOKEN_EXPIRED) {
+      openModalHandler(Modals.SESSION); return;
+    }
 
     setAlertMessage(errorMessage);
     openModalHandler(Modals.ALERT);

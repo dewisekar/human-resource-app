@@ -13,6 +13,8 @@ const Accessibility = {
 const AlertMessage = {
   EMPTY_FORM: 'Please fill this form.',
   INTERNAL_SERVER_ERROR: 'Internal Server Error',
+  CONFIRM_APPROVE: 'Are you sure you want to approve this request?',
+  CONFIRM_REJECT: 'Are you sure you want to reject this request?',
 };
 
 const CURRENCY = {
@@ -30,6 +32,11 @@ const AxiosErrorMessage = {
 const AxiosErrorStatus = {
   UNAUTHORIZED: 401,
 };
+const RequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+};
 
 export default {
   URL,
@@ -42,4 +49,5 @@ export default {
   AdditionalClasses,
   AxiosErrorMessage,
   AxiosErrorStatus,
+  RequestStatus,
 };

@@ -1,0 +1,232 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Card, CardBody, Button, Label,
+} from '@windmill/react-ui';
+import { useForm } from 'react-hook-form';
+import MoonLoader from 'react-spinners/MoonLoader';
+import {
+  Link, useLocation, Redirect, useHistory,
+} from 'react-router-dom';
+
+import SectionTitle from '../../components/Typography/SectionTitle';
+import TextInput from '../../components/TextInput/TextInput';
+import TextAreaInput from '../../components/TextAreaInput/TextAreaInput';
+import RupiahCurrencyInput from '../../components/RupiahCurrencyInput/RupiahCurrencyInput';
+import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
+import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
+import constants from '../../constants';
+import utils from '../../utils';
+import config from './ReimbursementApproval.config';
+import handlers from './ReimbursementApproval.handlers';
+import * as Icons from '../../icons';
+import AlertModal from '../../components/AlertModal/AlertModal';
+
+const { DownloadIcon } = Icons;
+const {
+  COLOR, URL, PATH, RequestStatus, ErrorMessage, AlertMessage,
+} = constants;
+const { getRequest, checkPageIdIsValid } = utils;
+const {
+  disabledFormOptions, requestNoteFields, approvalFormOptions,
+  approvalInfoOptions,
+} = config;
+const { convertData, approveRequestHandler } = handlers;
+
+const ReimbursementApproval = () => {
+  const location = useLocation();
+  const history = useHistory();
+  const pageParams = new URLSearchParams(location.search);
+  const id = pageParams.get('id');
+  const isIdValid = checkPageIdIsValid(id);
+  const [reimbursementData, setReimbursementData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isConfirmModalShown, setIsConfirmModalShown] = useState(false);
+  const [isAlertModalShown, setIsAlertModalShown] = useState(false);
+  const [isSessionExpiredModalShown, setIsSessionExpiredModalShown] = useState(false);
+  const [submittedData, setSubmittedData] = useState({});
+  const {
+    register, handleSubmit, formState: { errors }, control, setError,
+  } = useForm();
+  const approvedAmountField = 'approvedAmount';
+  const approvalNoteField = 'approvalNote';
+  const amountIsLarger = 'Approved amount can not be larger than the requested amount.';
+  const isDisabled = reimbursementData.status !== 'PENDING';
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const fetchedDetail = await
+        getRequest(URL.Reimbursement.REIMBURSEMENT_ADMIN_DETAIL_URL + id);
+        const convertedData = convertData(fetchedDetail);
+        setReimbursementData(convertedData);
+      } catch (error) {
+        history.replace(PATH.Dashboard);
+      }
+
+      setIsLoading(false);
+    };
+
+    init();
+  }, []);
+
+  const showConfirmModal = () => setIsConfirmModalShown(true);
+
+  const closeConfirmModal = () => setIsConfirmModalShown(false);
+
+  const showExpiredModal = () => setIsSessionExpiredModalShown(true);
+
+  const showAlert = () => setIsAlertModalShown(true);
+
+  const closeAlert = () => {
+    setIsAlertModalShown(false);
+    window.location.reload();
+  };
+
+  const submitRequest = async () => {
+    closeConfirmModal();
+    setIsSubmitting(true);
+    const submitHandler = { showAlert, setAlertMessage, showExpiredModal };
+    await approveRequestHandler(id, submittedData, submitHandler);
+  };
+
+  const handleApprove = (data) => {
+    const { approvedAmount } = data;
+
+    if (!approvedAmount) {
+      setError(approvedAmountField, { message: ErrorMessage.required }); return;
+    }
+    if (approvedAmount > reimbursementData.actualRequestedAmount) {
+      setError(approvedAmountField, { message: amountIsLarger });
+      return;
+    }
+
+    setSubmittedData({ ...data, status: 'APPROVED' });
+    setAlertMessage(AlertMessage.CONFIRM_APPROVE);
+    showConfirmModal();
+  };
+
+  const handleReject = (data) => {
+    const { approvalNote } = data;
+
+    if (!approvalNote) {
+      setError(approvalNoteField, { message: ErrorMessage.required });
+      return;
+    }
+
+    setSubmittedData({ ...data, status: 'REJECTED' });
+    setAlertMessage(AlertMessage.CONFIRM_REJECT);
+    showConfirmModal();
+  };
+
+  const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;
+
+  const renderTextAreaInput = (options) => <TextAreaInput {...options} key={options.name}/>;
+
+  const renderRupiahInput = (options) => <RupiahCurrencyInput {...options} key={options.name}/>;
+
+  const renderFormField = (options, data = null) => {
+    const { formType, ...otherOptions } = options;
+    const defaultProps = {
+      register, errors, control, ...otherOptions,
+    };
+
+    const props = data ? { ...defaultProps, value: data } : defaultProps;
+
+    const Forms = {
+      input: renderTextInput(props),
+      textarea: renderTextAreaInput(props),
+      currency: renderRupiahInput(props),
+    };
+
+    return Forms[formType];
+  };
+
+  const renderSpinner = () => (
+      <div className='grid' style={{ justifyContent: 'center' }}>
+        <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
+      </div>
+  );
+
+  const renderRequestDetail = () => (
+    <>
+        {disabledFormOptions.map(
+          (option) => renderFormField(option, reimbursementData[option.name]),
+        )}
+        <Label className="mt-4">
+            <span>Proof</span>
+        </Label>
+        <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.LIGHT_PURPLE }}>
+          <DownloadIcon className='w-4 h-4 mr-3'/>Download
+        </Button>
+        {requestNoteFields.map(
+          (option) => renderFormField(option, reimbursementData[option.name]),
+        )}
+    </>
+  );
+
+  const renderApprovalInput = () => (
+    <>
+      <form>
+        {approvalFormOptions.map(
+          (option) => renderFormField(option, reimbursementData[option.name]),
+        )}
+      </form>
+    </>
+  );
+
+  const renderApprovalDetail = () => (
+      <>
+        {approvalInfoOptions.map(
+          (option) => renderFormField(option, reimbursementData[option.name]),
+        )}
+      </>
+  );
+
+  const renderInfo = () => (
+      <>
+        {renderRequestDetail()}
+        {reimbursementData.status === RequestStatus.PENDING
+          ? renderApprovalInput() : renderApprovalDetail()}
+        <div className='mt-5 flex justify-end'>
+          <Button tag={Link} to={PATH.Reimbursement.LIST_ADMIN} layout="outline" className="mr-1">
+            Back
+          </Button>
+          <Button className="mr-1" style={{ backgroundColor: COLOR.GREEN }} onClick={handleSubmit(handleApprove)} disabled={isDisabled}>
+            Approve
+          </Button>
+          <Button style={{ backgroundColor: 'red' }} onClick={handleSubmit(handleReject)} disabled={isDisabled}>
+            Reject
+          </Button>
+        </div>
+      </>
+  );
+
+  const renderCard = () => (
+    <Card className="mb-8 shadow-md">
+      <CardBody>
+        {!isSubmitting ? renderInfo() : renderSpinner()}
+      </CardBody>
+    </Card>
+  );
+
+  const renderPage = () => (
+    <>
+      <div className="mt-8">
+          <SectionTitle>Reimbursement Approval</SectionTitle>
+      </div>
+      {isLoading ? renderSpinner() : renderCard()}
+      {isConfirmModalShown && <ConfirmationModal message={alertMessage}
+        onClose={closeConfirmModal} onConfirm={submitRequest}/>}
+      {isSessionExpiredModalShown
+        && <SessionExpiredModal history={history}/>}
+      {isAlertModalShown
+        && <AlertModal message={alertMessage} onClose={closeAlert}/>}
+    </>
+  );
+
+  return (<>{ isIdValid ? renderPage() : <Redirect to={PATH.Dashboard} />}</>);
+};
+
+export default ReimbursementApproval;
