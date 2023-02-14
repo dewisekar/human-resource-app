@@ -14,6 +14,7 @@ import constants from '../../constants';
 import utils from '../../utils';
 import config from './ReimbursementDetail.config';
 import * as Icons from '../../icons';
+import { baseUrl } from '../../config';
 
 const { DownloadIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
@@ -28,6 +29,7 @@ const ReimbursementDetail = () => {
   const isIdValid = checkPageIdIsValid(id);
   const [reimbursementData, setReimbursementData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const urlDownload = baseUrl + URL.Reimbursement.DOWNLOAD_PROOF_URL + id;
 
   const renderStatusBadge = (status) => {
     const Status = {
@@ -37,6 +39,10 @@ const ReimbursementDetail = () => {
     };
 
     return <Badge type={Status[status]} className="px-10 py-1" style={{ fontSize: '14px' }}>{status}</Badge>;
+  };
+
+  const onDownload = () => {
+    window.location.href = urlDownload;
   };
 
   const convertData = (data) => {
@@ -50,7 +56,7 @@ const ReimbursementDetail = () => {
     const convertedApprovalDate = approvalDate ? new Date(approvalDate).toLocaleDateString('id-ID', dateOptions) : '';
     const convertedRequestedAmount = <RupiahCurrency balance={requestedAmount}/>;
     const convertedApprovedAmount = approvedAmount ? <RupiahCurrency balance={approvedAmount}/> : '';
-    const convertedProof = <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.LIGHT_PURPLE }}>
+    const convertedProof = <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.LIGHT_PURPLE }} onClick={onDownload}>
         <DownloadIcon className='w-4 h-4 mr-3'/>Download
       </Button>;
     const convertedStatus = renderStatusBadge(status);

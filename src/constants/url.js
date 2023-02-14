@@ -11,6 +11,7 @@ const URL = {
     REIMBURSEMENT_ADMIN_DETAIL_URL: '/admin/reimbursement/detail/',
     REIMBURSEMENT_ADMIN_URL: '/admin/reimbursement',
     APPROVE_URL: '/admin/reimbursement/approve/',
+    DOWNLOAD_PROOF_URL: '/reimbursement/proof/download/',
   },
 };
 
