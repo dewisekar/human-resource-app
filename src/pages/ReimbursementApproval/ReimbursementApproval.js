@@ -20,6 +20,7 @@ import config from './ReimbursementApproval.config';
 import handlers from './ReimbursementApproval.handlers';
 import * as Icons from '../../icons';
 import AlertModal from '../../components/AlertModal/AlertModal';
+import { baseUrl } from '../../config';
 
 const { DownloadIcon } = Icons;
 const {
@@ -70,6 +71,11 @@ const ReimbursementApproval = () => {
 
     init();
   }, []);
+
+  const onDownloadProof = () => {
+    const urlDownload = baseUrl + URL.Reimbursement.DOWNLOAD_PROOF_URL + id;
+    window.location.href = urlDownload;
+  };
 
   const showConfirmModal = () => setIsConfirmModalShown(true);
 
@@ -157,7 +163,7 @@ const ReimbursementApproval = () => {
         <Label className="mt-4">
             <span>Proof</span>
         </Label>
-        <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.LIGHT_PURPLE }}>
+        <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.LIGHT_PURPLE }} onClick={onDownloadProof}>
           <DownloadIcon className='w-4 h-4 mr-3'/>Download
         </Button>
         {requestNoteFields.map(
