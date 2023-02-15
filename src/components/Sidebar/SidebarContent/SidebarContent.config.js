@@ -163,7 +163,7 @@ const sidebarRoutes = {
           name: 'Add New Request',
         },
         {
-          path: '/404',
+          path: PATH.Overtime.LIST_REQUEST,
           name: 'List Request',
         },
       ],
