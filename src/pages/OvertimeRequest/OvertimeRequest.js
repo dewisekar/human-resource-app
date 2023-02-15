@@ -46,7 +46,7 @@ const OvertimeRequest = () => {
     const convertedStartTime = new Date(`${overtimeDate} ${startTime}`);
     const convertedEndTime = new Date(`${overtimeDate} ${endTime}`);
 
-    if (convertedEndTime <= convertedStartTime) { setError('endTime', { message: 'Start time has to be earlier than end time!' }); }
+    if (convertedEndTime <= convertedStartTime) { setError('endTime', { message: 'Start time has to be earlier than end time!' }); return; }
 
     const difference = convertedEndTime.getTime() - convertedStartTime.getTime();
     const hours = (difference / 3600000).toFixed(2);
