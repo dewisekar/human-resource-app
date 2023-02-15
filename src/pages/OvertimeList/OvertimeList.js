@@ -47,7 +47,7 @@ const OvertimeList = () => {
           startTime,
           overtimeDate: newOvertimeDate.toLocaleDateString('id-ID'),
           action,
-          hours,
+          hours: hours.toString(),
         };
       });
 
