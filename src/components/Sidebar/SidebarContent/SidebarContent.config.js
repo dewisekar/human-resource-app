@@ -89,7 +89,7 @@ const sidebarRoutes = {
           name: 'Reimbursement',
         },
         {
-          path: PATH.Reimbursement.LIST_REQUEST,
+          path: PATH.Overtime.LIST_ADMIN,
           name: 'Overtime',
         },
       ],

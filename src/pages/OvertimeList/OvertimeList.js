@@ -51,8 +51,6 @@ const OvertimeList = () => {
         };
       });
 
-      console.log(mappedData);
-
       setOvertimeData(mappedData);
       setIsLoading(false);
     };

@@ -11,6 +11,9 @@ const PATH = {
   Overtime: {
     ADD_REQUEST: '/overtime/add',
     LIST_REQUEST: '/overtime',
+    DETAIL: '/overtime/detail',
+    LIST_ADMIN: '/overtime/admin',
+    APPROVAL: '/overtime/approval',
   },
 };
 
