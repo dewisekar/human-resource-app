@@ -33,6 +33,7 @@ const formOptions = [
     name: 'requestNote',
     formType: 'textarea',
     placeholder: 'Note...',
+    rules: {},
   },
 ];
 

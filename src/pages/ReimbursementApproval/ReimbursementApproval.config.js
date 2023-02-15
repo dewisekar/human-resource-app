@@ -62,6 +62,7 @@ const requestNoteFields = [
     name: 'requestNote',
     formType: 'textarea',
     disabled: true,
+    rules: {},
   },
 ];
 
@@ -71,12 +72,14 @@ const approvalFormOptions = [
     name: 'approvedAmount',
     placeholder: 'Amount...',
     formType: 'currency',
+    rules: {},
   },
   {
     label: 'Approval Note',
     name: 'approvalNote',
     formType: 'textarea',
     placeholder: 'Note...',
+    rules: {},
   },
 ];
 
@@ -86,18 +89,21 @@ const approvalInfoOptions = [
     name: 'approvalDate',
     formType: 'input',
     disabled: true,
+    rules: {},
   },
   {
     label: 'Approved Amount',
     name: 'approvedAmount',
     formType: 'input',
     disabled: true,
+    rules: {},
   },
   {
     label: 'Approval Note',
     name: 'approvalNote',
     formType: 'textarea',
     disabled: true,
+    rules: {},
   },
 ];
 

@@ -86,10 +86,10 @@ const OvertimeRequest = () => {
     <>
         <form onSubmit={handleSubmit(onSubmit)} >
           {formOptions.map((option) => renderFormField(option))}
-          {!isSubmitting ? <Button className="mt-5" style={{ backgroundColor: COLOR.LIGHT_PURPLE, width: '100%' }}
+          {!isSubmitting ? <Button className="mt-5" style={{ backgroundColor: COLOR.BLUE, width: '100%' }}
             type="submit">Submit</Button>
             : <div className='grid' style={{ justifyContent: 'center' }}>
-            <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
+            <MoonLoader color={COLOR.BLUE} size={30} />
           </div>}
         </form>
     </>

@@ -12,6 +12,7 @@ const RupiahCurrencyInput = (props) => {
   const {
     name, errors, label, register, rules, control, ...otherProps
   } = props;
+  const { required } = rules;
 
   const format = (number) => {
     const isEmpty = number === '';
@@ -24,7 +25,7 @@ const RupiahCurrencyInput = (props) => {
 
   return (
     <Label className="mt-4">
-        <span>{label}</span>
+        <span>{label}{required && <HelperText valid={false}>*</HelperText>}</span>
         <Controller
           name={name}
           control={control}
