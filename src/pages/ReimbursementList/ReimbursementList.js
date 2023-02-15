@@ -11,8 +11,6 @@ import utils from '../../utils';
 import config from './ReimbursementList.config';
 import * as Icons from '../../icons';
 
-import './ReimbursementList.css';
-
 const { DocumentIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest } = utils;

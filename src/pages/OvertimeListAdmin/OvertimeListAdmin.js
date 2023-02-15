@@ -8,7 +8,7 @@ import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import constants from '../../constants';
 import utils from '../../utils';
-import config from './ReimbursementListAdmin.config';
+import config from './OvertimeListAdmin.config';
 import * as Icons from '../../icons';
 
 const { SearchIcon } = Icons;
@@ -16,40 +16,46 @@ const { COLOR, URL, PATH } = constants;
 const { getRequest } = utils;
 const { columns } = config;
 
-const ReimbursementListAdmin = () => {
-  const [reimbursementData, setReimbursementData] = useState([]);
+const OvertimeListAdmin = () => {
+  const [overtimeData, setOvertimeData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const renderActionButton = (reimbursementId) => (
-    <Button tag={Link} to={`${PATH.Reimbursement.APPROVAL}?id=${reimbursementId}`} size="small" style={{ backgroundColor: COLOR.LIGHT_PURPLE }}>
+  const renderActionButton = (overtimeId) => (
+    <Button tag={Link} to={`${PATH.Overtime.APPROVAL}?id=${overtimeId}`} size="small" style={{ backgroundColor: COLOR.BLUE }}>
       <SearchIcon className='w-4 h-4 mr-1'/>View
     </Button>
   );
 
   useEffect(() => {
     const init = async () => {
-      const fetchedData = await getRequest(URL.Reimbursement.REIMBURSEMENT_ADMIN_URL);
+      const fetchedData = await getRequest(URL.Overtime.OVERTIME_ADMIN_URL);
       const mappedData = fetchedData.map((item) => {
         const {
-          id, createdAt, name, status, requesterName,
+          id, createdAt, status, requesterName, hours, overtimeDate,
         } = item;
-        const newDate = new Date(createdAt);
+        const newDate = new Date(createdAt).toLocaleDateString('id-ID');
+        const newOvertimeDate = new Date(overtimeDate).toLocaleDateString('id-ID');
         const action = renderActionButton(id);
         return {
-          name, status, action, createdAt: newDate.toLocaleDateString('id-ID'), requesterName,
+          status,
+          action,
+          createdAt: newDate,
+          requesterName,
+          overtimeDate: newOvertimeDate,
+          hours: hours.toString(),
         };
       });
 
-      setReimbursementData(mappedData);
+      setOvertimeData(mappedData);
       setIsLoading(false);
     };
 
     init();
   }, []);
 
-  const filteredItems = reimbursementData.filter(
+  const filteredItems = overtimeData.filter(
     (item) => {
       const { action, ...otherItem } = item;
       return Object.keys(otherItem).some((key) => otherItem[key]
@@ -70,7 +76,7 @@ const ReimbursementListAdmin = () => {
         onFilter={(e) => setFilterText(e.target.value)}
         onClear={handleClear}
         filterText={filterText}
-        buttonColor={COLOR.LIGHT_PURPLE}
+        buttonColor={COLOR.BLUE}
         size="100%"
       />
     );
@@ -78,7 +84,7 @@ const ReimbursementListAdmin = () => {
 
   const renderSpinner = () => (
       <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
+        <MoonLoader color={COLOR.BLUE} size={30} />
       </div>
   );
 
@@ -91,7 +97,7 @@ const ReimbursementListAdmin = () => {
             pagination
             subHeader
             subHeaderComponent={subHeaderComponent}
-            defaultSortFieldId={3}
+            defaultSortFieldId={4}
             defaultSortAsc={false}
           />
         </CardBody>
@@ -101,11 +107,11 @@ const ReimbursementListAdmin = () => {
   return (
     <>
       <div className="mt-8">
-        <SectionTitle>Reimbursement Request</SectionTitle>
+        <SectionTitle>Overtime Request</SectionTitle>
       </div>
       {isLoading ? renderSpinner() : renderCard()}
     </>
   );
 };
 
-export default ReimbursementListAdmin;
+export default OvertimeListAdmin;

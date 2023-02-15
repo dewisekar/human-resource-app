@@ -20,6 +20,7 @@ const ReimbursementApproval = lazy(() => import('../pages/ReimbursementApproval/
 const ReimbursementListAdmin = lazy(() => import('../pages/ReimbursementListAdmin/ReimbursementListAdmin'));
 const OvertimeRequest = lazy(() => import('../pages/OvertimeRequest/OvertimeRequest'));
 const OvertimeList = lazy(() => import('../pages/OvertimeList/OvertimeList'));
+const OvertimeListAdmin = lazy(() => import('../pages/OvertimeListAdmin/OvertimeListAdmin'));
 const OvertimeDetail = lazy(() => import('../pages/OvertimeDetail/OvertimeDetail'));
 
 const routes = [
@@ -107,6 +108,11 @@ const routes = [
     path: PATH.Overtime.DETAIL,
     component: OvertimeDetail,
     accessibility: Accessibility.STAFF,
+  },
+  {
+    path: PATH.Overtime.LIST_ADMIN,
+    component: OvertimeListAdmin,
+    accessibility: Accessibility.ADMIN,
   },
 ];
 

@@ -11,8 +11,6 @@ import utils from '../../utils';
 import config from './OvertimeList.config';
 import * as Icons from '../../icons';
 
-import './OvertimeList.css';
-
 const { DocumentIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest } = utils;
