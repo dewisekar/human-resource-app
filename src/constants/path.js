@@ -8,6 +8,9 @@ const PATH = {
     LIST_ADMIN: '/reimbursement/admin',
     APPROVAL: '/reimbursement/approval',
   },
+  Overtime: {
+    ADD_REQUEST: '/overtime/add',
+  },
 };
 
 export default PATH;

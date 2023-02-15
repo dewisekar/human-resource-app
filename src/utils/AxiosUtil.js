@@ -53,7 +53,6 @@ const patchRequest = async (endpoint, payload) => {
 };
 
 const postMultipartRequest = async (endpoint, payload) => {
-  console.log('ini disini');
   const token = getToken();
   const headers = {
     'Content-type': 'multipart/form-data', token,

@@ -159,7 +159,7 @@ const sidebarRoutes = {
       type: 'SUBMENU_HEADER',
       routes: [
         {
-          path: '/login',
+          path: PATH.Overtime.ADD_REQUEST,
           name: 'Add New Request',
         },
         {
