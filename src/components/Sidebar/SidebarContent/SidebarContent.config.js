@@ -175,7 +175,7 @@ const sidebarRoutes = {
       name: 'General',
     },
     {
-      path: '/cards',
+      path: '/password/change',
       icon: 'LockIcon',
       name: 'Change Password',
       type: 'MENU',

@@ -5,7 +5,7 @@ import ErrorMessage from '../../constants/error-message';
 
 const TextInput = (props) => {
   const {
-    name, errors, label, register, rules, disabled, value = '', ...otherProps
+    name, errors, label, register, rules, disabled = false, value = '', ...otherProps
   } = props;
   const { required } = rules;
 

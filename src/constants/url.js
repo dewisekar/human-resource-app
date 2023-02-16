@@ -21,6 +21,9 @@ const URL = {
     APPROVE_URL: '/admin/overtime/approve/',
     DOWNLOAD_PROOF_URL: '/overtime/proof/download/',
   },
+  Password: {
+    PASSWORD: '/password',
+  },
 };
 
 export default URL;

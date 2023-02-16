@@ -15,6 +15,9 @@ const PATH = {
     LIST_ADMIN: '/overtime/admin',
     APPROVAL: '/overtime/approval',
   },
+  Password: {
+    CHANGE: '/password/change',
+  },
 };
 
 export default PATH;
