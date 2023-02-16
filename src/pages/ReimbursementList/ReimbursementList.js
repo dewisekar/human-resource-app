@@ -91,6 +91,8 @@ const ReimbursementList = () => {
             pagination
             subHeader
             subHeaderComponent={subHeaderComponent}
+            defaultSortFieldId={2}
+            defaultSortAsc={false}
           />
         </CardBody>
       </Card>

@@ -98,6 +98,8 @@ const OvertimeList = () => {
             pagination
             subHeader
             subHeaderComponent={subHeaderComponent}
+            defaultSortFieldId={5}
+            defaultSortAsc={false}
           />
         </CardBody>
       </Card>
