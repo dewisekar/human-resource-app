@@ -18,6 +18,7 @@ const ReimbursementList = lazy(() => import('../pages/ReimbursementList/Reimburs
 const ReimbursementDetail = lazy(() => import('../pages/ReimbursementDetail/ReimbursementDetail'));
 const ReimbursementApproval = lazy(() => import('../pages/ReimbursementApproval/ReimbursementApproval'));
 const ReimbursementListAdmin = lazy(() => import('../pages/ReimbursementListAdmin/ReimbursementListAdmin'));
+const ReimbursementSummaryAdmin = lazy(() => import('../pages/ReimbursementSummaryAdmin/ReimbursementSummaryAdmin'));
 const OvertimeRequest = lazy(() => import('../pages/OvertimeRequest/OvertimeRequest'));
 const OvertimeList = lazy(() => import('../pages/OvertimeList/OvertimeList'));
 const OvertimeListAdmin = lazy(() => import('../pages/OvertimeListAdmin/OvertimeListAdmin'));
@@ -89,6 +90,11 @@ const routes = [
   {
     path: PATH.Reimbursement.LIST_ADMIN,
     component: ReimbursementListAdmin,
+    accessibility: Accessibility.ADMIN,
+  },
+  {
+    path: PATH.Reimbursement.SUMMARY,
+    component: ReimbursementSummaryAdmin,
     accessibility: Accessibility.ADMIN,
   },
   {

@@ -95,10 +95,19 @@ const sidebarRoutes = {
       ],
     },
     {
-      path: '/cards',
-      icon: 'CardsIcon',
-      name: 'Overtime',
-      type: 'MENU',
+      icon: 'ChartsIcon',
+      name: 'Summary',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.Reimbursement.SUMMARY,
+          name: 'Reimbursement',
+        },
+        {
+          path: PATH.Overtime.LIST_ADMIN,
+          name: 'Overtime',
+        },
+      ],
     },
   ],
   SUPERVISOR: [
