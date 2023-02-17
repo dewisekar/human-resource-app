@@ -1,22 +1,19 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Card, CardBody, Button, Input,
+  Card, CardBody,
 } from '@windmill/react-ui';
 import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
-import Select from 'react-select';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
-import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import MonthYearFilter from '../../components/Datatable/MonthYearFilter/MonthYearFilter';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './ReimbursementSummaryAdmin.config';
-import * as Icons from '../../icons';
+import RupiahCurrency from '../../components/RupiahCurrency/RupiahCurrency';
 
-const { SearchIcon } = Icons;
 const {
-  COLOR, URL, PATH, RequestStatus, AdditionalClasses,
+  COLOR, URL, PATH, RequestStatus,
 } = constants;
 const { getRequest, getRupiahString } = utils;
 const { columns } = config;
@@ -44,6 +41,7 @@ const ReimbursementSummaryAdmin = () => {
           requesterName: linkName,
           approvedDate: newApprovalDate.toLocaleDateString('id-ID'),
           approvedAmount: getRupiahString(approvedAmount),
+          realApprovedAmount: approvedAmount,
         };
       });
 
@@ -62,6 +60,9 @@ const ReimbursementSummaryAdmin = () => {
     (item) => (item.approvedDate.toLowerCase().includes(filterText)),
   );
 
+  const totalApprovedAmount = filteredItems
+    .reduce((sum, { realApprovedAmount }) => sum + realApprovedAmount, 0);
+
   const renderSpinner = () => (
       <div className='grid' style={{ justifyContent: 'center' }}>
         <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
@@ -71,14 +72,23 @@ const ReimbursementSummaryAdmin = () => {
   const renderCard = () => (
       <Card className="mb-8 shadow-md data-table">
         <CardBody style={{ minHeight: '300px' }}>
-          <MonthYearFilter buttonColor={COLOR.LIGHT_PURPLE} onSubmit={onSearch}/>
-          <DataTable
-            columns={columns}
-            data={filteredItems}
-            defaultSortFieldId={3}
-            defaultSortAsc={false}
-            dense
-          />
+          <div className="grid grid-cols-12 gap-2">
+            <div className="col-span-12 lg:col-span-9 order-last lg:order-first">
+              <MonthYearFilter buttonColor={COLOR.LIGHT_PURPLE} onSubmit={onSearch}/>
+              <DataTable
+                columns={columns}
+                data={filteredItems}
+                defaultSortFieldId={3}
+                defaultSortAsc={false}
+                dense
+              />
+            </div>
+            <div className='col-span-12 lg:col-span-3 order-first lg:order-last'>
+                <b>Summary:</b><br></br>
+                Total Reimbursement: {filteredItems.length}<br></br>
+                Total Approved Amount: <RupiahCurrency balance={totalApprovedAmount}/>
+            </div>
+          </div>
         </CardBody>
       </Card>
   );
