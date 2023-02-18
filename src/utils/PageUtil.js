@@ -8,4 +8,11 @@ const getRupiahString = (balance) => new Intl.NumberFormat('id-ID', {
   currency: 'IDR',
 }).format(balance);
 
-export default { checkPageIdIsValid, getRupiahString };
+const convertDataToSelectOptions = (data, valueKey, labelKey) => {
+  const mappedData = data.map((item) => ({ label: item[labelKey], value: item[valueKey] }));
+  return mappedData;
+};
+
+export default {
+  checkPageIdIsValid, getRupiahString, convertDataToSelectOptions, convertDataToSelectOptions,
+};

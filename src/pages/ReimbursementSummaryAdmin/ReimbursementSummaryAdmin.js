@@ -29,14 +29,13 @@ const ReimbursementSummaryAdmin = () => {
       const approvedData = fetchedData.filter((item) => item.status === RequestStatus.APPROVED);
       const mappedData = approvedData.map((item) => {
         const {
-          id, createdAt, name, status, requesterName, approvalDate, approvedAmount,
+          id, createdAt, name, requesterName, approvalDate, approvedAmount,
         } = item;
         const newDate = new Date(createdAt);
         const newApprovalDate = new Date(approvalDate);
         const linkName = <a href={`${PATH.Reimbursement.APPROVAL}?id=${id}`} style={{ textDecoration: 'underline' }}>{requesterName}</a>;
         return {
           name,
-          status,
           createdAt: newDate.toLocaleDateString('id-ID'),
           requesterName: linkName,
           approvedDate: newApprovalDate.toLocaleDateString('id-ID'),
@@ -72,9 +71,9 @@ const ReimbursementSummaryAdmin = () => {
   const renderCard = () => (
       <Card className="mb-8 shadow-md data-table">
         <CardBody style={{ minHeight: '300px' }}>
-          <div className="grid grid-cols-12 gap-2">
+          <MonthYearFilter buttonColor={COLOR.LIGHT_PURPLE} onSubmit={onSearch}/>
+          <div className="grid grid-cols-12 gap-5">
             <div className="col-span-12 lg:col-span-9 order-last lg:order-first">
-              <MonthYearFilter buttonColor={COLOR.LIGHT_PURPLE} onSubmit={onSearch}/>
               <DataTable
                 columns={columns}
                 data={filteredItems}
@@ -96,7 +95,7 @@ const ReimbursementSummaryAdmin = () => {
   return (
     <>
       <div className="mt-8">
-        <SectionTitle>Reimbursement Summary</SectionTitle>
+        <SectionTitle>Approved Reimbursement Summary</SectionTitle>
       </div>
       {isLoading ? renderSpinner() : renderCard()}
     </>

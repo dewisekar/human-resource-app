@@ -104,7 +104,7 @@ const sidebarRoutes = {
           name: 'Reimbursement',
         },
         {
-          path: PATH.Overtime.LIST_ADMIN,
+          path: PATH.Overtime.SUMMARY,
           name: 'Overtime',
         },
       ],

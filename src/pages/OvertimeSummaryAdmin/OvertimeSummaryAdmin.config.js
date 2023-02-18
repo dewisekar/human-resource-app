@@ -5,22 +5,17 @@ const columns = [
     sortable: true,
   },
   {
-    name: 'Name',
-    selector: (row) => row.name,
+    name: 'Overtime Date',
+    selector: (row) => row.overtimeDate,
     sortable: true,
   },
   {
-    name: 'Request Date',
-    selector: (row) => row.createdAt,
+    name: 'Hours',
+    selector: (row) => row.hours,
     sortable: true,
   },
   {
-    name: 'Approved Amount',
-    selector: (row) => row.approvedAmount,
-    sortable: true,
-  },
-  {
-    name: 'Approval Date',
+    name: 'Approved Date',
     selector: (row) => row.approvedDate,
     sortable: true,
   },
