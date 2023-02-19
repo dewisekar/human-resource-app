@@ -4,6 +4,7 @@ const COLOR = {
   LIGHT_PURPLE: '#a881af',
   SALMON: '#dd7973',
   GREEN: '#5dbea3',
+  LIGHT_BLUE: '#55c2da',
 };
 
 export default COLOR;

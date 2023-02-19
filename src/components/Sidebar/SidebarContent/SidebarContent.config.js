@@ -109,6 +109,12 @@ const sidebarRoutes = {
         },
       ],
     },
+    {
+      path: PATH.Employees.LIST,
+      icon: 'PeopleIcon',
+      name: 'Employees',
+      type: 'MENU',
+    },
   ],
   SUPERVISOR: [
     {

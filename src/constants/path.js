@@ -20,6 +20,10 @@ const PATH = {
   Password: {
     CHANGE: '/password/change',
   },
+  Employees: {
+    LIST: '/employees',
+    DETAIL: '/employees/detail',
+  },
 };
 
 export default PATH;
