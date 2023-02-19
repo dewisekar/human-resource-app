@@ -24,10 +24,11 @@ const Employees = () => {
 
   const renderActionButton = (id) => (
     <>
-      <Button tag={Link} to={`${PATH.Employees.DETAIL}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
+      <Button tag={Link} to={`${PATH.Employees.DETAIL}?id=${id}`} size="small" className="mt-2 mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
         <DocumentIcon className='w-4 h-4 mr-1'/>Detail
-    </Button>
-      <Button tag={Link} to={`${PATH.Employees.DETAIL}?id=${id}`} size="small" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
+      </Button>
+      <br></br>
+      <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} className="mb-2" size="small" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
         <EditIcon className='w-4 h-4 mr-1'/>Edit
       </Button>
     </>
@@ -38,12 +39,11 @@ const Employees = () => {
       const fetchedData = await getRequest(URL.User.USER_ALL_URL);
       const mappedData = fetchedData.map((item) => {
         const {
-          id, name, username, jobTitle, status, level,
+          id, name, username, jobTitle, status,
         } = item;
-        const roles = level.map((levelItem) => levelItem.name);
         const action = renderActionButton(id);
         return {
-          name, username, jobTitle, status, action, roles: roles.toString(),
+          name, username, jobTitle, status, action,
         };
       });
 

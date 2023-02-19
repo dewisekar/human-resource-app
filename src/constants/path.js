@@ -21,8 +21,9 @@ const PATH = {
     CHANGE: '/password/change',
   },
   Employees: {
-    LIST: '/employees',
-    DETAIL: '/employees/detail',
+    LIST: '/employee',
+    DETAIL: '/employee/detail',
+    EDIT: '/employee/edit',
   },
 };
 

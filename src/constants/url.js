@@ -5,6 +5,7 @@ const URL = {
   User: {
     USER_URL: '/user',
     USER_ALL_URL: '/user/all',
+    USE_DETAIL_URL: '/user/detail/',
   },
   Reimbursement: {
     REIMBURSEMENT_URL: '/reimbursement',

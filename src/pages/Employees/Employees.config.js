@@ -15,11 +15,6 @@ const columns = [
     sortable: true,
   },
   {
-    name: 'Roles',
-    selector: (row) => row.roles,
-    sortable: true,
-  },
-  {
     name: 'Status',
     selector: (row) => row.status,
     sortable: true,
