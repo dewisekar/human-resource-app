@@ -6,11 +6,14 @@ const { URL, AlertMessage, AxiosErrorMessage } = constants;
 
 const convertData = (data) => {
   const {
-    fingerprintPin, ...otherProps
+    fingerprintPin, status, level, ...otherProps
   } = data;
 
+  const roles = level.map((item) => ({ value: item.id, label: item.name }));
   return {
     fingerprintPin: fingerprintPin.toString(),
+    status: { value: status, label: status },
+    roles,
     ...otherProps,
   };
 };

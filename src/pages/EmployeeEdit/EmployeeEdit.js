@@ -12,6 +12,7 @@ import Select from 'react-select';
 import SectionTitle from '../../components/Typography/SectionTitle';
 import TextInput from '../../components/Input/TextInput/TextInput';
 import TextAreaInput from '../../components/Input/TextAreaInput/TextAreaInput';
+import SelectInput from '../../components/Input/SelectInput/SelectInput';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import constants from '../../constants';
@@ -26,7 +27,7 @@ const { CheckCircleIcon } = Icons;
 const {
   COLOR, URL, PATH, RequestStatus, ErrorMessage, AlertMessage,
 } = constants;
-const { getRequest, checkPageIdIsValid } = utils;
+const { getRequest, checkPageIdIsValid, convertDataToSelectOptions } = utils;
 const {
   formFields, activeOptions,
 } = config;
@@ -39,6 +40,7 @@ const EmployeeEdit = () => {
   const id = pageParams.get('id');
   const isIdValid = checkPageIdIsValid(id);
   const [employeeData, setEmployeeData] = useState({});
+  const [levels, setLevels] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,15 +52,28 @@ const EmployeeEdit = () => {
     register, handleSubmit, formState: { errors }, control, setError, setValue,
   } = useForm();
 
+  const selectOptions = {
+    name: 'status',
+    label: 'Status',
+    rules: { required: true },
+    register,
+    errors,
+    control,
+    options: activeOptions,
+  };
+
   useEffect(() => {
     const init = async () => {
       try {
-        const fetchedDetail = await
-        getRequest(URL.User.USE_DETAIL_URL + id);
+        const fetchedDetail = await getRequest(URL.User.USE_DETAIL_URL + id);
+        const fetchedLevel = await getRequest(URL.User.USER_LEVEL_ALL_URL);
         const convertedData = convertData(fetchedDetail);
+        const convertedLevel = convertDataToSelectOptions(fetchedLevel, 'id', 'name');
+
+        setLevels(convertedLevel);
         setEmployeeData(convertedData);
         Object.keys(convertedData)
-          .forEach((key) => setValue(key, convertedData[key])); // setValue([convertedData]);
+          .forEach((key) => setValue(key, convertedData[key]));
       } catch (error) {
         history.replace(PATH.Dashboard);
       }
@@ -97,17 +112,20 @@ const EmployeeEdit = () => {
 
   const renderTextAreaInput = (options) => <TextAreaInput {...options} key={options.name}/>;
 
-  const renderFormField = (options, data = null) => {
+  const renderSelectInput = (options) => <SelectInput {...options} key={options.name}/>;
+
+  const renderFormField = (options) => {
     const { formType, ...otherOptions } = options;
     const defaultProps = {
       register, errors, control, ...otherOptions,
     };
-
-    const props = data ? { ...defaultProps, value: data } : defaultProps;
+    const { name } = otherOptions;
+    const props = name === 'roles' ? { ...defaultProps, options: levels } : defaultProps;
 
     const Forms = {
       input: renderTextInput(props),
       textarea: renderTextAreaInput(props),
+      select: renderSelectInput(props),
     };
 
     return Forms[formType];

@@ -5,6 +5,11 @@ const dateOptions = {
   day: 'numeric',
 };
 
+const activeOptions = [
+  { value: 'Active', label: 'Active' },
+  { value: 'Inactive', label: 'Inactive' },
+];
+
 const approvalInfoOptions = [
   {
     label: 'Approval Date',
@@ -60,11 +65,20 @@ const formFields = [
     formType: 'input',
     rules: { required: true },
   },
-];
-
-const activeOptions = [
-  { value: 'Active', label: 'Active' },
-  { value: 'Inactive', label: 'Inactive' },
+  {
+    name: 'status',
+    label: 'Status',
+    rules: { required: true },
+    options: activeOptions,
+    formType: 'select',
+  },
+  {
+    name: 'roles',
+    label: 'Roles',
+    rules: { required: true },
+    formType: 'select',
+    isMulti: true,
+  },
 ];
 
 export default {
