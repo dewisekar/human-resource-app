@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, Label, HelperText } from '@windmill/react-ui';
 
-import ErrorMessage from '../../constants/error-message';
+import ErrorMessage from '../../../constants/error-message';
 
 const TextInput = (props) => {
   const {
@@ -11,14 +11,14 @@ const TextInput = (props) => {
 
   const renderDisabledInput = () => (
     <Label className="mt-4">
-      <span>{label}{required && <HelperText valid={false}>*</HelperText>}</span>
+      <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span>
       <Input className="mt-1" value={value} disabled {...otherProps}/>
     </Label>
   );
 
   const renderInputables = () => (
     <Label className="mt-4">
-      <span>{label}{required && <HelperText valid={false}>*</HelperText>}</span>
+      <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span>
       <Input className="mt-1" name={name} {...otherProps}
       {...register(name, rules)} />
       {errors[name] && <HelperText valid={false}>{ErrorMessage[errors[name].type]

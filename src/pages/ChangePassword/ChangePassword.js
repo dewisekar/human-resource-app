@@ -4,7 +4,7 @@ import { Card, CardBody, Button } from '@windmill/react-ui';
 import MoonLoader from 'react-spinners/MoonLoader';
 import { useHistory } from 'react-router-dom';
 
-import TextInput from '../../components/TextInput/TextInput';
+import TextInput from '../../components/Input/TextInput/TextInput';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import PageTitle from '../../components/Typography/PageTitle';

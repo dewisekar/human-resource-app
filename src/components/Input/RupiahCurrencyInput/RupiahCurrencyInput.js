@@ -3,8 +3,8 @@ import { Controller } from 'react-hook-form';
 import { Label, HelperText } from '@windmill/react-ui';
 import { NumberFormatBase } from 'react-number-format';
 
-import ErrorMessage from '../../constants/error-message';
-import constants from '../../constants';
+import ErrorMessage from '../../../constants/error-message';
+import constants from '../../../constants';
 
 const { AdditionalClasses } = constants;
 
@@ -25,7 +25,7 @@ const RupiahCurrencyInput = (props) => {
 
   return (
     <Label className="mt-4">
-        <span>{label}{required && <HelperText valid={false}>*</HelperText>}</span>
+        <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span>
         <Controller
           name={name}
           control={control}

@@ -6,9 +6,9 @@ import MoonLoader from 'react-spinners/MoonLoader';
 
 import PageTitle from '../../components/Typography/PageTitle';
 import SectionTitle from '../../components/Typography/SectionTitle';
-import TextInput from '../../components/TextInput/TextInput';
-import TextAreaInput from '../../components/TextAreaInput/TextAreaInput';
-import RupiahCurrencyInput from '../../components/RupiahCurrencyInput/RupiahCurrencyInput';
+import TextInput from '../../components/Input/TextInput/TextInput';
+import TextAreaInput from '../../components/Input/TextAreaInput/TextAreaInput';
+import RupiahCurrencyInput from '../../components/Input/RupiahCurrencyInput/RupiahCurrencyInput';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import constants from '../../constants';

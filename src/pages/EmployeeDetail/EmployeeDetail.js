@@ -69,7 +69,7 @@ const EmployeeDetail = () => {
         <Button tag={Link} to={PATH.Employees.LIST} layout="outline" className="mr-2">
           Back
         </Button>
-        <Button tag={Link} to={PATH.Employees.EDIT} layout="outline" className="bg-gray-200">
+        <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} layout="outline" className="bg-gray-200">
           <EditIcon className='w-4 h-4 mr-1'/> Edit
         </Button>
       </CardBody>

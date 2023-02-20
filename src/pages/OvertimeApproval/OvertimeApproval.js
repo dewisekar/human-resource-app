@@ -9,8 +9,8 @@ import {
 } from 'react-router-dom';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
-import TextInput from '../../components/TextInput/TextInput';
-import TextAreaInput from '../../components/TextAreaInput/TextAreaInput';
+import TextInput from '../../components/Input/TextInput/TextInput';
+import TextAreaInput from '../../components/Input/TextAreaInput/TextAreaInput';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import constants from '../../constants';

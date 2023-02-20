@@ -1,7 +1,7 @@
 import React from 'react';
 import { Textarea, Label, HelperText } from '@windmill/react-ui';
 
-import ErrorMessage from '../../constants/error-message';
+import ErrorMessage from '../../../constants/error-message';
 
 const TextAreaInput = (props) => {
   const {
@@ -11,14 +11,14 @@ const TextAreaInput = (props) => {
 
   const renderDisabled = () => (
       <Label className="mt-4">
-        <span>{label}{required && <HelperText valid={false}>*</HelperText>}</span>
+        <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span>
         <Textarea className="mt-1" rows="3" {...otherProps} value={value} disabled/>
     </Label>
   );
 
   const renderInputables = () => (
     <Label className="mt-4">
-      <span>{label}{required && <HelperText valid={false}>*</HelperText>}</span>
+      <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span>
       <Textarea className="mt-1" rows="3" {...otherProps} name
       {...register(name, rules)} />
       {errors[name] && <HelperText valid={false}>{ErrorMessage[errors[name].type]
