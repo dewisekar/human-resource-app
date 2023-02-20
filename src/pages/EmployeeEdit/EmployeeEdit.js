@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Card, CardBody, Button, Label,
+  Card, CardBody, Button,
 } from '@windmill/react-ui';
 import { useForm } from 'react-hook-form';
 import MoonLoader from 'react-spinners/MoonLoader';
 import {
   Link, useLocation, Redirect, useHistory,
 } from 'react-router-dom';
-import Select from 'react-select';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import TextInput from '../../components/Input/TextInput/TextInput';
@@ -21,17 +20,12 @@ import config from './EmployeeEdit.config';
 import handlers from './EmployeeEdit.handlers';
 import * as Icons from '../../icons';
 import AlertModal from '../../components/AlertModal/AlertModal';
-import { baseUrl } from '../../config';
 
 const { CheckCircleIcon } = Icons;
-const {
-  COLOR, URL, PATH, RequestStatus, ErrorMessage, AlertMessage,
-} = constants;
+const { COLOR, URL, PATH } = constants;
 const { getRequest, checkPageIdIsValid, convertDataToSelectOptions } = utils;
-const {
-  formFields, activeOptions,
-} = config;
-const { convertData, approveRequestHandler } = handlers;
+const { formFields } = config;
+const { convertData, updateEmployeeHandler } = handlers;
 
 const EmployeeEdit = () => {
   const location = useLocation();
@@ -49,18 +43,8 @@ const EmployeeEdit = () => {
   const [isSessionExpiredModalShown, setIsSessionExpiredModalShown] = useState(false);
   const [submittedData, setSubmittedData] = useState({});
   const {
-    register, handleSubmit, formState: { errors }, control, setError, setValue,
+    register, handleSubmit, formState: { errors }, control, setValue,
   } = useForm();
-
-  const selectOptions = {
-    name: 'status',
-    label: 'Status',
-    rules: { required: true },
-    register,
-    errors,
-    control,
-    options: activeOptions,
-  };
 
   useEffect(() => {
     const init = async () => {
@@ -84,10 +68,6 @@ const EmployeeEdit = () => {
     init();
   }, []);
 
-  const handleUpdate = (data) => {
-    console.log(data);
-  };
-
   const showConfirmModal = () => setIsConfirmModalShown(true);
 
   const closeConfirmModal = () => setIsConfirmModalShown(false);
@@ -95,6 +75,14 @@ const EmployeeEdit = () => {
   const showExpiredModal = () => setIsSessionExpiredModalShown(true);
 
   const showAlert = () => setIsAlertModalShown(true);
+
+  const handleUpdate = (data) => {
+    const { roles, status, ...otherData } = data;
+    const mappedRoles = roles.map((item) => item.value);
+    setAlertMessage('Are you sure you want to update this employee?');
+    setSubmittedData({ ...otherData, roles: mappedRoles, status: status.value });
+    showConfirmModal();
+  };
 
   const closeAlert = () => {
     setIsAlertModalShown(false);
@@ -105,7 +93,7 @@ const EmployeeEdit = () => {
     closeConfirmModal();
     setIsSubmitting(true);
     const submitHandler = { showAlert, setAlertMessage, showExpiredModal };
-    await approveRequestHandler(id, submittedData, submitHandler);
+    await updateEmployeeHandler(id, submittedData, submitHandler);
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;

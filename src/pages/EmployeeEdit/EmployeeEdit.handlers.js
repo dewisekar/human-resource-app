@@ -18,17 +18,13 @@ const convertData = (data) => {
   };
 };
 
-const approveRequestHandler = async (id, payload, handlers) => {
-  const Status = {
-    APPROVED: 'approve',
-    REJECTED: 'reject',
-  };
+const updateEmployeeHandler = async (id, payload, handlers) => {
   const { showAlert, setAlertMessage, showExpiredModal } = handlers;
-  const { status } = payload;
-  const successMessage = `Successfully ${Status[status]} request!`;
+  const successMessage = 'Successfully update employee data!';
+  console.log(payload);
 
   try {
-    await patchRequest(URL.Overtime.APPROVE_URL + id, payload);
+    await patchRequest(URL.User.USER_UPDATE_URL + id, payload);
 
     setAlertMessage(successMessage);
     showAlert();
@@ -38,6 +34,7 @@ const approveRequestHandler = async (id, payload, handlers) => {
 
     if (errorMessage === AxiosErrorMessage.TOKEN_EXPIRED) {
       showExpiredModal();
+      return;
     }
 
     setAlertMessage(errorMessage);
@@ -45,4 +42,4 @@ const approveRequestHandler = async (id, payload, handlers) => {
   }
 };
 
-export default { convertData, approveRequestHandler };
+export default { convertData, updateEmployeeHandler };

@@ -49,6 +49,7 @@ const approveRequestHandler = async (id, payload, handlers) => {
 
     if (errorMessage === AxiosErrorMessage.TOKEN_EXPIRED) {
       showExpiredModal();
+      return;
     }
 
     setAlertMessage(errorMessage);

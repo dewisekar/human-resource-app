@@ -7,6 +7,7 @@ const URL = {
     USER_ALL_URL: '/user/all',
     USE_DETAIL_URL: '/user/detail/',
     USER_LEVEL_ALL_URL: '/user/level/all',
+    USER_UPDATE_URL: '/user/update/',
   },
   Reimbursement: {
     REIMBURSEMENT_URL: '/reimbursement',
