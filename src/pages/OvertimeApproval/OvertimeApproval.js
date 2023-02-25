@@ -181,7 +181,7 @@ const OvertimeApproval = () => {
         {overtimeData.status === RequestStatus.PENDING
           ? renderApprovalInput() : renderApprovalDetail()}
         <div className='mt-5 flex justify-end'>
-          <Button tag={Link} to={PATH.Overtime.LIST_ADMIN} layout="outline" className="mr-1">
+          <Button tag={Link} to={PATH.Overtime.LIST_SUPERVISOR} layout="outline" className="mr-1">
             Back
           </Button>
           <Button className="mr-1" style={{ backgroundColor: COLOR.GREEN }} onClick={handleSubmit(handleApprove)} disabled={isDisabled}>

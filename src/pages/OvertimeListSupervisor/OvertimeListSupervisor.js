@@ -8,7 +8,7 @@ import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import constants from '../../constants';
 import utils from '../../utils';
-import config from './OvertimeListAdmin.config';
+import config from './OvertimeListSupervisor.config';
 import * as Icons from '../../icons';
 
 const { SearchIcon } = Icons;
@@ -16,7 +16,7 @@ const { COLOR, URL, PATH } = constants;
 const { getRequest } = utils;
 const { columns } = config;
 
-const OvertimeListAdmin = () => {
+const OvertimeListSupervisor = () => {
   const [overtimeData, setOvertimeData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState('');
@@ -114,4 +114,4 @@ const OvertimeListAdmin = () => {
   );
 };
 
-export default OvertimeListAdmin;
+export default OvertimeListSupervisor;

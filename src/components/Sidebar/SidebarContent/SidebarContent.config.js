@@ -132,7 +132,7 @@ const sidebarRoutes = {
       type: 'SUBMENU_HEADER',
       routes: [
         {
-          path: PATH.Overtime.LIST_ADMIN,
+          path: PATH.Overtime.LIST_SUPERVISOR,
           name: 'Overtime',
         },
       ],

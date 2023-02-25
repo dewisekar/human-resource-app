@@ -13,7 +13,7 @@ const PATH = {
     ADD_REQUEST: '/overtime/add',
     LIST_REQUEST: '/overtime',
     DETAIL: '/overtime/detail',
-    LIST_ADMIN: '/overtime/admin',
+    LIST_SUPERVISOR: '/overtime/supervisor',
     APPROVAL: '/overtime/approval',
     SUMMARY: '/overtime/summary',
   },

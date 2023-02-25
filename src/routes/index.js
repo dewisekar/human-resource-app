@@ -21,7 +21,7 @@ const ReimbursementListAdmin = lazy(() => import('../pages/ReimbursementListAdmi
 const ReimbursementSummaryAdmin = lazy(() => import('../pages/ReimbursementSummaryAdmin/ReimbursementSummaryAdmin'));
 const OvertimeRequest = lazy(() => import('../pages/OvertimeRequest/OvertimeRequest'));
 const OvertimeList = lazy(() => import('../pages/OvertimeList/OvertimeList'));
-const OvertimeListAdmin = lazy(() => import('../pages/OvertimeListAdmin/OvertimeListAdmin'));
+const OvertimeListSupervisor = lazy(() => import('../pages/OvertimeListSupervisor/OvertimeListSupervisor'));
 const OvertimeDetail = lazy(() => import('../pages/OvertimeDetail/OvertimeDetail'));
 const OvertimeApproval = lazy(() => import('../pages/OvertimeApproval/OvertimeApproval'));
 const ChangePassword = lazy(() => import('../pages/ChangePassword/ChangePassword'));
@@ -123,9 +123,9 @@ const routes = [
     accessibility: Accessibility.STAFF,
   },
   {
-    path: PATH.Overtime.LIST_ADMIN,
-    component: OvertimeListAdmin,
-    accessibility: Accessibility.ADMIN,
+    path: PATH.Overtime.LIST_SUPERVISOR,
+    component: OvertimeListSupervisor,
+    accessibility: Accessibility.SUPERVISOR,
   },
   {
     path: PATH.Overtime.APPROVAL,
