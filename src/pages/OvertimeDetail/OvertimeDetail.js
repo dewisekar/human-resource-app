@@ -16,8 +16,10 @@ import * as Icons from '../../icons';
 import { baseUrl } from '../../config';
 
 const { DownloadIcon } = Icons;
-const { COLOR, URL, PATH } = constants;
-const { getRequest, checkPageIdIsValid } = utils;
+const {
+  COLOR, URL, PATH, Accessibility,
+} = constants;
+const { getRequest, checkPageIdIsValid, getRole } = utils;
 const { requestFields, approvalFields, dateOptions } = config;
 
 const OvertimeDetail = () => {
@@ -70,8 +72,13 @@ const OvertimeDetail = () => {
 
   useEffect(() => {
     const init = async () => {
+      const roles = getRole();
+      const isAdmin = roles.includes(Accessibility.ADMIN);
+
       try {
-        const fetchedDetail = await getRequest(URL.Overtime.OVERTIME_DETAIL_URL + id);
+        const url = isAdmin ? URL.Overtime.OVERTIME_ADMIN_DETAIL_URL
+          : URL.Overtime.OVERTIME_DETAIL_URL;
+        const fetchedDetail = await getRequest(url + id);
         const convertedData = convertData(fetchedDetail);
         setOvertimeData(convertedData);
       } catch (error) {

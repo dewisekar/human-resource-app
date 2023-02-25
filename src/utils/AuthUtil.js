@@ -22,9 +22,11 @@ const isLoggedIn = () => {
 
 const hasRole = (pageAccessibility) => {
   const userRole = getRole();
-  if (pageAccessibility === Accessibility.ALL) { return true; }
+  if (pageAccessibility[0] === Accessibility.ALL) { return true; }
 
-  return userRole.includes(pageAccessibility);
+  return userRole.some((role) => pageAccessibility.includes(role));
+
+  // return userRole.includes(pageAccessibility);
 };
 
 export default { isLoggedIn, hasRole };

@@ -8,6 +8,14 @@ const requestFields = [
     label: 'Username',
   },
   {
+    key: 'address',
+    label: 'Address',
+  },
+  {
+    key: 'phoneNumber',
+    label: 'Phone Number',
+  },
+  {
     key: 'nik',
     label: 'NIK',
   },
@@ -21,7 +29,15 @@ const requestFields = [
   },
   {
     key: 'fingerprintPin',
-    label: 'Fingerprint Machine ID',
+    label: 'Fingerprint Machine PIN',
+  },
+  {
+    key: 'contractStartDate',
+    label: 'Contract Start Date',
+  },
+  {
+    key: 'contractEndDate',
+    label: 'Contract End Date',
   },
   {
     key: 'status',

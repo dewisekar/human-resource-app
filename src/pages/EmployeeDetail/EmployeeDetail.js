@@ -27,12 +27,17 @@ const EmployeeDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const convertData = (data) => {
-    const { level, ...otherProps } = data;
+    const {
+      level, superior, subordinate, ...otherProps
+    } = data;
     const convertedRoles = level.map((item) => <li key={item.id}>{item.name}</li>);
+    const convertedSubordinate = subordinate ? subordinate.map((item) => <li key={item.id}>{item.name}</li>) : '-';
 
     return {
       ...otherProps,
       roles: convertedRoles,
+      superior: superior ? superior.name : '-',
+      subordinate: convertedSubordinate,
     };
   };
 

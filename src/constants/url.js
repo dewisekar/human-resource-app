@@ -23,7 +23,8 @@ const URL = {
     OVERTIME_DETAIL_URL: '/overtime/detail/',
     OVERTIME_ADMIN_DETAIL_URL: '/admin/overtime/detail/',
     OVERTIME_ADMIN_URL: '/admin/overtime',
-    APPROVE_URL: '/admin/overtime/approve/',
+    OVERTIME_SUPERIOR_URL: '/supervisor/overtime',
+    APPROVE_URL: '/supervisor/overtime/approve/',
     DOWNLOAD_PROOF_URL: '/overtime/proof/download/',
   },
   Password: {

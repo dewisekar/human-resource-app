@@ -14,5 +14,5 @@ const convertDataToSelectOptions = (data, valueKey, labelKey) => {
 };
 
 export default {
-  checkPageIdIsValid, getRupiahString, convertDataToSelectOptions, convertDataToSelectOptions,
+  checkPageIdIsValid, getRupiahString, convertDataToSelectOptions,
 };

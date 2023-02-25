@@ -35,132 +35,132 @@ const routes = [
   {
     path: '/dashboard', // the url
     component: Dashboard, // view rendered
-    accessibility: Accessibility.ALL,
+    accessibility: [Accessibility.ALL],
   },
   {
     path: '/forms',
     component: Forms,
-    accessibility: Accessibility.SUPERVISOR,
+    accessibility: [Accessibility.SUPERVISOR],
   },
   {
     path: '/cards',
     component: Cards,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.ADMIN],
   },
   {
     path: '/charts',
     component: Charts,
-    accessibility: Accessibility.STAFF,
+    accessibility: [Accessibility.STAFF],
   },
   {
     path: '/buttons',
     component: Buttons,
-    accessibility: Accessibility.ALL,
+    accessibility: [Accessibility.ALL],
   },
   {
     path: '/modals',
     component: Modals,
-    accessibility: Accessibility.ALL,
+    accessibility: [Accessibility.ALL],
   },
   {
     path: '/tables',
     component: Tables,
-    accessibility: Accessibility.ALL,
+    accessibility: [Accessibility.ALL],
   },
   {
     path: '/404',
     component: Page404,
-    accessibility: Accessibility.ALL,
+    accessibility: [Accessibility.ALL],
   },
   {
     path: '/blank',
     component: Blank,
-    accessibility: Accessibility.ALL,
+    accessibility: [Accessibility.ALL],
   },
   {
     path: PATH.Reimbursement.ADD_REQUEST,
     component: ReimbursementRequest,
-    accessibility: Accessibility.STAFF,
+    accessibility: [Accessibility.STAFF],
   },
   {
     path: PATH.Reimbursement.LIST_REQUEST,
     component: ReimbursementList,
-    accessibility: Accessibility.STAFF,
+    accessibility: [Accessibility.STAFF],
   },
   {
     path: PATH.Reimbursement.DETAIL,
     component: ReimbursementDetail,
-    accessibility: Accessibility.STAFF,
+    accessibility: [Accessibility.STAFF],
   },
   {
     path: PATH.Reimbursement.LIST_ADMIN,
     component: ReimbursementListAdmin,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.ADMIN],
   },
   {
     path: PATH.Reimbursement.SUMMARY,
     component: ReimbursementSummaryAdmin,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.ADMIN],
   },
   {
     path: PATH.Reimbursement.APPROVAL,
     component: ReimbursementApproval,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.ADMIN],
   },
   {
     path: PATH.Overtime.ADD_REQUEST,
     component: OvertimeRequest,
-    accessibility: Accessibility.STAFF,
+    accessibility: [Accessibility.STAFF],
   },
   {
     path: PATH.Overtime.LIST_REQUEST,
     component: OvertimeList,
-    accessibility: Accessibility.STAFF,
+    accessibility: [Accessibility.STAFF],
   },
   {
     path: PATH.Overtime.DETAIL,
     component: OvertimeDetail,
-    accessibility: Accessibility.STAFF,
+    accessibility: [Accessibility.STAFF, Accessibility.ADMIN],
   },
   {
     path: PATH.Overtime.LIST_SUPERVISOR,
     component: OvertimeListSupervisor,
-    accessibility: Accessibility.SUPERVISOR,
+    accessibility: [Accessibility.SUPERVISOR],
   },
   {
     path: PATH.Overtime.APPROVAL,
     component: OvertimeApproval,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.SUPERVISOR],
   },
   {
     path: PATH.Overtime.SUMMARY,
     component: OvertimeSummaryAdmin,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.ADMIN],
   },
   {
     path: PATH.Password.CHANGE,
     component: ChangePassword,
-    accessibility: Accessibility.ALL,
+    accessibility: [Accessibility.ALL],
   },
   {
     path: PATH.Employees.LIST,
     component: Employees,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.ADMIN],
   },
   {
     path: PATH.Employees.DETAIL,
     component: EmployeeDetail,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.ADMIN],
   },
   {
     path: PATH.Employees.EDIT,
     component: EmployeeEdit,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.ADMIN],
   },
   {
     path: PATH.Employees.ADD,
     component: EmployeeAdd,
-    accessibility: Accessibility.ADMIN,
+    accessibility: [Accessibility.ADMIN],
   },
 ];
 
