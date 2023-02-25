@@ -29,6 +29,7 @@ const OvertimeSummaryAdmin = lazy(() => import('../pages/OvertimeSummaryAdmin/Ov
 const Employees = lazy(() => import('../pages/Employees/Employees'));
 const EmployeeDetail = lazy(() => import('../pages/EmployeeDetail/EmployeeDetail'));
 const EmployeeEdit = lazy(() => import('../pages/EmployeeEdit/EmployeeEdit'));
+const EmployeeAdd = lazy(() => import('../pages/EmployeeAdd/EmployeeAdd'));
 
 const routes = [
   {
@@ -154,6 +155,11 @@ const routes = [
   {
     path: PATH.Employees.EDIT,
     component: EmployeeEdit,
+    accessibility: Accessibility.ADMIN,
+  },
+  {
+    path: PATH.Employees.ADD,
+    component: EmployeeAdd,
     accessibility: Accessibility.ADMIN,
   },
 ];

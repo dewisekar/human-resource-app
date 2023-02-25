@@ -34,6 +34,7 @@ import { ReactComponent as DocumentIcon } from './document.svg';
 import { ReactComponent as CrossIcon } from './cross.svg';
 import { ReactComponent as DownloadIcon } from './download.svg';
 import { ReactComponent as QuestionIcon } from './question.svg';
+import { ReactComponent as UserPlusIcon } from './user-plus.svg';
 
 export {
   ButtonsIcon,
@@ -72,4 +73,5 @@ export {
   CrossIcon,
   DownloadIcon,
   QuestionIcon,
+  UserPlusIcon,
 };

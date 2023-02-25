@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Card, CardBody, Button,
-} from '@windmill/react-ui';
+import { Card, CardBody, Button } from '@windmill/react-ui';
 import { useForm } from 'react-hook-form';
 import MoonLoader from 'react-spinners/MoonLoader';
-import {
-  Link, useLocation, Redirect, useHistory,
-} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import TextInput from '../../components/Input/TextInput/TextInput';
@@ -16,24 +12,20 @@ import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationMo
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import constants from '../../constants';
 import utils from '../../utils';
-import config from './EmployeeEdit.config';
-import handlers from './EmployeeEdit.handlers';
+import config from './EmployeeAdd.config';
+import handlers from './EmployeeAdd.handlers';
 import * as Icons from '../../icons';
 import AlertModal from '../../components/AlertModal/AlertModal';
 
 const { CheckCircleIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest, checkPageIdIsValid, convertDataToSelectOptions } = utils;
+const { getRequest, convertDataToSelectOptions } = utils;
 const { formFields } = config;
-const { convertData, updateEmployeeHandler } = handlers;
+const { addEmployeeHandler } = handlers;
 
-const EmployeeEdit = () => {
-  const location = useLocation();
+const EmployeeAdd = () => {
   const history = useHistory();
-  const pageParams = new URLSearchParams(location.search);
-  const id = pageParams.get('id');
-  const isIdValid = checkPageIdIsValid(id);
-  const [drowpdownOptions, setDropdownOptions] = useState([]);
+  const [dropdownOptions, setDropdownOptions] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,22 +34,17 @@ const EmployeeEdit = () => {
   const [isSessionExpiredModalShown, setIsSessionExpiredModalShown] = useState(false);
   const [submittedData, setSubmittedData] = useState({});
   const {
-    register, handleSubmit, formState: { errors }, control, setValue,
+    register, handleSubmit, formState: { errors }, control,
   } = useForm();
 
   useEffect(() => {
     const init = async () => {
       try {
-        const fetchedDetail = await getRequest(URL.User.USE_DETAIL_URL + id);
-        const convertedData = convertData(fetchedDetail);
         const fetchedLevel = await getRequest(URL.User.USER_LEVEL_ALL_URL);
         const fetchedBank = await getRequest(URL.User.BANK_URL);
         const convertedLevel = convertDataToSelectOptions(fetchedLevel, 'id', 'name');
         const convertedBank = convertDataToSelectOptions(fetchedBank, 'id', 'name');
         setDropdownOptions({ roles: convertedLevel, bank: convertedBank });
-
-        Object.keys(convertedData)
-          .forEach((key) => setValue(key, convertedData[key]));
       } catch (error) {
         history.replace(PATH.Dashboard);
       }
@@ -77,14 +64,10 @@ const EmployeeEdit = () => {
   const showAlert = () => setIsAlertModalShown(true);
 
   const handleUpdate = (data) => {
-    const {
-      roles, status, bank, ...otherData
-    } = data;
+    const { roles, bank, ...otherData } = data;
     const mappedRoles = roles.map((item) => item.value);
-    setAlertMessage('Are you sure you want to update this employee?');
-    setSubmittedData({
-      ...otherData, roles: mappedRoles, status: status.value, bank: bank.value,
-    });
+    setAlertMessage('Are you sure you want to add this employee?');
+    setSubmittedData({ ...otherData, roles: mappedRoles, bankCode: bank.value });
     showConfirmModal();
   };
 
@@ -97,7 +80,7 @@ const EmployeeEdit = () => {
     closeConfirmModal();
     setIsSubmitting(true);
     const submitHandler = { showAlert, setAlertMessage, showExpiredModal };
-    await updateEmployeeHandler(id, submittedData, submitHandler);
+    await addEmployeeHandler(submittedData, submitHandler);
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;
@@ -112,7 +95,7 @@ const EmployeeEdit = () => {
       register, errors, control, ...otherOptions,
     };
     const { name } = otherOptions;
-    const props = formType === 'select' ? { ...defaultProps, options: drowpdownOptions[name] } : defaultProps;
+    const props = formType === 'select' ? { ...defaultProps, options: dropdownOptions[name] } : defaultProps;
 
     const Forms = {
       input: renderTextInput(props),
@@ -147,14 +130,14 @@ const EmployeeEdit = () => {
             Back
           </Button>
           <Button className="mr-1" style={{ backgroundColor: COLOR.GREEN }} onClick={handleSubmit(handleUpdate)} >
-            <CheckCircleIcon className='w-4 h-4 mr-1'/> Save
+            <CheckCircleIcon className='w-4 h-4 mr-1'/> Add
           </Button>
         </div>
       </>
   );
 
   const renderCard = () => (
-    <Card className="mb-8 shadow-md">
+    <Card className="mb-8 shadow-md" style={{ overflowY: 'auto' }}>
       <CardBody>
         {!isSubmitting ? renderInfo() : renderSpinner()}
       </CardBody>
@@ -164,7 +147,7 @@ const EmployeeEdit = () => {
   const renderPage = () => (
     <>
       <div className="mt-8">
-          <SectionTitle>Edit Employee</SectionTitle>
+          <SectionTitle>Add Employee</SectionTitle>
       </div>
       {isLoading ? renderSpinner() : renderCard()}
       {isConfirmModalShown && <ConfirmationModal message={alertMessage}
@@ -176,7 +159,7 @@ const EmployeeEdit = () => {
     </>
   );
 
-  return (<>{ isIdValid ? renderPage() : <Redirect to={PATH.Dashboard} />}</>);
+  return renderPage();
 };
 
-export default EmployeeEdit;
+export default EmployeeAdd;

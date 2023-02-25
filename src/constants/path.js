@@ -24,6 +24,7 @@ const PATH = {
     LIST: '/employee',
     DETAIL: '/employee/detail',
     EDIT: '/employee/edit',
+    ADD: '/employee/add',
   },
 };
 

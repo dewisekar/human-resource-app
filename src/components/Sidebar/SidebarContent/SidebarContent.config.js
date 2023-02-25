@@ -88,10 +88,6 @@ const sidebarRoutes = {
           path: PATH.Reimbursement.LIST_ADMIN,
           name: 'Reimbursement',
         },
-        {
-          path: PATH.Overtime.LIST_ADMIN,
-          name: 'Overtime',
-        },
       ],
     },
     {
@@ -110,10 +106,19 @@ const sidebarRoutes = {
       ],
     },
     {
-      path: PATH.Employees.LIST,
       icon: 'PeopleIcon',
-      name: 'Employees',
-      type: 'MENU',
+      name: 'Organization',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.Employees.LIST,
+          name: 'Employees',
+        },
+        {
+          path: PATH.Employees.LIST,
+          name: 'Departments',
+        },
+      ],
     },
   ],
   SUPERVISOR: [
@@ -122,27 +127,13 @@ const sidebarRoutes = {
       type: 'DIVIDER',
     },
     {
-      path: '/cards',
-      icon: 'CardsIcon',
-      name: 'Buat SPV',
-      type: 'MENU',
-    },
-    {
-      icon: 'PagesIcon',
-      name: 'Pages',
+      icon: 'DocumentIcon',
+      name: 'Approval Request',
       type: 'SUBMENU_HEADER',
       routes: [
         {
-          path: '/login',
-          name: 'Login',
-        },
-        {
-          path: '/404',
-          name: '404',
-        },
-        {
-          path: '/blank',
-          name: 'Blank',
+          path: PATH.Overtime.LIST_ADMIN,
+          name: 'Overtime',
         },
       ],
     },

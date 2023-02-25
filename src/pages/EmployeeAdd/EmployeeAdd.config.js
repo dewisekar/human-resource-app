@@ -5,11 +5,6 @@ const dateOptions = {
   day: 'numeric',
 };
 
-const activeOptions = [
-  { value: 'Active', label: 'Active' },
-  { value: 'Inactive', label: 'Inactive' },
-];
-
 const formFields = [
   {
     name: 'name',
@@ -89,5 +84,5 @@ const formFields = [
 ];
 
 export default {
-  dateOptions, formFields, activeOptions,
+  dateOptions, formFields,
 };
