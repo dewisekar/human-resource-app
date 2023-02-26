@@ -52,9 +52,12 @@ const EmployeeEdit = () => {
         const convertedData = convertData(fetchedDetail);
         const fetchedLevel = await getRequest(URL.User.USER_LEVEL_ALL_URL);
         const fetchedBank = await getRequest(URL.User.BANK_URL);
+        const fetchedUsers = await getRequest(URL.User.USER_ALL_URL);
         const convertedLevel = convertDataToSelectOptions(fetchedLevel, 'id', 'name');
         const convertedBank = convertDataToSelectOptions(fetchedBank, 'id', 'name');
-        setDropdownOptions({ roles: convertedLevel, bank: convertedBank });
+        const filteredUser = fetchedUsers.filter((item) => item.id.toString() !== id.toString());
+        const convertedUser = convertDataToSelectOptions(filteredUser, 'id', 'name');
+        setDropdownOptions({ roles: convertedLevel, bank: convertedBank, superior: convertedUser });
 
         Object.keys(convertedData)
           .forEach((key) => setValue(key, convertedData[key]));
@@ -78,12 +81,16 @@ const EmployeeEdit = () => {
 
   const handleUpdate = (data) => {
     const {
-      roles, status, bank, ...otherData
+      roles, status, bank, superior, ...otherData
     } = data;
     const mappedRoles = roles.map((item) => item.value);
     setAlertMessage('Are you sure you want to update this employee?');
     setSubmittedData({
-      ...otherData, roles: mappedRoles, status: status.value, bank: bank.value,
+      ...otherData,
+      roles: mappedRoles,
+      status: status.value,
+      bank: bank.value,
+      superiorId: superior.value,
     });
     showConfirmModal();
   };

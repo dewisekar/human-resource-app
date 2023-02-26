@@ -42,9 +42,11 @@ const EmployeeAdd = () => {
       try {
         const fetchedLevel = await getRequest(URL.User.USER_LEVEL_ALL_URL);
         const fetchedBank = await getRequest(URL.User.BANK_URL);
+        const fetchedUsers = await getRequest(URL.User.USER_ALL_URL);
         const convertedLevel = convertDataToSelectOptions(fetchedLevel, 'id', 'name');
         const convertedBank = convertDataToSelectOptions(fetchedBank, 'id', 'name');
-        setDropdownOptions({ roles: convertedLevel, bank: convertedBank });
+        const convertedUser = convertDataToSelectOptions(fetchedUsers, 'id', 'name');
+        setDropdownOptions({ roles: convertedLevel, bank: convertedBank, superior: convertedUser });
       } catch (error) {
         history.replace(PATH.Dashboard);
       }
@@ -64,10 +66,17 @@ const EmployeeAdd = () => {
   const showAlert = () => setIsAlertModalShown(true);
 
   const handleUpdate = (data) => {
-    const { roles, bank, ...otherData } = data;
+    const {
+      roles, bank, superior, ...otherData
+    } = data;
     const mappedRoles = roles.map((item) => item.value);
     setAlertMessage('Are you sure you want to add this employee?');
-    setSubmittedData({ ...otherData, roles: mappedRoles, bankCode: bank.value });
+    setSubmittedData({
+      ...otherData,
+      roles: mappedRoles,
+      bankCode: bank.value,
+      superiorId: superior.id,
+    });
     showConfirmModal();
   };
 

@@ -47,6 +47,7 @@ const formFields = [
     label: 'Bank',
     formType: 'select',
     rules: { required: true },
+    isClearable: true,
   },
   {
     name: 'accountNumber',
@@ -73,6 +74,13 @@ const formFields = [
     rules: { required: true },
     type: 'date',
     formType: 'input',
+  },
+  {
+    name: 'superior',
+    label: 'Superior',
+    formType: 'select',
+    rules: { required: true },
+    isClearable: true,
   },
   {
     name: 'roles',
