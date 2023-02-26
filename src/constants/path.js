@@ -26,6 +26,10 @@ const PATH = {
     EDIT: '/employee/edit',
     ADD: '/employee/add',
   },
+  Organization: {
+    DIVISION_LIST: '/division',
+    DEPARTEMENT_LIST: '/department',
+  },
 };
 
 export default PATH;

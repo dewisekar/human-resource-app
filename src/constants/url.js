@@ -31,6 +31,10 @@ const URL = {
   Password: {
     PASSWORD: '/password',
   },
+  Organization: {
+    DIVISION_ALL_URL: '/organization/division/all',
+    DEPARTMENT_ALL_URL: '/organization/department/all',
+  },
 };
 
 export default URL;

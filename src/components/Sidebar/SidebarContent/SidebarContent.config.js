@@ -115,7 +115,11 @@ const sidebarRoutes = {
           name: 'Employees',
         },
         {
-          path: PATH.Employees.LIST,
+          path: PATH.Organization.DIVISION_LIST,
+          name: 'Divisions',
+        },
+        {
+          path: PATH.Organization.DEPARTEMENT_LIST,
           name: 'Departments',
         },
       ],
@@ -173,6 +177,12 @@ const sidebarRoutes = {
           name: 'List Request',
         },
       ],
+    },
+    {
+      path: '/password/change',
+      icon: 'CalendarIcon',
+      name: 'Task Management',
+      type: 'MENU',
     },
   ],
   GENERAL: [

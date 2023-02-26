@@ -30,6 +30,8 @@ const Employees = lazy(() => import('../pages/Employees/Employees'));
 const EmployeeDetail = lazy(() => import('../pages/EmployeeDetail/EmployeeDetail'));
 const EmployeeEdit = lazy(() => import('../pages/EmployeeEdit/EmployeeEdit'));
 const EmployeeAdd = lazy(() => import('../pages/EmployeeAdd/EmployeeAdd'));
+const Divisions = lazy(() => import('../pages/Divisions/Divisions'));
+const Departments = lazy(() => import('../pages/Departments/Departments'));
 
 const routes = [
   {
@@ -160,6 +162,16 @@ const routes = [
   {
     path: PATH.Employees.ADD,
     component: EmployeeAdd,
+    accessibility: [Accessibility.ADMIN],
+  },
+  {
+    path: PATH.Organization.DIVISION_LIST,
+    component: Divisions,
+    accessibility: [Accessibility.ADMIN],
+  },
+  {
+    path: PATH.Organization.DEPARTEMENT_LIST,
+    component: Departments,
     accessibility: [Accessibility.ADMIN],
   },
 ];

@@ -7,7 +7,7 @@ const dateOptions = {
 
 const activeOptions = [
   { value: 'Active', label: 'Active' },
-  { value: 'Inactive', label: 'Inactive' },
+  { value: 'Resign', label: 'Resign' },
 ];
 
 const formFields = [
