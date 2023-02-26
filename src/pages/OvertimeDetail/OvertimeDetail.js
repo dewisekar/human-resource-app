@@ -31,6 +31,9 @@ const OvertimeDetail = () => {
   const [overtimeData, setOvertimeData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const urlDownload = baseUrl + URL.Overtime.DOWNLOAD_PROOF_URL + id;
+  const roles = getRole();
+  const isAdmin = roles.includes(Accessibility.ADMIN);
+  const backUrl = isAdmin ? PATH.Overtime.SUMMARY : PATH.Overtime.LIST_REQUEST;
 
   const renderStatusBadge = (status) => {
     const Status = {
@@ -72,9 +75,6 @@ const OvertimeDetail = () => {
 
   useEffect(() => {
     const init = async () => {
-      const roles = getRole();
-      const isAdmin = roles.includes(Accessibility.ADMIN);
-
       try {
         const url = isAdmin ? URL.Overtime.OVERTIME_ADMIN_DETAIL_URL
           : URL.Overtime.OVERTIME_DETAIL_URL;
@@ -109,7 +109,7 @@ const OvertimeDetail = () => {
         <hr className="mt-6 mb-4" style={{ width: '100%' }}></hr>
         <p className="text-md font-semibold text-gray-500">Approval Detail</p>
         <div>{renderTable(overtimeData, approvalFields)}</div>
-        <Button tag={Link} to={PATH.Overtime.LIST_REQUEST} layout="outline">
+        <Button tag={Link} to={backUrl} layout="outline">
           Back
         </Button>
       </CardBody>
