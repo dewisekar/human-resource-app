@@ -39,10 +39,6 @@ const approvalFields = [
     label: 'Approval Date',
   },
   {
-    key: 'approvedAmount',
-    label: 'Approved Amount',
-  },
-  {
     key: 'approverName',
     label: 'Approver Name',
   },

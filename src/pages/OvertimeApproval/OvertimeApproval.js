@@ -57,7 +57,7 @@ const OvertimeApproval = () => {
     const init = async () => {
       try {
         const fetchedDetail = await
-        getRequest(URL.Overtime.OVERTIME_ADMIN_DETAIL_URL + id);
+        getRequest(URL.Overtime.OVERTIME_SUPERVISOR_DETAIL_URL + id);
         const convertedData = convertData(fetchedDetail);
         setOvertimeData(convertedData);
       } catch (error) {

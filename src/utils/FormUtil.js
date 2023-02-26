@@ -3,7 +3,6 @@ import constants from '../constants';
 const { CURRENCY } = constants;
 
 const formatInputCurrency = (string = '', currency = null) => {
-  console.log('numString', string);
   const amount = string.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return currency ? `${CURRENCY[currency]} ${amount}` : amount;
 };

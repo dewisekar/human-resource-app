@@ -30,7 +30,7 @@ const OvertimeListSupervisor = () => {
 
   useEffect(() => {
     const init = async () => {
-      const fetchedData = await getRequest(URL.Overtime.OVERTIME_ADMIN_URL);
+      const fetchedData = await getRequest(URL.Overtime.OVERTIME_SUPERVISOR_URL);
       const mappedData = fetchedData.map((item) => {
         const {
           id, createdAt, status, requesterName, hours, overtimeDate,

@@ -30,7 +30,7 @@ const OvertimeSummaryAdmin = () => {
         const {
           id, requesterName, hours, overtimeDate, approvalDate,
         } = item;
-        const linkName = <a href={`${PATH.Overtime.APPROVAL}?id=${id}`} style={{ textDecoration: 'underline' }}>{requesterName}</a>;
+        const linkName = <a href={`${PATH.Overtime.DETAIL}?id=${id}`} style={{ textDecoration: 'underline' }}>{requesterName}</a>;
         const newOvertimeDate = new Date(overtimeDate).toLocaleDateString('id-ID');
         const newApprovedDate = new Date(approvalDate).toLocaleDateString('id-ID');
         return {
