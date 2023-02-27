@@ -40,6 +40,13 @@ const postRequest = async (endpoint, payload) => {
   return res.data;
 };
 
+const deleteRequest = async (endpoint) => {
+  const token = getToken();
+  const finalHeaders = token ? { ...defaultHeaders, token } : defaultHeaders;
+  const res = await axios.delete(baseUrl + endpoint, { headers: finalHeaders });
+  return res.data;
+};
+
 const patchRequest = async (endpoint, payload) => {
   const token = getToken();
   const finalHeaders = token ? { ...defaultHeaders, token } : defaultHeaders;
@@ -67,4 +74,5 @@ export default {
   postRequest,
   patchRequest,
   postMultipartRequest,
+  deleteRequest,
 };

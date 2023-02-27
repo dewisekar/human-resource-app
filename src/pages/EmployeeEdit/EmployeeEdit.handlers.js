@@ -10,7 +10,7 @@ const convertData = (data) => {
   } = data;
 
   const roles = level.map((item) => ({ value: item.id, label: item.name }));
-  const superiorValue = { value: superior.id, label: superior.name };
+  const superiorValue = superior ? { value: superior.id, label: superior.name } : null;
   return {
     fingerprintPin: fingerprintPin.toString(),
     status: { value: status, label: status },
@@ -26,7 +26,7 @@ const updateEmployeeHandler = async (id, payload, handlers) => {
   console.log(payload);
 
   try {
-    await patchRequest(URL.User.USER_UPDATE_URL + id, payload);
+    await patchRequest(URL.User.USER_URL + id, payload);
 
     setAlertMessage(successMessage);
     showAlert();

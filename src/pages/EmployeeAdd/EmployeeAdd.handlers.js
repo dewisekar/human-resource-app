@@ -10,7 +10,7 @@ const addEmployeeHandler = async (id, payload, handlers) => {
   console.log(payload);
 
   try {
-    await patchRequest(URL.User.USER_UPDATE_URL + id, payload);
+    await patchRequest(URL.User.USER_URL + id, payload);
 
     setAlertMessage(successMessage);
     showAlert();

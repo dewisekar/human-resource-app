@@ -5,6 +5,7 @@ const COLOR = {
   SALMON: '#dd7973',
   GREEN: '#5dbea3',
   LIGHT_BLUE: '#55c2da',
+  RED: '#dd7373',
 };
 
 export default COLOR;

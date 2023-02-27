@@ -3,11 +3,10 @@ const URL = {
     LOGIN_URL: '/login',
   },
   User: {
-    USER_URL: '/user',
+    USER_URL: '/user/',
     USER_ALL_URL: '/user/all',
     USE_DETAIL_URL: '/user/detail/',
     USER_LEVEL_ALL_URL: '/user/level/all',
-    USER_UPDATE_URL: '/user/update/',
     BANK_URL: '/user/bank/all',
   },
   Reimbursement: {
@@ -34,6 +33,8 @@ const URL = {
   Organization: {
     DIVISION_ALL_URL: '/organization/division/all',
     DEPARTMENT_ALL_URL: '/organization/department/all',
+    DIVISION_URL: '/organization/division/',
+    DEPARTMENT_URL: '/organization/department/',
   },
 };
 

@@ -10,4 +10,12 @@ const columns = [
   },
 ];
 
-export default { columns };
+const inputField = {
+  name: 'name',
+  label: 'Division Name',
+  formType: 'input',
+  rules: { required: true },
+  // rules: {},
+};
+
+export default { columns, inputField };
