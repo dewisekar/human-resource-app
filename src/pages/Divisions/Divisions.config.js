@@ -15,7 +15,6 @@ const inputField = {
   label: 'Division Name',
   formType: 'input',
   rules: { required: true },
-  // rules: {},
 };
 
 export default { columns, inputField };
