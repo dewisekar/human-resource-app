@@ -1,8 +1,11 @@
 import utils from '../../utils';
 import constants from '../../constants';
 
-const { unpackError, patchRequest } = utils;
-const { URL, AlertMessage, AxiosErrorMessage } = constants;
+const { unpackError, patchRequest, convertDataToSelectOptions } = utils;
+const {
+  URL, AlertMessage, AxiosErrorMessage, MaritalStatusOptions,
+  GenderOptions, EmploymentStatusOptions,
+} = constants;
 
 const convertData = (data) => {
   const {
@@ -15,8 +18,8 @@ const convertData = (data) => {
     fingerprintPin: fingerprintPin.toString(),
     status: { value: status, label: status },
     roles,
-    superior: superiorValue,
     ...otherProps,
+    superior: superiorValue,
   };
 };
 
@@ -44,4 +47,28 @@ const updateEmployeeHandler = async (id, payload, handlers) => {
   }
 };
 
-export default { convertData, updateEmployeeHandler };
+const updateDropdownOptions = (payload) => {
+  const {
+    fetchedUsers, fetchedLevel, fetchedDepartment, fetchedDivision, fetchedBank, userId,
+  } = payload;
+
+  const convertedLevel = convertDataToSelectOptions(fetchedLevel, 'id', 'name');
+  const convertedBank = convertDataToSelectOptions(fetchedBank, 'id', 'name');
+  const filteredUser = fetchedUsers.filter((item) => item.id.toString() !== userId.toString());
+  const convertedUser = convertDataToSelectOptions(filteredUser, 'id', 'name');
+  const convertedDepartment = convertDataToSelectOptions(fetchedDepartment, 'id', 'name');
+  const convertedDivision = convertDataToSelectOptions(fetchedDivision, 'id', 'name');
+
+  return {
+    roles: convertedLevel,
+    bankCode: convertedBank,
+    superior: convertedUser,
+    maritalStatus: MaritalStatusOptions,
+    employmentStatus: EmploymentStatusOptions,
+    gender: GenderOptions,
+    division: convertedDivision,
+    department: convertedDepartment,
+  };
+};
+
+export default { convertData, updateEmployeeHandler, updateDropdownOptions };

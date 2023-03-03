@@ -75,7 +75,7 @@ const EmployeeAdd = () => {
       ...otherData,
       roles: mappedRoles,
       bankCode: bank.value,
-      superiorId: superior.id,
+      superior: superior.id,
     });
     showConfirmModal();
   };

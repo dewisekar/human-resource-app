@@ -23,9 +23,11 @@ import AlertModal from '../../components/AlertModal/AlertModal';
 
 const { CheckCircleIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest, checkPageIdIsValid, convertDataToSelectOptions } = utils;
+const {
+  getRequest, checkPageIdIsValid, formatIndonesianPhoneNumber, formatNumberOnly,
+} = utils;
 const { formFields } = config;
-const { convertData, updateEmployeeHandler } = handlers;
+const { convertData, updateEmployeeHandler, updateDropdownOptions } = handlers;
 
 const EmployeeEdit = () => {
   const location = useLocation();
@@ -53,17 +55,17 @@ const EmployeeEdit = () => {
         const fetchedLevel = await getRequest(URL.User.USER_LEVEL_ALL_URL);
         const fetchedBank = await getRequest(URL.User.BANK_URL);
         const fetchedUsers = await getRequest(URL.User.USER_ALL_URL);
-        const convertedLevel = convertDataToSelectOptions(fetchedLevel, 'id', 'name');
-        const convertedBank = convertDataToSelectOptions(fetchedBank, 'id', 'name');
-        const filteredUser = fetchedUsers.filter((item) => item.id.toString() !== id.toString());
-        const convertedUser = convertDataToSelectOptions(filteredUser, 'id', 'name');
-        setDropdownOptions({ roles: convertedLevel, bank: convertedBank, superior: convertedUser });
+        const fetchedDepartment = await getRequest(URL.Organization.DEPARTMENT_ALL_URL);
+        const fetchedDivision = await getRequest(URL.Organization.DIVISION_ALL_URL);
+        const convertedOptions = updateDropdownOptions({
+          fetchedUsers, fetchedLevel, fetchedDepartment, fetchedDivision, fetchedBank, userId: id,
+        });
+        setDropdownOptions(convertedOptions);
 
         Object.keys(convertedData)
           .forEach((key) => setValue(key, convertedData[key]));
       } catch (error) {
-        console.log('ini errir', error);
-        // history.replace(PATH.Dashboard);
+        history.replace(PATH.Dashboard);
       }
 
       setIsLoading(false);
@@ -81,17 +83,21 @@ const EmployeeEdit = () => {
   const showAlert = () => setIsAlertModalShown(true);
 
   const handleUpdate = (data) => {
+    const selectFields = ['status', 'bankCode', 'gender', 'maritalStatus', 'employmentStatus', 'department', 'division'];
     const {
-      roles, status, bank, superior, ...otherData
+      roles, superior, phoneNumber, ...otherData
     } = data;
+    const mappedOptions = {};
+    selectFields.forEach((item) => Object.assign(mappedOptions, { [item]: data[item].value }));
     const mappedRoles = roles.map((item) => item.value);
+
     setAlertMessage('Are you sure you want to update this employee?');
     setSubmittedData({
       ...otherData,
       roles: mappedRoles,
-      status: status.value,
-      bank: bank.value,
-      superiorId: superior.value,
+      phoneNumber: formatIndonesianPhoneNumber(formatNumberOnly(phoneNumber)),
+      superior: superior ? superior.value : null,
+      ...mappedOptions,
     });
     showConfirmModal();
   };

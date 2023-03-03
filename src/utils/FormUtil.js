@@ -12,4 +12,18 @@ const unformatInputCurrency = (string = '', currency = null) => {
   return string.replace(',', '');
 };
 
-export default { formatInputCurrency, unformatInputCurrency };
+const formatIndonesianPhoneNumber = (phoneNumber) => {
+  if (phoneNumber[0] === '0') {
+    return `62${phoneNumber.substring(1, phoneNumber.length)}`;
+  }
+  return phoneNumber;
+};
+
+const formatNumberOnly = (number) => number.replace(/\D+/g, '');
+
+export default {
+  formatInputCurrency,
+  unformatInputCurrency,
+  formatIndonesianPhoneNumber,
+  formatNumberOnly,
+};

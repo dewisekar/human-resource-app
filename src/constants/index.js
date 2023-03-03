@@ -54,6 +54,24 @@ const MonthsSelectOptions = [
   { value: '12', label: 'December' },
 ];
 
+const MaritalStatusOptions = [
+  { label: 'Lajang', value: 'Lajang' },
+  { label: 'Kawin', value: 'Kawin' },
+];
+
+const GenderOptions = [
+  { label: 'Male', value: 'Male' },
+  { label: 'Female', value: 'Female' },
+];
+
+const EmploymentStatusOptions = [
+  { label: 'Full Time', value: 'Full Time' },
+  { label: 'Part Time', value: 'Part Time' },
+  { label: 'PKWT', value: 'PKWT' },
+  { label: 'Freelance', value: 'Freelance' },
+  { label: 'Intern', value: 'Intern' },
+];
+
 export default {
   URL,
   Accessibility,
@@ -67,4 +85,7 @@ export default {
   AxiosErrorStatus,
   RequestStatus,
   MonthsSelectOptions,
+  MaritalStatusOptions,
+  EmploymentStatusOptions,
+  GenderOptions,
 };
