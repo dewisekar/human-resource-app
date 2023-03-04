@@ -9,17 +9,29 @@ const {
 
 const convertData = (data) => {
   const {
-    fingerprintPin, status, level, superior, ...otherProps
+    fingerprintPin, status, level, superior, gender, department, division,
+    bankAccount, maritalStatus, employmentStatus, ...otherProps
   } = data;
+  console.log(otherProps);
 
   const roles = level.map((item) => ({ value: item.id, label: item.name }));
   const superiorValue = superior ? { value: superior.id, label: superior.name } : null;
+  const genderValue = { value: gender, label: gender };
+  const departmentValue = { value: department.id, label: department.name };
+  const divisionValue = { value: division.id, label: division.name };
+  const bankValue = { value: bankAccount.id, label: bankAccount.name };
   return {
     fingerprintPin: fingerprintPin.toString(),
     status: { value: status, label: status },
     roles,
     ...otherProps,
     superior: superiorValue,
+    gender: genderValue,
+    division: divisionValue,
+    department: departmentValue,
+    maritalStatus: { value: maritalStatus, label: maritalStatus },
+    bankCode: bankValue,
+    employmentStatus: { value: employmentStatus, label: employmentStatus },
   };
 };
 
