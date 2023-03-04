@@ -79,6 +79,12 @@ const formFields = [
     rules: { required: true },
   },
   {
+    name: 'bankAccountOwnerName',
+    label: 'Bank Account Owner Name',
+    formType: 'input',
+    rules: { required: true },
+  },
+  {
     name: 'npwp',
     label: 'NPWP',
     formType: 'input',
@@ -154,6 +160,12 @@ const formFields = [
     rules: { required: true },
     formType: 'select',
     isMulti: true,
+  },
+  {
+    name: 'status',
+    label: 'Status',
+    formType: 'select',
+    rules: { required: true },
   },
   {
     name: 'resignationReason',

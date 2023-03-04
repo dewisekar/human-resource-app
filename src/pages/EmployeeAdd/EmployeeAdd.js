@@ -19,9 +19,9 @@ import AlertModal from '../../components/AlertModal/AlertModal';
 
 const { CheckCircleIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest, convertDataToSelectOptions } = utils;
+const { getRequest, formatIndonesianPhoneNumber, formatNumberOnly } = utils;
 const { formFields } = config;
-const { addEmployeeHandler } = handlers;
+const { addEmployeeHandler, updateDropdownOptions } = handlers;
 
 const EmployeeAdd = () => {
   const history = useHistory();
@@ -43,10 +43,13 @@ const EmployeeAdd = () => {
         const fetchedLevel = await getRequest(URL.User.USER_LEVEL_ALL_URL);
         const fetchedBank = await getRequest(URL.User.BANK_URL);
         const fetchedUsers = await getRequest(URL.User.USER_ALL_URL);
-        const convertedLevel = convertDataToSelectOptions(fetchedLevel, 'id', 'name');
-        const convertedBank = convertDataToSelectOptions(fetchedBank, 'id', 'name');
-        const convertedUser = convertDataToSelectOptions(fetchedUsers, 'id', 'name');
-        setDropdownOptions({ roles: convertedLevel, bank: convertedBank, superior: convertedUser });
+        const fetchedDepartment = await getRequest(URL.Organization.DEPARTMENT_ALL_URL);
+        const fetchedDivision = await getRequest(URL.Organization.DIVISION_ALL_URL);
+        const convertedOptions = updateDropdownOptions({
+          fetchedUsers, fetchedLevel, fetchedDepartment, fetchedDivision, fetchedBank,
+        });
+
+        setDropdownOptions(convertedOptions);
       } catch (error) {
         history.replace(PATH.Dashboard);
       }
@@ -65,17 +68,23 @@ const EmployeeAdd = () => {
 
   const showAlert = () => setIsAlertModalShown(true);
 
-  const handleUpdate = (data) => {
+  const handleAddEmployee = (data) => {
+    const selectFields = ['bankCode', 'gender', 'maritalStatus', 'employmentStatus', 'department', 'division'];
     const {
-      roles, bank, superior, ...otherData
+      roles, superior, phoneNumber, contractEndDate, ...otherData
     } = data;
+    const mappedOptions = {};
+    selectFields.forEach((item) => Object.assign(mappedOptions, { [item]: data[item].value }));
     const mappedRoles = roles.map((item) => item.value);
+
     setAlertMessage('Are you sure you want to add this employee?');
     setSubmittedData({
       ...otherData,
       roles: mappedRoles,
-      bankCode: bank.value,
-      superior: superior.id,
+      phoneNumber: formatIndonesianPhoneNumber(formatNumberOnly(phoneNumber)),
+      superior: superior ? superior.value : null,
+      ...mappedOptions,
+      contractEndDate: contractEndDate || null,
     });
     showConfirmModal();
   };
@@ -138,7 +147,7 @@ const EmployeeAdd = () => {
           <Button tag={Link} to={PATH.Employees.LIST} layout="outline" className="mr-1">
             Back
           </Button>
-          <Button className="mr-1" style={{ backgroundColor: COLOR.GREEN }} onClick={handleSubmit(handleUpdate)} >
+          <Button className="mr-1" style={{ backgroundColor: COLOR.GREEN }} onClick={handleSubmit(handleAddEmployee)} >
             <CheckCircleIcon className='w-4 h-4 mr-1'/> Add
           </Button>
         </div>

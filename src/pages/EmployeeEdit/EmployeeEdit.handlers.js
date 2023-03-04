@@ -1,25 +1,26 @@
 import utils from '../../utils';
 import constants from '../../constants';
+import config from './EmployeeEdit.config';
 
 const { unpackError, patchRequest, convertDataToSelectOptions } = utils;
 const {
   URL, AlertMessage, AxiosErrorMessage, MaritalStatusOptions,
   GenderOptions, EmploymentStatusOptions,
 } = constants;
+const { activeOptions } = config;
 
 const convertData = (data) => {
   const {
     fingerprintPin, status, level, superior, gender, department, division,
     bankAccount, maritalStatus, employmentStatus, ...otherProps
   } = data;
-  console.log(otherProps);
 
   const roles = level.map((item) => ({ value: item.id, label: item.name }));
   const superiorValue = superior ? { value: superior.id, label: superior.name } : null;
   const genderValue = { value: gender, label: gender };
-  const departmentValue = { value: department.id, label: department.name };
-  const divisionValue = { value: division.id, label: division.name };
-  const bankValue = { value: bankAccount.id, label: bankAccount.name };
+  const departmentValue = department && { value: department.id, label: department.name };
+  const divisionValue = division && { value: division.id, label: division.name };
+  const bankValue = bankAccount && { value: bankAccount.id, label: bankAccount.name };
   return {
     fingerprintPin: fingerprintPin.toString(),
     status: { value: status, label: status },
@@ -38,7 +39,6 @@ const convertData = (data) => {
 const updateEmployeeHandler = async (id, payload, handlers) => {
   const { showAlert, setAlertMessage, showExpiredModal } = handlers;
   const successMessage = 'Successfully update employee data!';
-  console.log(payload);
 
   try {
     await patchRequest(URL.User.USER_URL + id, payload);
@@ -80,6 +80,7 @@ const updateDropdownOptions = (payload) => {
     gender: GenderOptions,
     division: convertedDivision,
     department: convertedDepartment,
+    status: activeOptions,
   };
 };
 
