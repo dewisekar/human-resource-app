@@ -23,7 +23,7 @@ const ReimbursementSummaryAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState({});
   const [filterOptions, setFilterOptions] = useState({});
-  const filterTitle = 'Filter by Department/Month/Year';
+  const filterTitle = 'Filter by Department / Month / Year';
 
   const filterConfig = [
     {

@@ -35,6 +35,7 @@ const MultiplePropertyFilter = ({
   };
 
   const renderSelectInput = (option) => <Select options={option.options} isClearable
+    placeholder={option.placeholder}
     onChange={(value, action) => { onFormChange({ target: { ...value, ...action } }); }}
     name={option.name}/>;
 

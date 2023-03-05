@@ -5,6 +5,11 @@ const columns = [
     sortable: true,
   },
   {
+    name: 'Department',
+    selector: (row) => row.department,
+    sortable: true,
+  },
+  {
     name: 'Overtime Date',
     selector: (row) => row.overtimeDate,
     sortable: true,
