@@ -42,7 +42,6 @@ const routes = [
     icon: 'PagesIcon',
     name: 'Pages',
     routes: [
-      // submenu
       {
         path: '/login',
         name: 'Login',
@@ -80,13 +79,17 @@ const sidebarRoutes = {
       type: 'MENU',
     },
     {
-      icon: 'DocumentIcon',
-      name: 'Approval Request',
+      icon: 'MoneyIcon',
+      name: 'Reimbursement',
       type: 'SUBMENU_HEADER',
       routes: [
         {
           path: PATH.Reimbursement.LIST_ADMIN,
-          name: 'Reimbursement',
+          name: 'Approvement Request',
+        },
+        {
+          path: PATH.Reimbursement.TYPE,
+          name: 'Manage Type',
         },
       ],
     },

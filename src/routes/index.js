@@ -32,6 +32,7 @@ const EmployeeEdit = lazy(() => import('../pages/EmployeeEdit/EmployeeEdit'));
 const EmployeeAdd = lazy(() => import('../pages/EmployeeAdd/EmployeeAdd'));
 const Divisions = lazy(() => import('../pages/Divisions/Divisions'));
 const Departments = lazy(() => import('../pages/Departments/Departments'));
+const ReimbursementType = lazy(() => import('../pages/ReimbursementType/ReimbursementType'));
 
 const routes = [
   {
@@ -172,6 +173,11 @@ const routes = [
   {
     path: PATH.Organization.DEPARTEMENT_LIST,
     component: Departments,
+    accessibility: [Accessibility.ADMIN],
+  },
+  {
+    path: PATH.Reimbursement.TYPE,
+    component: ReimbursementType,
     accessibility: [Accessibility.ADMIN],
   },
 ];

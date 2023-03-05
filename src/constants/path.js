@@ -8,6 +8,7 @@ const PATH = {
     LIST_ADMIN: '/reimbursement/admin',
     APPROVAL: '/reimbursement/approval',
     SUMMARY: '/reimbursement/summary',
+    TYPE: '/reimbursement/type',
   },
   Overtime: {
     ADD_REQUEST: '/overtime/add',
