@@ -21,6 +21,7 @@
     "rules": {
         "react/prop-types": "off",
         "linebreak-style": 0,
-        "no-console": "off"
+        "no-console": "off",
+        "indent": ["error", 2]
     }
 }
