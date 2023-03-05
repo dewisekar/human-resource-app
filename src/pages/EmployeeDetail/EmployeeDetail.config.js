@@ -8,6 +8,14 @@ const requestFields = [
     label: 'Username',
   },
   {
+    key: 'gender',
+    label: 'Gender',
+  },
+  {
+    key: 'maritalStatus',
+    label: 'Marital Status',
+  },
+  {
     key: 'address',
     label: 'Address',
   },
@@ -16,12 +24,52 @@ const requestFields = [
     label: 'Phone Number',
   },
   {
+    key: 'workEmail',
+    label: 'Work Email',
+  },
+  {
+    key: 'unaWorkEmail',
+    label: 'Una Work Email',
+  },
+  {
     key: 'nik',
     label: 'NIK',
   },
   {
+    key: 'npwp',
+    label: 'NPWP',
+  },
+  {
+    key: 'bpjsKetenagakerjaan',
+    label: 'No. BPJS Ketenagakerjaan',
+  },
+  {
+    key: 'bankCode',
+    label: 'Bank',
+  },
+  {
+    key: 'bankAccountNumber',
+    label: 'Bank Account Number',
+  },
+  {
+    key: 'bankAccountOwnerName',
+    label: 'Bank Account Owner Name',
+  },
+  {
     key: 'jobTitle',
     label: 'Job Title',
+  },
+  {
+    key: 'division',
+    label: 'Division',
+  },
+  {
+    key: 'department',
+    label: 'Department',
+  },
+  {
+    key: 'maximumCheckInTime',
+    label: 'Maximum Check In Time',
   },
   {
     key: 'roles',
@@ -50,6 +98,10 @@ const requestFields = [
   {
     key: 'subordinate',
     label: 'Subordinate',
+  },
+  {
+    key: 'resignationReason',
+    label: 'Resignation Reason (Filled When Resign Only)',
   },
 ];
 

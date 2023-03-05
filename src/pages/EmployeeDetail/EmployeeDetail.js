@@ -15,7 +15,7 @@ import * as Icons from '../../icons';
 const { EditIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest, checkPageIdIsValid } = utils;
-const { requestFields } = config;
+const { requestFields, dateOptions } = config;
 
 const EmployeeDetail = () => {
   const location = useLocation();
@@ -28,7 +28,8 @@ const EmployeeDetail = () => {
 
   const convertData = (data) => {
     const {
-      level, superior, subordinate, ...otherProps
+      level, superior, subordinate, contractStartDate, contractEndDate, bankAccount,
+      department, division, ...otherProps
     } = data;
     const convertedRoles = level.map((item) => <li key={item.id}>{item.name}</li>);
     const convertedSubordinate = subordinate ? subordinate.map((item) => <li key={item.id}>{item.name}</li>) : '-';
@@ -38,6 +39,11 @@ const EmployeeDetail = () => {
       roles: convertedRoles,
       superior: superior ? superior.name : '-',
       subordinate: convertedSubordinate,
+      contractStartDate: new Date(contractStartDate).toLocaleDateString('id-ID', dateOptions),
+      contractEndDate: contractEndDate ? new Date(contractEndDate).toLocaleDateString('id-ID', dateOptions) : '-',
+      department: department ? department.name : '-',
+      division: division ? division.name : '-',
+      bankCode: bankAccount ? bankAccount.name : '-',
     };
   };
 
@@ -58,9 +64,9 @@ const EmployeeDetail = () => {
   }, []);
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.BLUE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.BLUE} size={30} />
+    </div>
   );
 
   const renderTable = (data, fields) => (

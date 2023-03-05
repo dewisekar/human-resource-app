@@ -138,33 +138,33 @@ const EmployeeEdit = () => {
   };
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.BLUE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.BLUE} size={30} />
+    </div>
   );
 
   const renderInput = () => (
-      <>
-        <form>
-          {formFields.map(
-            (option) => renderFormField(option),
-          )}
-        </form>
-      </>
+    <>
+      <form>
+        {formFields.map(
+          (option) => renderFormField(option),
+        )}
+      </form>
+    </>
   );
 
   const renderInfo = () => (
-      <>
-        {renderInput()}
-        <div className='mt-5 flex justify-end'>
-          <Button tag={Link} to={PATH.Employees.LIST} layout="outline" className="mr-1">
+    <>
+      {renderInput()}
+      <div className='mt-5 flex justify-end'>
+        <Button tag={Link} to={PATH.Employees.LIST} layout="outline" className="mr-1">
             Back
-          </Button>
-          <Button className="mr-1" style={{ backgroundColor: COLOR.GREEN }} onClick={handleSubmit(handleUpdate)} >
-            <CheckCircleIcon className='w-4 h-4 mr-1'/> Save
-          </Button>
-        </div>
-      </>
+        </Button>
+        <Button className="mr-1" style={{ backgroundColor: COLOR.GREEN }} onClick={handleSubmit(handleUpdate)} >
+          <CheckCircleIcon className='w-4 h-4 mr-1'/> Save
+        </Button>
+      </div>
+    </>
   );
 
   const renderCard = () => (
@@ -178,7 +178,7 @@ const EmployeeEdit = () => {
   const renderPage = () => (
     <>
       <div className="mt-8">
-          <SectionTitle>Edit Employee</SectionTitle>
+        <SectionTitle>Edit Employee</SectionTitle>
       </div>
       {isLoading ? renderSpinner() : renderCard()}
       {isConfirmModalShown && <ConfirmationModal message={alertMessage}

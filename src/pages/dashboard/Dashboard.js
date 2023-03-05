@@ -18,16 +18,10 @@ const Dashboard = () => {
     const init = async () => {
       const fetchedUserInfo = await getRequest(URL.User.USER_URL);
       console.log(fetchedUserInfo);
-      const {
-        department: { name: departmentName },
-        division: { name: divisionName },
-        level,
-      } = fetchedUserInfo;
+      const { level } = fetchedUserInfo;
       const roles = level.map((item) => <li style={{ listStyleType: 'none' }} key={item.id}>{item.name}</li>);
       setUserInfo({
         ...fetchedUserInfo,
-        department: departmentName,
-        division: divisionName,
         roles,
       });
     };

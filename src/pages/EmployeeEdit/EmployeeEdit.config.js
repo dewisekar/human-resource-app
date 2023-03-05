@@ -143,7 +143,7 @@ const formFields = [
   {
     label: 'Contract End Date',
     name: 'contractEndDate',
-    rules: { required: true },
+    rules: { required: false },
     type: 'date',
     formType: 'input',
   },
