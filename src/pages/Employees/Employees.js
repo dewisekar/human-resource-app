@@ -39,11 +39,17 @@ const Employees = () => {
       const fetchedData = await getRequest(URL.User.USER_ALL_URL);
       const mappedData = fetchedData.map((item) => {
         const {
-          id, name, username, jobTitle, status,
+          id, name, username, jobTitle, status, department, division,
         } = item;
         const action = renderActionButton(id);
         return {
-          name, username, jobTitle, status, action,
+          name,
+          username,
+          jobTitle,
+          status,
+          action,
+          department: department ? department.name : '-',
+          division: division ? division.name : '-',
         };
       });
 
@@ -82,27 +88,27 @@ const Employees = () => {
   }, [filterText, resetPaginationToggle]);
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.LIGHT_BLUE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.LIGHT_BLUE} size={30} />
+    </div>
   );
 
   const renderCard = () => (
-      <Card className="mb-8 shadow-md data-table">
-        <CardBody>
-          <Button tag={Link} to={PATH.Employees.ADD} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
-            <UserPlusIcon className='w-4 h-4 mr-1'/>Add Employee
-          </Button>
-          <DataTable
-            columns={columns}
-            data={filteredItems}
-            pagination
-            subHeader
-            subHeaderComponent={subHeaderComponent}
-            defaultSortFieldId={1}
-          />
-        </CardBody>
-      </Card>
+    <Card className="mb-8 shadow-md data-table">
+      <CardBody>
+        <Button tag={Link} to={PATH.Employees.ADD} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
+          <UserPlusIcon className='w-4 h-4 mr-1'/>Add Employee
+        </Button>
+        <DataTable
+          columns={columns}
+          data={filteredItems}
+          pagination
+          subHeader
+          subHeaderComponent={subHeaderComponent}
+          defaultSortFieldId={1}
+        />
+      </CardBody>
+    </Card>
   );
 
   return (

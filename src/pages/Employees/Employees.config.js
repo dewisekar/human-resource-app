@@ -15,6 +15,16 @@ const columns = [
     sortable: true,
   },
   {
+    name: 'Division',
+    selector: (row) => row.division,
+    sortable: true,
+  },
+  {
+    name: 'Department',
+    selector: (row) => row.department,
+    sortable: true,
+  },
+  {
     name: 'Status',
     selector: (row) => row.status,
     sortable: true,
