@@ -5,54 +5,71 @@ import {
 } from '@windmill/react-ui';
 
 import * as Icons from '../../../icons';
-import utils from '../../../utils';
 import constants from '../../../constants';
 
 const { SearchIcon } = Icons;
-const { URL, MonthsSelectOptions } = constants;
-const { getRequest, convertDataToSelectOptions } = utils;
+const { MonthsSelectOptions } = constants;
 
 const MultiplePropertyFilter = ({
-  onSubmit, buttonColor,
+  onSubmit, buttonColor, fields, title,
 }) => {
-  const [month, setMonth] = useState(null);
-  const [year, setYear] = useState('');
-  const [employees, setEmployees] = useState([]);
-  const [chosenEmployee, setChosenEmployee] = useState(null);
+  const [state, setState] = useState({});
 
   useEffect(() => {
-    const init = async () => {
-      const fetchedData = await getRequest(URL.User.USER_ALL_URL);
-      const convertedData = convertDataToSelectOptions(fetchedData, 'id', 'name');
-      setEmployees(convertedData);
-    };
 
-    init();
   }, []);
 
+  const onFormChange = (event) => {
+    const {
+      name, value = '', checked, type,
+    } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+
+    setState({ ...state, [name]: newValue.toLowerCase() });
+  };
+
   const onClick = () => {
-    const convertedMonth = month ? month.value : '';
-    const convertedEmployee = chosenEmployee ? chosenEmployee.label : '';
-    const dateFilter = (month === null && year === '') ? '' : `${convertedMonth}/${year.toString()}`;
-    onSubmit({ date: dateFilter, employee: convertedEmployee.toLowerCase() });
+    const { month = '', year = '' } = state;
+    const dateFilter = (month === '' && year === '') ? '' : `${month}/${year.toString()}`;
+    onSubmit({ date: dateFilter, ...state });
+  };
+
+  const renderSelectInput = (option) => <Select options={option.options} isClearable
+    onChange={(value, action) => { onFormChange({ target: { ...value, ...action } }); }}
+    name={option.name}/>;
+
+  const renderTextInput = (option) => <Input className="border-gray-300" placeholder={option.placeholder} name={option.name} onChange={onFormChange}/>;
+
+  const renderInput = (options) => {
+    const { formType } = options;
+
+    const RenderInput = {
+      select: renderSelectInput(options),
+      input: renderTextInput(options),
+    };
+
+    return (
+      <div className="col-span-2">
+        {RenderInput[formType]}
+      </div>
+    );
   };
 
   return (
     <>
       <div>
-        <span style={{ fontSize: '14px' }}>Filter by Employee / Month / Year</span>
+        <span style={{ fontSize: '14px' }}>{title}</span>
       </div>
       <div className="grid grid-cols-12 gap-2 mt-1 mb-5">
-        <div className="col-span-3">
-          <Select options={employees} onChange={(event) => setChosenEmployee(event)}
+        {fields.map((item) => renderInput(item))}
+        <div className="col-span-2">
+          <Select options={MonthsSelectOptions}
+            name="month"
+            onChange={(value, action) => { onFormChange({ target: { ...value, ...action } }); }}
             isClearable/>
         </div>
-        <div className="col-span-3">
-          <Select options={MonthsSelectOptions} onChange={(event) => setMonth(event)}
-            isClearable/>
-        </div>
-        <div className="col-span-3">
-          <Input className="border-gray-300" placeholder="Year" value={year} onChange={(event) => setYear(event.target.value)} />
+        <div className="col-span-1">
+          <Input className="border-gray-300" placeholder="Year" name="year" onChange={onFormChange} />
         </div>
         <div className="col-span-1">
           <Button style={{ backgroundColor: buttonColor }} onClick={onClick}>

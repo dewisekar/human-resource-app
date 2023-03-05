@@ -55,6 +55,7 @@ const OvertimeSummaryAdmin = () => {
 
   const onSearch = (data) => {
     setFilterText(data);
+    console.log('ini data', data);
   };
 
   const filteredItems = overtimeData.filter(
