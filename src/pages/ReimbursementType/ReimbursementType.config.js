@@ -12,7 +12,7 @@ const columns = [
 
 const inputField = {
   name: 'name',
-  label: 'Division Name',
+  label: 'Reimbursement Type',
   formType: 'input',
   rules: { required: true },
 };

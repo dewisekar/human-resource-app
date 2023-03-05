@@ -59,14 +59,14 @@ const ReimbursementType = () => {
     setChosenReimbursementTypeId(id);
     setIsFormModalShown(true);
     setValue('name', name);
-    setModalTitle('Edit ReimbursementType');
+    setModalTitle('Edit Reimbursement Type');
   };
 
   const onClickAddReimbursementType = () => {
     setChosenReimbursementTypeId(null);
     setIsFormModalShown(true);
     setValue('name', null);
-    setModalTitle('Add ReimbursementType');
+    setModalTitle('Add Reimbursement Type');
   };
 
   const onDelete = (id) => {

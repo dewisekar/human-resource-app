@@ -4,12 +4,12 @@ import constants from '../../constants';
 const {
   unpackError, patchRequest, postRequest, deleteRequest,
 } = utils;
-const { URL: { Organization }, AlertMessage, AxiosErrorMessage } = constants;
+const { URL: { Reimbursement }, AlertMessage, AxiosErrorMessage } = constants;
 
 const saveReimbursementTypeHandler = async (id, payload, handlers) => {
   const { showAlert, setAlertMessage, showExpiredModal } = handlers;
   const action = id ? 'update' : 'add new';
-  const url = id ? Organization.DIVISION_URL + id : Organization.DIVISION_URL;
+  const url = id ? Reimbursement.TYPE_URL + id : Reimbursement.TYPE_URL;
   const successMessage = `Successfully ${action} reimbursement type data!`;
 
   try {
@@ -36,7 +36,7 @@ const deleteReimbursementTypeHandler = async (id, handlers) => {
   const successMessage = 'Successfully delete reimbursement type data!';
 
   try {
-    await deleteRequest(Organization.DIVISION_URL + id);
+    await deleteRequest(Reimbursement.TYPE_URL + id);
 
     setAlertMessage(successMessage);
     showAlert();
