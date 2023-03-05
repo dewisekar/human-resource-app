@@ -37,10 +37,10 @@ const MonthYearFilter = ({
 
   return (
         <>
-          <div>
+            <div>
               <span style={{ fontSize: '14px' }}>Filter by Month / Year</span>
-              </div>
-              <div className="grid grid-cols-12 gap-2 mt-1 mb-5">
+            </div>
+            <div className="grid grid-cols-12 gap-2 mt-1 mb-5">
               <div className="col-span-3">
                   <Select options={options} onChange={(event) => setMonth(event)}
                     isClearable/>
