@@ -12,7 +12,7 @@ const { SearchIcon } = Icons;
 const { URL, MonthsSelectOptions } = constants;
 const { getRequest, convertDataToSelectOptions } = utils;
 
-const EmployeeMonthYearFilter = ({
+const MultiplePropertyFilter = ({
   onSubmit, buttonColor,
 }) => {
   const [month, setMonth] = useState(null);
@@ -64,4 +64,4 @@ const EmployeeMonthYearFilter = ({
   );
 };
 
-export default EmployeeMonthYearFilter;
+export default MultiplePropertyFilter;

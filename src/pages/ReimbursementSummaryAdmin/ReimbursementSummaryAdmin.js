@@ -74,21 +74,26 @@ const ReimbursementSummaryAdmin = () => {
       <CardBody style={{ minHeight: '300px' }}>
         <MonthYearFilter buttonColor={COLOR.LIGHT_PURPLE} onSubmit={onSearch}/>
         <div className="grid grid-cols-12 gap-5">
-          <div className="col-span-12 lg:col-span-9 order-last lg:order-first">
-            <DataTable
-              columns={columns}
-              data={filteredItems}
-              defaultSortFieldId={3}
-              defaultSortAsc={false}
-              dense
-            />
-          </div>
-          <div className='col-span-12 lg:col-span-3 order-first lg:order-last'>
-            <b>Summary:</b><br></br>
-                Total Reimbursement: {filteredItems.length}<br></br>
-                Total Approved Amount: <RupiahCurrency balance={totalApprovedAmount}/>
+          <div className='col-span-12'>
+            <b>Summary:</b>
+            <div className="grid grid-cols-12 gap-1">
+              <div className='col-span-12 md:col-span-3'>
+                <p className="text-md font-semibold text-gray-500">Total Reimbursement: {filteredItems.length}</p>
+              </div>
+              <div className='col-span-12 md:col-span-4'>
+                <p className="text-md font-semibold text-gray-500">Total Approved Amount: <RupiahCurrency balance={totalApprovedAmount}/></p>
+              </div>
+            </div>
           </div>
         </div>
+        <div className='mt-5 mb-5'><hr style={{ width: '100% !important' }}></hr></div>
+        <DataTable
+          columns={columns}
+          data={filteredItems}
+          defaultSortFieldId={3}
+          defaultSortAsc={false}
+          dense
+        />
       </CardBody>
     </Card>
   );
