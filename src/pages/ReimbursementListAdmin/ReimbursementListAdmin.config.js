@@ -15,6 +15,11 @@ const columns = [
     sortable: true,
   },
   {
+    name: 'Reimbursement Type',
+    selector: (row) => row.reimbursementType,
+    sortable: true,
+  },
+  {
     name: 'Status',
     selector: (row) => row.status,
     sortable: true,

@@ -33,12 +33,16 @@ const ReimbursementList = () => {
       const fetchedData = await getRequest(URL.Reimbursement.REIMBURSEMENT_URL);
       const mappedData = fetchedData.map((item) => {
         const {
-          id, createdAt, name, status,
+          id, createdAt, name, status, reimbursementType,
         } = item;
         const newDate = new Date(createdAt);
         const action = renderActionButton(id);
         return {
-          name, status, action, createdAt: newDate.toLocaleDateString('id-ID'),
+          name,
+          status,
+          action,
+          createdAt: newDate.toLocaleDateString('id-ID'),
+          reimbursementType: reimbursementType.name,
         };
       });
 
@@ -77,25 +81,25 @@ const ReimbursementList = () => {
   }, [filterText, resetPaginationToggle]);
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
+    </div>
   );
 
   const renderCard = () => (
-      <Card className="mb-8 shadow-md data-table">
-        <CardBody>
-          <DataTable
-            columns={columns}
-            data={filteredItems}
-            pagination
-            subHeader
-            subHeaderComponent={subHeaderComponent}
-            defaultSortFieldId={2}
-            defaultSortAsc={false}
-          />
-        </CardBody>
-      </Card>
+    <Card className="mb-8 shadow-md data-table">
+      <CardBody>
+        <DataTable
+          columns={columns}
+          data={filteredItems}
+          pagination
+          subHeader
+          subHeaderComponent={subHeaderComponent}
+          defaultSortFieldId={2}
+          defaultSortAsc={false}
+        />
+      </CardBody>
+    </Card>
   );
 
   return (

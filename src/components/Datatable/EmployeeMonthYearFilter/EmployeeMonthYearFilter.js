@@ -12,7 +12,7 @@ const { SearchIcon } = Icons;
 const { URL, MonthsSelectOptions } = constants;
 const { getRequest, convertDataToSelectOptions } = utils;
 
-const EmployeeMonthYearFiilter = ({
+const EmployeeMonthYearFilter = ({
   onSubmit, buttonColor,
 }) => {
   const [month, setMonth] = useState(null);
@@ -38,30 +38,30 @@ const EmployeeMonthYearFiilter = ({
   };
 
   return (
-        <>
-          <div>
-              <span style={{ fontSize: '14px' }}>Filter by Employee / Month / Year</span>
-              </div>
-              <div className="grid grid-cols-12 gap-2 mt-1 mb-5">
-              <div className="col-span-3">
-                  <Select options={employees} onChange={(event) => setChosenEmployee(event)}
-                    isClearable/>
-              </div>
-              <div className="col-span-3">
-                  <Select options={MonthsSelectOptions} onChange={(event) => setMonth(event)}
-                    isClearable/>
-              </div>
-              <div className="col-span-3">
-                  <Input className="border-gray-300" placeholder="Year" value={year} onChange={(event) => setYear(event.target.value)} />
-              </div>
-              <div className="col-span-1">
-                  <Button style={{ backgroundColor: buttonColor }} onClick={onClick}>
-                    <SearchIcon className='w-4 h-4 mr-1'/> Search
-                  </Button>
-              </div>
-          </div>
-      </>
+    <>
+      <div>
+        <span style={{ fontSize: '14px' }}>Filter by Employee / Month / Year</span>
+      </div>
+      <div className="grid grid-cols-12 gap-2 mt-1 mb-5">
+        <div className="col-span-3">
+          <Select options={employees} onChange={(event) => setChosenEmployee(event)}
+            isClearable/>
+        </div>
+        <div className="col-span-3">
+          <Select options={MonthsSelectOptions} onChange={(event) => setMonth(event)}
+            isClearable/>
+        </div>
+        <div className="col-span-3">
+          <Input className="border-gray-300" placeholder="Year" value={year} onChange={(event) => setYear(event.target.value)} />
+        </div>
+        <div className="col-span-1">
+          <Button style={{ backgroundColor: buttonColor }} onClick={onClick}>
+            <SearchIcon className='w-4 h-4 mr-1'/> Search
+          </Button>
+        </div>
+      </div>
+    </>
   );
 };
 
-export default EmployeeMonthYearFiilter;
+export default EmployeeMonthYearFilter;

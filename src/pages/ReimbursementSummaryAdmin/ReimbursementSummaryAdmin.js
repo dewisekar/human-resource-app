@@ -29,7 +29,7 @@ const ReimbursementSummaryAdmin = () => {
       const approvedData = fetchedData.filter((item) => item.status === RequestStatus.APPROVED);
       const mappedData = approvedData.map((item) => {
         const {
-          id, createdAt, name, requesterName, approvalDate, approvedAmount,
+          id, createdAt, name, requesterName, approvalDate, approvedAmount, reimbursementType,
         } = item;
         const newDate = new Date(createdAt);
         const newApprovalDate = new Date(approvalDate);
@@ -41,6 +41,7 @@ const ReimbursementSummaryAdmin = () => {
           approvedDate: newApprovalDate.toLocaleDateString('id-ID'),
           approvedAmount: getRupiahString(approvedAmount),
           realApprovedAmount: approvedAmount,
+          reimbursementType: reimbursementType.name,
         };
       });
 
@@ -63,33 +64,33 @@ const ReimbursementSummaryAdmin = () => {
     .reduce((sum, { realApprovedAmount }) => sum + realApprovedAmount, 0);
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
+    </div>
   );
 
   const renderCard = () => (
-      <Card className="mb-8 shadow-md data-table">
-        <CardBody style={{ minHeight: '300px' }}>
-          <MonthYearFilter buttonColor={COLOR.LIGHT_PURPLE} onSubmit={onSearch}/>
-          <div className="grid grid-cols-12 gap-5">
-            <div className="col-span-12 lg:col-span-9 order-last lg:order-first">
-              <DataTable
-                columns={columns}
-                data={filteredItems}
-                defaultSortFieldId={3}
-                defaultSortAsc={false}
-                dense
-              />
-            </div>
-            <div className='col-span-12 lg:col-span-3 order-first lg:order-last'>
-                <b>Summary:</b><br></br>
+    <Card className="mb-8 shadow-md data-table">
+      <CardBody style={{ minHeight: '300px' }}>
+        <MonthYearFilter buttonColor={COLOR.LIGHT_PURPLE} onSubmit={onSearch}/>
+        <div className="grid grid-cols-12 gap-5">
+          <div className="col-span-12 lg:col-span-9 order-last lg:order-first">
+            <DataTable
+              columns={columns}
+              data={filteredItems}
+              defaultSortFieldId={3}
+              defaultSortAsc={false}
+              dense
+            />
+          </div>
+          <div className='col-span-12 lg:col-span-3 order-first lg:order-last'>
+            <b>Summary:</b><br></br>
                 Total Reimbursement: {filteredItems.length}<br></br>
                 Total Approved Amount: <RupiahCurrency balance={totalApprovedAmount}/>
-            </div>
           </div>
-        </CardBody>
-      </Card>
+        </div>
+      </CardBody>
+    </Card>
   );
 
   return (

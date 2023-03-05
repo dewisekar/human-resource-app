@@ -6,7 +6,7 @@ import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
-import EmployeeMonthYearFiilter from '../../components/Datatable/EmployeeMonthYearFiilter/EmployeeMonthYearFiilter';
+import EmployeeMonthYearFilter from '../../components/Datatable/EmployeeMonthYearFilter/EmployeeMonthYearFilter';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './OvertimeSummaryAdmin.config';
@@ -66,33 +66,33 @@ const OvertimeSummaryAdmin = () => {
     .reduce((sum, { realHours }) => sum + realHours, 0);
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
+    </div>
   );
 
   const renderCard = () => (
-      <Card className="mb-8 shadow-md data-table">
-        <CardBody style={{ minHeight: '300px' }}>
-          <EmployeeMonthYearFiilter buttonColor={COLOR.BLUE} onSubmit={onSearch}/>
-          <div className="grid grid-cols-12 gap-5">
-            <div className="col-span-12 lg:col-span-9 order-last lg:order-first">
-              <DataTable
-                columns={columns}
-                data={filteredItems}
-                defaultSortFieldId={2}
-                defaultSortAsc={false}
-                dense
-              />
-            </div>
-            <div className='col-span-12 lg:col-span-3 order-first lg:order-last'>
-                <b>Summary:</b><br></br>
+    <Card className="mb-8 shadow-md data-table">
+      <CardBody style={{ minHeight: '300px' }}>
+        <EmployeeMonthYearFilter buttonColor={COLOR.BLUE} onSubmit={onSearch}/>
+        <div className="grid grid-cols-12 gap-5">
+          <div className="col-span-12 lg:col-span-9 order-last lg:order-first">
+            <DataTable
+              columns={columns}
+              data={filteredItems}
+              defaultSortFieldId={2}
+              defaultSortAsc={false}
+              dense
+            />
+          </div>
+          <div className='col-span-12 lg:col-span-3 order-first lg:order-last'>
+            <b>Summary:</b><br></br>
                 Total Overtime: {filteredItems.length}<br></br>
                 Total Approved Hours: {totalApprovedHours}
-            </div>
           </div>
-        </CardBody>
-      </Card>
+        </div>
+      </CardBody>
+    </Card>
   );
 
   return (

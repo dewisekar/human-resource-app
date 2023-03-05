@@ -8,6 +8,10 @@ const requestFields = [
     label: 'Name',
   },
   {
+    key: 'reimbursementType',
+    label: 'Reimbursement Type',
+  },
+  {
     key: 'createdAt',
     label: 'Request Date',
   },

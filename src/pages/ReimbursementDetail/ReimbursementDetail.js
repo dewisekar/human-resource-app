@@ -48,7 +48,7 @@ const ReimbursementDetail = () => {
   const convertData = (data) => {
     const {
       createdAt, invoiceDate, proof, approvalDate,
-      requestedAmount, approvedAmount, status, ...otherProps
+      requestedAmount, approvedAmount, status, reimbursementType, ...otherProps
     } = data;
 
     const convertedCreatedAt = new Date(createdAt).toLocaleDateString('id-ID', dateOptions);
@@ -57,8 +57,8 @@ const ReimbursementDetail = () => {
     const convertedRequestedAmount = <RupiahCurrency balance={requestedAmount}/>;
     const convertedApprovedAmount = approvedAmount ? <RupiahCurrency balance={approvedAmount}/> : '';
     const convertedProof = <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.LIGHT_PURPLE }} onClick={onDownload}>
-        <DownloadIcon className='w-4 h-4 mr-3'/>Download
-      </Button>;
+      <DownloadIcon className='w-4 h-4 mr-3'/>Download
+    </Button>;
     const convertedStatus = renderStatusBadge(status);
 
     return {
@@ -69,6 +69,7 @@ const ReimbursementDetail = () => {
       approvedAmount: convertedApprovedAmount,
       proof: convertedProof,
       status: convertedStatus,
+      reimbursementType: reimbursementType.name,
       ...otherProps,
     };
   };
@@ -90,9 +91,9 @@ const ReimbursementDetail = () => {
   }, []);
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
+    </div>
   );
 
   const renderTable = (data, fields) => (
