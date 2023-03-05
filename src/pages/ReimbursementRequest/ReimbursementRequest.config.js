@@ -8,6 +8,12 @@ const formOptions = [
     formType: 'input',
   },
   {
+    label: 'Reimburse Type',
+    name: 'reimbursementType',
+    rules: { required: true },
+    formType: 'select',
+  },
+  {
     label: 'Invoice Date',
     name: 'invoiceDate',
     rules: { required: true },
