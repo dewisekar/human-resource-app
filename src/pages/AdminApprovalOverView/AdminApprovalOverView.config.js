@@ -39,4 +39,23 @@ const reimbursementColumns = [
   },
 ];
 
-export default { overtimeColumns, reimbursementColumns };
+const reimbursementByTypeColumns = [
+  {
+    name: 'Type',
+    selector: (row) => row.type,
+    sortable: true,
+  },
+  {
+    name: 'Total Amount',
+    selector: (row) => row.amount,
+    sortable: true,
+    sortFunction: amountSort,
+  },
+  {
+    name: 'Total Request',
+    selector: (row) => row.totalrequest,
+    sortable: true,
+  },
+];
+
+export default { overtimeColumns, reimbursementColumns, reimbursementByTypeColumns };

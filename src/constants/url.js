@@ -18,6 +18,7 @@ const URL = {
     DOWNLOAD_PROOF_URL: '/reimbursement/proof/download/',
     TYPE_URL: '/reimbursement/type/',
     SUMMARY: '/reimbursement/summary',
+    TYPE_SUMMARY: '/reimbursement/type/summary',
   },
   Overtime: {
     OVERTIME_URL: '/overtime',
