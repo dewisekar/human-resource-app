@@ -17,6 +17,7 @@ const URL = {
     APPROVE_URL: '/admin/reimbursement/approve/',
     DOWNLOAD_PROOF_URL: '/reimbursement/proof/download/',
     TYPE_URL: '/reimbursement/type/',
+    SUMMARY: '/reimbursement/summary',
   },
   Overtime: {
     OVERTIME_URL: '/overtime',
@@ -27,6 +28,7 @@ const URL = {
     OVERTIME_SUPERVISOR_URL: '/supervisor/overtime',
     APPROVE_URL: '/supervisor/overtime/approve/',
     DOWNLOAD_PROOF_URL: '/overtime/proof/download/',
+    SUMMARY: '/overtime/summary',
   },
   Password: {
     PASSWORD: '/password',

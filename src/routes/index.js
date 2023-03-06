@@ -33,6 +33,7 @@ const EmployeeAdd = lazy(() => import('../pages/EmployeeAdd/EmployeeAdd'));
 const Divisions = lazy(() => import('../pages/Divisions/Divisions'));
 const Departments = lazy(() => import('../pages/Departments/Departments'));
 const ReimbursementType = lazy(() => import('../pages/ReimbursementType/ReimbursementType'));
+const AdminApprovalOverView = lazy(() => import('../pages/AdminApprovalOverView/AdminApprovalOverView'));
 
 const routes = [
   {
@@ -178,6 +179,11 @@ const routes = [
   {
     path: PATH.Reimbursement.TYPE,
     component: ReimbursementType,
+    accessibility: [Accessibility.ADMIN],
+  },
+  {
+    path: PATH.Admin.Summary,
+    component: AdminApprovalOverView,
     accessibility: [Accessibility.ADMIN],
   },
 ];

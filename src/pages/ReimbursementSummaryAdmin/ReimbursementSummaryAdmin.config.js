@@ -1,3 +1,7 @@
+import utils from '../../utils';
+
+const { amountSort } = utils;
+
 const columns = [
   {
     name: 'Requester',
@@ -26,8 +30,9 @@ const columns = [
   },
   {
     name: 'Approved Amount',
-    selector: (row) => row.approvedAmount,
+    selector: (row) => row.amount,
     sortable: true,
+    sortFunction: amountSort,
   },
   {
     name: 'Approval Date',

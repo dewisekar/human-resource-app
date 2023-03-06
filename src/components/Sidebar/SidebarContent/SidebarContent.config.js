@@ -106,6 +106,10 @@ const sidebarRoutes = {
           path: PATH.Overtime.SUMMARY,
           name: 'Overtime',
         },
+        {
+          path: PATH.Admin.Summary,
+          name: 'All Summary',
+        },
       ],
     },
     {

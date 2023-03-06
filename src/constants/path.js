@@ -1,6 +1,9 @@
 const PATH = {
   Login: '/login',
   Dashboard: '/dashboard',
+  Admin: {
+    Summary: '/summary',
+  },
   Reimbursement: {
     ADD_REQUEST: '/reimbursement/add',
     LIST_REQUEST: '/reimbursement',

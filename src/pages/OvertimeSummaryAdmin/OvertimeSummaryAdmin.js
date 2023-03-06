@@ -106,7 +106,7 @@ const OvertimeSummaryAdmin = () => {
       <CardBody style={{ minHeight: '300px' }}>
         <MultiplePropertyFilter buttonColor={COLOR.BLUE}
           onSubmit={onSearch} title={filterTitle} fields={mappedFilterConfigs}/>
-        <div className="grid grid-cols-12 gap-5">
+        <div className="grid grid-cols-12 gap-5 mt-5">
           <div className='col-span-12'>
             <b>Summary:</b>
             <div className="grid grid-cols-12 gap-1">

@@ -59,14 +59,15 @@ const MultiplePropertyFilter = ({
   return (
     <>
       <div>
-        <span style={{ fontSize: '14px' }}>{title}</span>
+        <span className="font-semibold text-gray-500" style={{ fontSize: '14px' }}>{title}</span>
       </div>
-      <div className="grid grid-cols-12 gap-2 mt-1 mb-5">
+      <div className="grid grid-cols-12 gap-2 mt-1">
         {fields.map((item) => renderInput(item))}
         <div className="col-span-2">
           <Select options={MonthsSelectOptions}
             name="month"
             onChange={(value, action) => { onFormChange({ target: { ...value, ...action } }); }}
+            placeholder="Month..."
             isClearable/>
         </div>
         <div className="col-span-1">
