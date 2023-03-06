@@ -65,15 +65,17 @@ const AdminApprovalOverView = () => {
 
   const onSearch = (data) => {
     const { type = '', date = '' } = data;
-    const [month = '', year = ''] = date.split('/');
+    const [month = null, year = null] = date.split('/');
+    const finalMonth = month === '' ? null : month;
+    const finalYear = year === '' ? null : year;
 
-    if (type === '' || month === '' || year === '') {
+    if (type === '') {
       setIsFilterComplete(false);
       return;
     }
 
     setIsFilterComplete(true);
-    getData(type, month, year);
+    getData(type, finalMonth, finalYear);
   };
 
   const renderSpinner = () => (
@@ -122,7 +124,7 @@ const AdminApprovalOverView = () => {
       <CardBody style={{ minHeight: '300px' }}>
         <MultiplePropertyFilter buttonColor={COLOR.GREEN}
           onSubmit={onSearch} title={filterTitle} fields={filterConfig}/>
-        {!isFilterComplete && <HelperText className="mt-0" style={{ color: COLOR.RED }}>Please fill all filter!</HelperText>}
+        {!isFilterComplete && <HelperText className="mt-0" style={{ color: COLOR.RED }}>Please fill type!</HelperText>}
         {isLoading ? renderSpinner() : renderTable()}
       </CardBody>
     </Card>
