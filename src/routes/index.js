@@ -34,6 +34,8 @@ const Divisions = lazy(() => import('../pages/Divisions/Divisions'));
 const Departments = lazy(() => import('../pages/Departments/Departments'));
 const ReimbursementType = lazy(() => import('../pages/ReimbursementType/ReimbursementType'));
 const AdminApprovalOverView = lazy(() => import('../pages/AdminApprovalOverView/AdminApprovalOverView'));
+const StaffTaskManagement = lazy(() => import('../pages/StaffTaskManagement/StaffTaskManagement'));
+const TaskManagementAdd = lazy(() => import('../pages/TaskManagementAdd/TaskManagementAdd'));
 
 const routes = [
   {
@@ -185,6 +187,16 @@ const routes = [
     path: PATH.Admin.Summary,
     component: AdminApprovalOverView,
     accessibility: [Accessibility.ADMIN],
+  },
+  {
+    path: PATH.TaskManagement.STAFF,
+    component: StaffTaskManagement,
+    accessibility: [Accessibility.STAFF],
+  },
+  {
+    path: PATH.TaskManagement.ADD,
+    component: TaskManagementAdd,
+    accessibility: [Accessibility.STAFF],
   },
 ];
 

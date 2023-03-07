@@ -133,7 +133,7 @@ const AdminApprovalOverView = () => {
   return (
     <>
       <div className="mt-8">
-        <SectionTitle>Monthly Reimbursement/Overtime Summary</SectionTitle>
+        <SectionTitle>Reimbursement / Overtime Summary</SectionTitle>
       </div>
       {renderCard()}
     </>

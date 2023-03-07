@@ -72,6 +72,17 @@ const EmploymentStatusOptions = [
   { label: 'Intern', value: 'Intern' },
 ];
 
+const TaskTypeOptions = [
+  { label: 'Daily', value: 'DAILY' },
+  { label: 'Weekly', value: 'WEEKLY' },
+];
+
+const TaskPriorityOptions = [
+  { label: 'LOW', value: 'LOW' },
+  { label: 'MEDIUM', value: 'MEDIUM' },
+  { label: 'HIGH', value: 'HIGH' },
+];
+
 export default {
   URL,
   Accessibility,
@@ -88,4 +99,6 @@ export default {
   MaritalStatusOptions,
   EmploymentStatusOptions,
   GenderOptions,
+  TaskTypeOptions,
+  TaskPriorityOptions,
 };

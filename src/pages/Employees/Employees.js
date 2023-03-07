@@ -96,7 +96,7 @@ const Employees = () => {
   const renderCard = () => (
     <Card className="mb-8 shadow-md data-table">
       <CardBody>
-        <Button tag={Link} to={PATH.Employees.ADD} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
+        <Button tag={Link} to={PATH.Employees.ADD} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE, width: '100%' }}>
           <UserPlusIcon className='w-4 h-4 mr-1'/>Add Employee
         </Button>
         <DataTable

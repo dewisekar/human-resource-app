@@ -186,7 +186,7 @@ const sidebarRoutes = {
       ],
     },
     {
-      path: '/password/change',
+      path: PATH.TaskManagement.STAFF,
       icon: 'CalendarIcon',
       name: 'Task Management',
       type: 'MENU',

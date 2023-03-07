@@ -5,7 +5,7 @@ import ErrorMessage from '../../../constants/error-message';
 
 const TextInput = (props) => {
   const {
-    name, errors, label, register, rules, disabled = false, value = '', ...otherProps
+    name, errors, label, subtitle, register, rules, disabled = false, value = '', ...otherProps
   } = props;
   const { required } = rules;
 
@@ -18,9 +18,10 @@ const TextInput = (props) => {
 
   const renderInputables = () => (
     <Label className="mt-4">
-      <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span>
+      <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span><br></br>
+      {subtitle && <><HelperText className="text-gray-500">{subtitle}</HelperText></>}
       <Input className="mt-1" name={name} {...otherProps}
-      {...register(name, rules)} />
+        {...register(name, rules)} />
       {errors[name] && <HelperText valid={false}>{ErrorMessage[errors[name].type]
       || errors[name].message}</HelperText>}
     </Label>

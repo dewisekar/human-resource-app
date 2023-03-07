@@ -34,6 +34,11 @@ const PATH = {
     DIVISION_LIST: '/division',
     DEPARTEMENT_LIST: '/department',
   },
+  TaskManagement: {
+    STAFF: '/task-management',
+    ADD: '/task-management/add',
+    SUPERVISOR: '/task-management/supervisor',
+  },
 };
 
 export default PATH;

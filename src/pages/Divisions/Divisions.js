@@ -151,30 +151,30 @@ const Divisions = () => {
   }, [filterText, resetPaginationToggle]);
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.LIGHT_BLUE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.LIGHT_BLUE} size={30} />
+    </div>
   );
 
   const renderForm = () => <form><TextInput {...useFormConfig}/></form>;
 
   const renderCard = () => (
-      <Card className="mb-8 shadow-md data-table">
-        <CardBody>
-          <Button onClick={onClickAddDivision} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
-            <PlusCircleIcon className='w-4 h-4 mr-1'/>Add Division
-          </Button>
-          <DataTable
-            columns={columns}
-            data={filteredItems}
-            pagination
-            subHeader
-            subHeaderComponent={subHeaderComponent}
-            defaultSortFieldId={1}
-            dense
-          />
-        </CardBody>
-      </Card>
+    <Card className="mb-8 shadow-md data-table">
+      <CardBody>
+        <Button onClick={onClickAddDivision} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE, width: '100%' }}>
+          <PlusCircleIcon className='w-4 h-4 mr-1'/>Add Division
+        </Button>
+        <DataTable
+          columns={columns}
+          data={filteredItems}
+          pagination
+          subHeader
+          subHeaderComponent={subHeaderComponent}
+          defaultSortFieldId={1}
+          dense
+        />
+      </CardBody>
+    </Card>
   );
 
   return (

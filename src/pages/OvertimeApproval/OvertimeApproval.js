@@ -135,25 +135,25 @@ const OvertimeApproval = () => {
   };
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.BLUE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.BLUE} size={30} />
+    </div>
   );
 
   const renderRequestDetail = () => (
     <>
-        {disabledFormOptions.map(
-          (option) => renderFormField(option, overtimeData[option.name]),
-        )}
-        <Label className="mt-4">
-            <span>Proof</span>
-        </Label>
-        <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.BLUE }} onClick={onDownloadProof}>
-          <DownloadIcon className='w-4 h-4 mr-3'/>Download
-        </Button>
-        {requestNoteFields.map(
-          (option) => renderFormField(option, overtimeData[option.name]),
-        )}
+      {disabledFormOptions.map(
+        (option) => renderFormField(option, overtimeData[option.name]),
+      )}
+      <Label className="mt-4">
+        <span>Proof</span>
+      </Label>
+      <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.BLUE }} onClick={onDownloadProof}>
+        <DownloadIcon className='w-4 h-4 mr-3'/>Download
+      </Button>
+      {requestNoteFields.map(
+        (option) => renderFormField(option, overtimeData[option.name]),
+      )}
     </>
   );
 
@@ -168,30 +168,30 @@ const OvertimeApproval = () => {
   );
 
   const renderApprovalDetail = () => (
-      <>
-        {approvalInfoOptions.map(
-          (option) => renderFormField(option, overtimeData[option.name]),
-        )}
-      </>
+    <>
+      {approvalInfoOptions.map(
+        (option) => renderFormField(option, overtimeData[option.name]),
+      )}
+    </>
   );
 
   const renderInfo = () => (
-      <>
-        {renderRequestDetail()}
-        {overtimeData.status === RequestStatus.PENDING
-          ? renderApprovalInput() : renderApprovalDetail()}
-        <div className='mt-5 flex justify-end'>
-          <Button tag={Link} to={PATH.Overtime.LIST_SUPERVISOR} layout="outline" className="mr-1">
+    <>
+      {renderRequestDetail()}
+      {overtimeData.status === RequestStatus.PENDING
+        ? renderApprovalInput() : renderApprovalDetail()}
+      <div className='mt-5 flex justify-end'>
+        <Button tag={Link} to={PATH.Overtime.LIST_SUPERVISOR} layout="outline" className="mr-1">
             Back
-          </Button>
-          <Button className="mr-1" style={{ backgroundColor: COLOR.GREEN }} onClick={handleSubmit(handleApprove)} disabled={isDisabled}>
+        </Button>
+        <Button className="mr-1" style={{ backgroundColor: COLOR.GREEN }} onClick={handleSubmit(handleApprove)} disabled={isDisabled}>
             Approve
-          </Button>
-          <Button style={{ backgroundColor: 'red' }} onClick={handleSubmit(handleReject)} disabled={isDisabled}>
+        </Button>
+        <Button style={{ backgroundColor: 'red' }} onClick={handleSubmit(handleReject)} disabled={isDisabled}>
             Reject
-          </Button>
-        </div>
-      </>
+        </Button>
+      </div>
+    </>
   );
 
   const renderCard = () => (
@@ -205,7 +205,7 @@ const OvertimeApproval = () => {
   const renderPage = () => (
     <>
       <div className="mt-8">
-          <SectionTitle>Overtime Approval</SectionTitle>
+        <SectionTitle>Overtime Approval</SectionTitle>
       </div>
       {isLoading ? renderSpinner() : renderCard()}
       {isConfirmModalShown && <ConfirmationModal message={alertMessage}

@@ -8,22 +8,22 @@ import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import constants from '../../constants';
 import utils from '../../utils';
-import config from './OvertimeList.config';
+import config from './StaffTaskManagement.config';
 import * as Icons from '../../icons';
 
-const { DocumentIcon } = Icons;
+const { PlusCircleIcon, DocumentIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest } = utils;
 const { columns } = config;
 
-const OvertimeList = () => {
+const StaffTaskManagement = () => {
   const [overtimeData, setOvertimeData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   const renderActionButton = (overtimeId) => (
-    <Button tag={Link} to={`${PATH.Overtime.DETAIL}?id=${overtimeId}`} size="small" style={{ backgroundColor: COLOR.BLUE }}>
+    <Button tag={Link} to={`${PATH.Overtime.DETAIL}?id=${overtimeId}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
       <DocumentIcon className='w-4 h-4 mr-1'/>Detail
     </Button>
   );
@@ -44,7 +44,7 @@ const OvertimeList = () => {
           endTime,
           startTime,
           overtimeDate: newOvertimeDate.toLocaleDateString('id-ID'),
-          action,
+          // action,
           hours: hours.toString(),
         };
       });
@@ -77,7 +77,7 @@ const OvertimeList = () => {
         onFilter={(e) => setFilterText(e.target.value)}
         onClear={handleClear}
         filterText={filterText}
-        buttonColor={COLOR.BLUE}
+        buttonColor={COLOR.SALMON}
         size="100%"
       />
     );
@@ -85,10 +85,26 @@ const OvertimeList = () => {
 
   const renderSpinner = () => (
     <div className='grid' style={{ justifyContent: 'center' }}>
-      <MoonLoader color={COLOR.BLUE} size={30} />
+      <MoonLoader color={COLOR.SALMON} size={30} />
     </div>
   );
 
+  const renderTodaysTasks = () => (
+    <Card className="mb-8 shadow-md data-table">
+      <CardBody className="bg-orange-200 pb-2 pt-2">
+        <p className="font-semibold text-gray-600 text-center" style={{ fontSize: '14px' }}>TODAY&apos;S TASKS </p>
+      </CardBody>
+      <CardBody>
+        <DataTable
+          columns={columns}
+          data={filteredItems}
+          defaultSortFieldId={5}
+          defaultSortAsc={false}
+          expandableRows
+        />
+      </CardBody>
+    </Card>
+  );
   const renderCard = () => (
     <Card className="mb-8 shadow-md data-table">
       <CardBody>
@@ -105,14 +121,24 @@ const OvertimeList = () => {
     </Card>
   );
 
+  const renderContent = () => (
+    <>
+      <Button tag={Link} layout="outline" to={PATH.TaskManagement.ADD} size="small" className="mb-5 border-orange-300 hover:border-gray-200 font-semibold" style={{ width: '100%', padding: '7px' }}>
+        <PlusCircleIcon className='w-4 h-4 mr-1'/>Add Task
+      </Button>
+      {renderTodaysTasks()}
+      {renderCard()}
+    </>
+  );
+
   return (
     <>
       <div className="mt-8">
-        <SectionTitle>Overtime History</SectionTitle>
+        <SectionTitle>Task Management</SectionTitle>
       </div>
-      {isLoading ? renderSpinner() : renderCard()}
+      {isLoading ? renderSpinner() : renderContent()}
     </>
   );
 };
 
-export default OvertimeList;
+export default StaffTaskManagement;
