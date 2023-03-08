@@ -1,3 +1,7 @@
+import utils from '../../utils';
+
+const { statusBadgeSort } = utils;
+
 const columns = [
   {
     name: 'Name',
@@ -13,6 +17,7 @@ const columns = [
     name: 'Status',
     selector: (row) => row.status,
     sortable: true,
+    sortFunction: statusBadgeSort,
   },
   {
     name: 'Reimbursement Type',

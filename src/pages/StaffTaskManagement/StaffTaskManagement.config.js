@@ -1,38 +1,40 @@
+import utils from '../../utils';
+
+const { statusBadgeSort } = utils;
+
 const columns = [
   {
-    name: 'Overtime Date',
-    selector: (row) => row.overtimeDate,
+    name: 'Task',
+    selector: (row) => row.name,
     sortable: true,
   },
   {
-    name: 'Start Time',
-    selector: (row) => row.startTime,
+    name: 'Start Date',
+    selector: (row) => row.startDate,
     sortable: true,
   },
   {
-    name: 'End Time',
-    selector: (row) => row.endTime,
+    name: 'Deadline',
+    selector: (row) => row.endDate,
     sortable: true,
   },
   {
-    name: 'Hours',
-    selector: (row) => row.hours,
-    sortable: true,
-  },
-  {
-    name: 'Request Date',
-    selector: (row) => row.createdAt,
+    name: 'Priority',
+    selector: (row) => row.priority,
     sortable: true,
   },
   {
     name: 'Status',
     selector: (row) => row.status,
     sortable: true,
-  },
-  {
-    name: 'Action',
-    selector: (row) => row.action,
+    sortFunction: statusBadgeSort,
   },
 ];
 
-export default { columns };
+const StatusEnum = {
+  'Not Started': 'danger',
+  'On Progress': 'warning',
+  Done: 'success',
+};
+
+export default { columns, StatusEnum };

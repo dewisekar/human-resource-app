@@ -55,4 +55,6 @@ const dateOptions = {
   day: 'numeric',
 };
 
-export default { requestFields, approvalFields, dateOptions };
+export default {
+  requestFields, approvalFields, dateOptions,
+};

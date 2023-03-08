@@ -83,6 +83,19 @@ const TaskPriorityOptions = [
   { label: 'HIGH', value: 'HIGH' },
 ];
 
+const LongDateOptions = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+};
+
+const RequestStatusBadgeEnum = {
+  PENDING: 'primary',
+  APPROVED: 'success',
+  REJECTED: 'danger',
+};
+
 export default {
   URL,
   Accessibility,
@@ -101,4 +114,6 @@ export default {
   GenderOptions,
   TaskTypeOptions,
   TaskPriorityOptions,
+  LongDateOptions,
+  RequestStatusBadgeEnum,
 };

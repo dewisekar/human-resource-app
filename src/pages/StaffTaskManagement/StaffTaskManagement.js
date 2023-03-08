@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
+import TableBadge from '../../components/TableBadge/TableBadge';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './StaffTaskManagement.config';
@@ -14,10 +15,10 @@ import * as Icons from '../../icons';
 const { PlusCircleIcon, DocumentIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest } = utils;
-const { columns } = config;
+const { columns, StatusEnum } = config;
 
 const StaffTaskManagement = () => {
-  const [overtimeData, setOvertimeData] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -30,39 +31,37 @@ const StaffTaskManagement = () => {
 
   useEffect(() => {
     const init = async () => {
-      const fetchedData = await getRequest(URL.Overtime.OVERTIME_URL);
+      const fetchedData = await getRequest(URL.TaskManagement.TASK);
+      console.log(fetchedData);
       const mappedData = fetchedData.map((item) => {
-        const {
-          id, createdAt, endTime, startTime, status, overtimeDate, hours,
-        } = item;
-        const newDate = new Date(createdAt);
-        const newOvertimeDate = new Date(overtimeDate);
-        const action = renderActionButton(id);
+        const { startDate, endDate, status } = item;
+        // const newDate = new Date(createdAt);
+        // const newOvertimeDate = new Date(overtimeDate);
+        // const action = renderActionButton(id);
         return {
-          status,
-          createdAt: newDate.toLocaleDateString('id-ID'),
-          endTime,
-          startTime,
-          overtimeDate: newOvertimeDate.toLocaleDateString('id-ID'),
-          // action,
-          hours: hours.toString(),
+          ...item,
+          startDate: new Date(startDate).toLocaleDateString('id-ID'),
+          endDate: new Date(endDate).toLocaleDateString('id-ID'),
+          status: <TableBadge enumType={StatusEnum} content={status}/>,
+          realStatus: status,
         };
       });
 
-      setOvertimeData(mappedData);
+      setTasks(mappedData);
       setIsLoading(false);
     };
 
     init();
   }, []);
 
-  const filteredItems = overtimeData.filter(
-    (item) => {
-      const { action, ...otherItem } = item;
-      return Object.keys(otherItem).some((key) => otherItem[key]
-        .toLowerCase().includes(filterText.toLowerCase()));
-    },
-  );
+  // const filteredItems = tasks.filter(
+  //   (item) => {
+  //     const { action, ...otherItem } = item;
+  //     return Object.keys(otherItem).some((key) => otherItem[key]
+  //       .toLowerCase().includes(filterText.toLowerCase()));
+  //   },
+  // );
+  const filteredItems = tasks;
 
   const subHeaderComponent = useMemo(() => {
     const handleClear = () => {

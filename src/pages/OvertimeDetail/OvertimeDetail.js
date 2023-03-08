@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Card, CardBody, Button, Badge,
-} from '@windmill/react-ui';
+import { Card, CardBody, Button } from '@windmill/react-ui';
 import MoonLoader from 'react-spinners/MoonLoader';
 import {
   Link, useLocation, Redirect, useHistory,
@@ -9,6 +7,7 @@ import {
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import VerticalTable from '../../components/VerticalTable/VerticalTable';
+import TableBadge from '../../components/TableBadge/TableBadge';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './OvertimeDetail.config';
@@ -17,10 +16,12 @@ import { baseUrl } from '../../config';
 
 const { DownloadIcon } = Icons;
 const {
-  COLOR, URL, PATH, Accessibility,
+  COLOR, URL, PATH, Accessibility, RequestStatusBadgeEnum,
 } = constants;
 const { getRequest, checkPageIdIsValid, getRole } = utils;
-const { requestFields, approvalFields, dateOptions } = config;
+const {
+  requestFields, approvalFields, dateOptions,
+} = config;
 
 const OvertimeDetail = () => {
   const location = useLocation();
@@ -34,16 +35,6 @@ const OvertimeDetail = () => {
   const roles = getRole();
   const isAdmin = roles.includes(Accessibility.ADMIN);
   const backUrl = isAdmin ? PATH.Overtime.SUMMARY : PATH.Overtime.LIST_REQUEST;
-
-  const renderStatusBadge = (status) => {
-    const Status = {
-      PENDING: 'primary',
-      APPROVED: 'success',
-      REJECTED: 'danger',
-    };
-
-    return <Badge type={Status[status]} className="px-10 py-1" style={{ fontSize: '14px' }}>{status}</Badge>;
-  };
 
   const onDownload = () => {
     window.location.href = urlDownload;
@@ -61,7 +52,7 @@ const OvertimeDetail = () => {
     const convertedProof = <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.BLUE }} onClick={onDownload}>
       <DownloadIcon className='w-4 h-4 mr-3'/>Download
     </Button>;
-    const convertedStatus = renderStatusBadge(status);
+    const convertedStatus = <TableBadge enumType={RequestStatusBadgeEnum} content={status} additionalClass="px-10"/>;
 
     return {
       createdAt: convertedCreatedAt,

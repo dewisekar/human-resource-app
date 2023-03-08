@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Card, CardBody, Button, Badge,
-} from '@windmill/react-ui';
+import { Card, CardBody, Button } from '@windmill/react-ui';
 import MoonLoader from 'react-spinners/MoonLoader';
 import {
   Link, useLocation, Redirect, useHistory,
@@ -10,6 +8,7 @@ import {
 import SectionTitle from '../../components/Typography/SectionTitle';
 import VerticalTable from '../../components/VerticalTable/VerticalTable';
 import RupiahCurrency from '../../components/RupiahCurrency/RupiahCurrency';
+import TableBadge from '../../components/TableBadge/TableBadge';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './ReimbursementDetail.config';
@@ -17,9 +16,13 @@ import * as Icons from '../../icons';
 import { baseUrl } from '../../config';
 
 const { DownloadIcon } = Icons;
-const { COLOR, URL, PATH } = constants;
+const {
+  COLOR, URL, PATH, RequestStatusBadgeEnum,
+} = constants;
 const { getRequest, checkPageIdIsValid } = utils;
-const { requestFields, approvalFields, dateOptions } = config;
+const {
+  requestFields, approvalFields, dateOptions,
+} = config;
 
 const ReimbursementDetail = () => {
   const location = useLocation();
@@ -30,16 +33,6 @@ const ReimbursementDetail = () => {
   const [reimbursementData, setReimbursementData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const urlDownload = baseUrl + URL.Reimbursement.DOWNLOAD_PROOF_URL + id;
-
-  const renderStatusBadge = (status) => {
-    const Status = {
-      PENDING: 'primary',
-      APPROVED: 'success',
-      REJECTED: 'danger',
-    };
-
-    return <Badge type={Status[status]} className="px-10 py-1" style={{ fontSize: '14px' }}>{status}</Badge>;
-  };
 
   const onDownload = () => {
     window.location.href = urlDownload;
@@ -59,7 +52,7 @@ const ReimbursementDetail = () => {
     const convertedProof = <Button block size="small" style={{ width: '143px', backgroundColor: COLOR.LIGHT_PURPLE }} onClick={onDownload}>
       <DownloadIcon className='w-4 h-4 mr-3'/>Download
     </Button>;
-    const convertedStatus = renderStatusBadge(status);
+    const convertedStatus = <TableBadge enumType={RequestStatusBadgeEnum} content={status} additionalClass="px-10"/>;
 
     return {
       createdAt: convertedCreatedAt,

@@ -40,6 +40,9 @@ const URL = {
     DIVISION_URL: '/organization/division/',
     DEPARTMENT_URL: '/organization/department/',
   },
+  TaskManagement: {
+    TASK: '/task',
+  },
 };
 
 export default URL;

@@ -39,7 +39,6 @@ const OvertimeRequest = () => {
   const closeModalHandler = (modal) => setIsModalShown({ ...isModalShown, [modal]: false });
 
   const onSubmit = async (data) => {
-    console.log(data);
     const {
       supportingDocument, startTime, endTime, overtimeDate,
     } = data;
@@ -84,14 +83,14 @@ const OvertimeRequest = () => {
 
   const renderForm = () => (
     <>
-        <form onSubmit={handleSubmit(onSubmit)} >
-          {formOptions.map((option) => renderFormField(option))}
-          {!isSubmitting ? <Button className="mt-5" style={{ backgroundColor: COLOR.BLUE, width: '100%' }}
-            type="submit">Submit</Button>
-            : <div className='grid' style={{ justifyContent: 'center' }}>
+      <form onSubmit={handleSubmit(onSubmit)} >
+        {formOptions.map((option) => renderFormField(option))}
+        {!isSubmitting ? <Button className="mt-5" style={{ backgroundColor: COLOR.BLUE, width: '100%' }}
+          type="submit">Submit</Button>
+          : <div className='grid' style={{ justifyContent: 'center' }}>
             <MoonLoader color={COLOR.BLUE} size={30} />
           </div>}
-        </form>
+      </form>
     </>
   );
 
@@ -100,8 +99,8 @@ const OvertimeRequest = () => {
       <PageTitle>Overtime</PageTitle>
       <Card className="mb-8 shadow-md">
         <CardBody>
-            <SectionTitle>Add New Request</SectionTitle>
-            {renderForm()}
+          <SectionTitle>Add New Request</SectionTitle>
+          {renderForm()}
         </CardBody>
       </Card>
       {isModalShown[Modals.SESSION] && <SessionExpiredModal history={history}/>}

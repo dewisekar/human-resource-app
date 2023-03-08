@@ -13,4 +13,13 @@ const amountSort = (firstRow, secondRow) => {
   return 0;
 };
 
-export default { amountSort };
+const statusBadgeSort = (firstRow, secondRow) => {
+  const firstString = firstRow.realStatus;
+  const secondString = secondRow.realStatus;
+
+  if (firstString > secondString) { return 1; }
+  if (firstString > secondString) { return -1; }
+  return 0;
+};
+
+export default { amountSort, statusBadgeSort };

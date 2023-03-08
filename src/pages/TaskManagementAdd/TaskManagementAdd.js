@@ -19,7 +19,7 @@ const { submitRequest } = handlers;
 
 const TaskManagementAdd = () => {
   const {
-    register, handleSubmit, formState: { errors }, control, setError, reset,
+    register, handleSubmit, formState: { errors }, control, reset,
   } = useForm();
   const { formOptions, Modals } = config;
   const history = useHistory();
@@ -38,12 +38,15 @@ const TaskManagementAdd = () => {
   const closeModalHandler = (modal) => setIsModalShown({ ...isModalShown, [modal]: false });
 
   const onSubmit = async (data) => {
-    console.log(data);
-    // setIsSubmitting(true);
-    // await submitRequest(payload, submitHandler);
-    // setIsSubmitting(false);
+    const submitHandler = { openModalHandler, setAlertMessage, setAlertModalType };
+    const { type, priority } = data;
+    const payload = { ...data, type: type.value, priority: priority.value };
 
-    // reset();
+    setIsSubmitting(true);
+    await submitRequest(payload, submitHandler);
+    setIsSubmitting(false);
+
+    reset();
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;
