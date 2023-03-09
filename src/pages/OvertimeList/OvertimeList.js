@@ -6,13 +6,16 @@ import { Link } from 'react-router-dom';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
+import TableBadge from '../../components/TableBadge/TableBadge';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './OvertimeList.config';
 import * as Icons from '../../icons';
 
 const { DocumentIcon } = Icons;
-const { COLOR, URL, PATH } = constants;
+const {
+  COLOR, URL, PATH, RequestStatusBadgeEnum,
+} = constants;
 const { getRequest } = utils;
 const { columns } = config;
 
@@ -39,12 +42,13 @@ const OvertimeList = () => {
         const newOvertimeDate = new Date(overtimeDate);
         const action = renderActionButton(id);
         return {
-          status,
+          status: <TableBadge enumType={RequestStatusBadgeEnum} content={status}/>,
           createdAt: newDate.toLocaleDateString('id-ID'),
           endTime,
           startTime,
           overtimeDate: newOvertimeDate.toLocaleDateString('id-ID'),
           action,
+          realStatus: status,
           hours: hours.toString(),
         };
       });
@@ -58,7 +62,7 @@ const OvertimeList = () => {
 
   const filteredItems = overtimeData.filter(
     (item) => {
-      const { action, ...otherItem } = item;
+      const { action, status, ...otherItem } = item;
       return Object.keys(otherItem).some((key) => otherItem[key]
         .toLowerCase().includes(filterText.toLowerCase()));
     },

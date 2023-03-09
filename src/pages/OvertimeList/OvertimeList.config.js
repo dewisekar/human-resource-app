@@ -1,3 +1,7 @@
+import utils from '../../utils';
+
+const { statusBadgeSort } = utils;
+
 const columns = [
   {
     name: 'Overtime Date',
@@ -28,6 +32,7 @@ const columns = [
     name: 'Status',
     selector: (row) => row.status,
     sortable: true,
+    sortFunction: statusBadgeSort,
   },
   {
     name: 'Action',

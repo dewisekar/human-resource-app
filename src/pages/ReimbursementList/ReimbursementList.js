@@ -59,7 +59,7 @@ const ReimbursementList = () => {
 
   const filteredItems = reimbursementData.filter(
     (item) => {
-      const { action, ...otherItem } = item;
+      const { action, status, ...otherItem } = item;
       return Object.keys(otherItem).some((key) => otherItem[key]
         .toLowerCase().includes(filterText.toLowerCase()));
     },

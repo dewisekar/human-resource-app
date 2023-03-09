@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import TableBadge from '../../components/TableBadge/TableBadge';
+import TaskDetail from '../../components/TaskDetail/TaskDetail';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './StaffTaskManagement.config';
@@ -14,11 +15,12 @@ import * as Icons from '../../icons';
 
 const { PlusCircleIcon, DocumentIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest } = utils;
+const { getRequest, isBetweenTwoDates } = utils;
 const { columns, StatusEnum } = config;
 
 const StaffTaskManagement = () => {
   const [tasks, setTasks] = useState([]);
+  const [todaysTasks, setTodaysTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -32,27 +34,34 @@ const StaffTaskManagement = () => {
   useEffect(() => {
     const init = async () => {
       const fetchedData = await getRequest(URL.TaskManagement.TASK);
-      console.log(fetchedData);
       const mappedData = fetchedData.map((item) => {
         const { startDate, endDate, status } = item;
-        // const newDate = new Date(createdAt);
-        // const newOvertimeDate = new Date(overtimeDate);
-        // const action = renderActionButton(id);
         return {
           ...item,
+          realStartDate: startDate,
+          realEndDate: endDate,
           startDate: new Date(startDate).toLocaleDateString('id-ID'),
           endDate: new Date(endDate).toLocaleDateString('id-ID'),
           status: <TableBadge enumType={StatusEnum} content={status}/>,
           realStatus: status,
         };
       });
+      const filteredTodayTasks = mappedData.filter((item) => {
+        const { realStartDate, realEndDate } = item;
+        return isBetweenTwoDates(realStartDate, realEndDate);
+      });
 
+      setTodaysTasks(filteredTodayTasks);
       setTasks(mappedData);
       setIsLoading(false);
     };
 
     init();
   }, []);
+
+  const updateTaskStatus = (data) => {
+    console.log('ini berubah', data);
+  };
 
   // const filteredItems = tasks.filter(
   //   (item) => {
@@ -100,6 +109,8 @@ const StaffTaskManagement = () => {
           defaultSortFieldId={5}
           defaultSortAsc={false}
           expandableRows
+          expandableRowsComponent={TaskDetail}
+          expandableRowsComponentProps={{ onStatusChange: updateTaskStatus } }
         />
       </CardBody>
     </Card>
