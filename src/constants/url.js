@@ -41,7 +41,7 @@ const URL = {
     DEPARTMENT_URL: '/organization/department/',
   },
   TaskManagement: {
-    TASK: '/task',
+    TASK: '/task/',
   },
 };
 

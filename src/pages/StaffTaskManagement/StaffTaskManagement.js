@@ -2,21 +2,26 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Card, CardBody, Button } from '@windmill/react-ui';
 import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import TableBadge from '../../components/TableBadge/TableBadge';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
+import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
+import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
+import AlertModal from '../../components/AlertModal/AlertModal';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './StaffTaskManagement.config';
 import * as Icons from '../../icons';
+import handlers from './StaffTaskManagement.handlers';
 
 const { PlusCircleIcon, DocumentIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest, isBetweenTwoDates } = utils;
 const { columns, StatusEnum } = config;
+const { updateStatusHandler } = handlers;
 
 const StaffTaskManagement = () => {
   const [tasks, setTasks] = useState([]);
@@ -24,6 +29,13 @@ const StaffTaskManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const [isConfirmationModalShown, setIsConfirmationModalShown] = useState(false);
+  const [isSessionExpired, setIsSessionExpired] = useState(false);
+  const [isAlertShown, setIsAlertShown] = useState(false);
+  const [taskToBeUpdated, setTaskToBeUpdated] = useState({});
+  const [alertMessage, setAlertMessage] = useState(null);
+  const history = useHistory();
+  const confirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
 
   const renderActionButton = (overtimeId) => (
     <Button tag={Link} to={`${PATH.Overtime.DETAIL}?id=${overtimeId}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
@@ -60,7 +72,25 @@ const StaffTaskManagement = () => {
   }, []);
 
   const updateTaskStatus = (data) => {
-    console.log('ini berubah', data);
+    setTaskToBeUpdated(data);
+    setIsConfirmationModalShown(true);
+  };
+
+  const onCancelUpdateTaskStatus = () => {
+    setTaskToBeUpdated({});
+    setIsConfirmationModalShown(false);
+  };
+
+  const reloadPage = () => window.location.reload();
+
+  const onHandleUpdateTaskStatus = async () => {
+    const updateHandlers = {
+      setIsSessionExpired,
+      showAlert: () => setIsAlertShown(true),
+      setAlertMessage,
+      reloadPage,
+    };
+    await updateStatusHandler(taskToBeUpdated, updateHandlers);
   };
 
   // const filteredItems = tasks.filter(
@@ -105,16 +135,17 @@ const StaffTaskManagement = () => {
       <CardBody>
         <DataTable
           columns={columns}
-          data={filteredItems}
-          defaultSortFieldId={5}
-          defaultSortAsc={false}
+          data={todaysTasks}
           expandableRows
+          defaultSortFieldId={3}
+          defaultSortAsc={false}
           expandableRowsComponent={TaskDetail}
           expandableRowsComponentProps={{ onStatusChange: updateTaskStatus } }
         />
       </CardBody>
     </Card>
   );
+
   const renderCard = () => (
     <Card className="mb-8 shadow-md data-table">
       <CardBody>
@@ -124,8 +155,9 @@ const StaffTaskManagement = () => {
           pagination
           subHeader
           subHeaderComponent={subHeaderComponent}
-          defaultSortFieldId={5}
-          defaultSortAsc={false}
+          expandableRows
+          expandableRowsComponent={TaskDetail}
+          expandableRowsComponentProps={{ onStatusChange: updateTaskStatus } }
         />
       </CardBody>
     </Card>
@@ -147,6 +179,11 @@ const StaffTaskManagement = () => {
         <SectionTitle>Task Management</SectionTitle>
       </div>
       {isLoading ? renderSpinner() : renderContent()}
+      {isConfirmationModalShown && <ConfirmationModal message={confirmationMessage}
+        onClose={onCancelUpdateTaskStatus} onConfirm={onHandleUpdateTaskStatus}/>}
+      {isSessionExpired && <SessionExpiredModal history={history}/>}
+      {isAlertShown
+        && <AlertModal message={alertMessage} onClose={() => setIsAlertShown(false)}/>}
     </>
   );
 };
