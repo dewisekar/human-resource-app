@@ -97,14 +97,18 @@ const StaffTaskManagement = () => {
     await updateStatusHandler(taskToBeUpdated, updateHandlers);
   };
 
-  // const filteredItems = tasks.filter(
-  //   (item) => {
-  //     const { action, ...otherItem } = item;
-  //     return Object.keys(otherItem).some((key) => otherItem[key]
-  //       .toLowerCase().includes(filterText.toLowerCase()));
-  //   },
-  // );
-  const filteredItems = tasks;
+  const filteredItems = tasks.filter(
+    (item) => {
+      const {
+        realStatus, startDate, endDate, name, priority,
+      } = item;
+      const searchableFileds = {
+        realStatus, startDate, endDate, name, priority,
+      };
+      return Object.keys(searchableFileds).some((key) => searchableFileds[key]
+        .toLowerCase().includes(filterText.toLowerCase()));
+    },
+  );
 
   const subHeaderComponent = useMemo(() => {
     const handleClear = () => {
