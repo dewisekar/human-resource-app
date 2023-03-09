@@ -29,6 +29,10 @@ const columns = [
     sortable: true,
     sortFunction: statusBadgeSort,
   },
+  {
+    name: 'Action',
+    selector: (row) => row.action,
+  },
 ];
 
 const StatusEnum = {

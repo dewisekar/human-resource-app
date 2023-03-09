@@ -17,7 +17,7 @@ import config from './StaffTaskManagement.config';
 import * as Icons from '../../icons';
 import handlers from './StaffTaskManagement.handlers';
 
-const { PlusCircleIcon, DocumentIcon } = Icons;
+const { PlusCircleIcon, EditIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest, isBetweenTwoDates } = utils;
 const { columns, StatusEnum } = config;
@@ -37,9 +37,9 @@ const StaffTaskManagement = () => {
   const history = useHistory();
   const confirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
 
-  const renderActionButton = (overtimeId) => (
-    <Button tag={Link} to={`${PATH.Overtime.DETAIL}?id=${overtimeId}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
-      <DocumentIcon className='w-4 h-4 mr-1'/>Detail
+  const renderActionButton = (id) => (
+    <Button tag={Link} to={`${PATH.TaskManagement.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
+      <EditIcon className='w-4 h-4 mr-1'/>Edit
     </Button>
   );
 
@@ -47,7 +47,9 @@ const StaffTaskManagement = () => {
     const init = async () => {
       const fetchedData = await getRequest(URL.TaskManagement.TASK);
       const mappedData = fetchedData.map((item) => {
-        const { startDate, endDate, status } = item;
+        const {
+          startDate, endDate, status, id,
+        } = item;
         return {
           ...item,
           realStartDate: startDate,
@@ -56,11 +58,12 @@ const StaffTaskManagement = () => {
           endDate: new Date(endDate).toLocaleDateString('id-ID'),
           status: <TableBadge enumType={StatusEnum} content={status}/>,
           realStatus: status,
+          action: renderActionButton(id),
         };
       });
       const filteredTodayTasks = mappedData.filter((item) => {
-        const { realStartDate, realEndDate } = item;
-        return isBetweenTwoDates(realStartDate, realEndDate);
+        const { realStartDate, realEndDate, realStatus } = item;
+        return isBetweenTwoDates(realStartDate, realEndDate) && realStatus !== 'Done';
       });
 
       setTodaysTasks(filteredTodayTasks);
@@ -84,6 +87,7 @@ const StaffTaskManagement = () => {
   const reloadPage = () => window.location.reload();
 
   const onHandleUpdateTaskStatus = async () => {
+    setIsConfirmationModalShown(false);
     const updateHandlers = {
       setIsSessionExpired,
       showAlert: () => setIsAlertShown(true),
@@ -149,6 +153,7 @@ const StaffTaskManagement = () => {
   const renderCard = () => (
     <Card className="mb-8 shadow-md data-table">
       <CardBody>
+        <p className="font-semibold text-gray-600 text-center" style={{ fontSize: '14px' }}>ALL TASK </p>
         <DataTable
           columns={columns}
           data={filteredItems}

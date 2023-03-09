@@ -38,6 +38,7 @@ const PATH = {
     STAFF: '/task-management',
     ADD: '/task-management/add',
     SUPERVISOR: '/task-management/supervisor',
+    EDIT: '/task-management/edit/',
   },
 };
 
