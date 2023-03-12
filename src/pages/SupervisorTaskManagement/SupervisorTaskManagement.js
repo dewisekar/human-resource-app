@@ -35,7 +35,7 @@ const SupervisorTaskManagement = () => {
   const [taskToBeUpdated, setTaskToBeUpdated] = useState({});
   const [alertMessage, setAlertMessage] = useState(null);
   const [employees, setEmployees] = useState([]);
-  const [chosenEmployee, setChosenEmployee] = useState(null);
+  const [chosenEmployee, setChosenEmployee] = useState('');
   const history = useHistory();
   const confirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
 
