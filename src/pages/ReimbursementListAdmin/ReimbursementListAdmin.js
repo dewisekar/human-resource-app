@@ -6,13 +6,16 @@ import { Link } from 'react-router-dom';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
+import TableBadge from '../../components/TableBadge/TableBadge';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './ReimbursementListAdmin.config';
 import * as Icons from '../../icons';
 
 const { SearchIcon } = Icons;
-const { COLOR, URL, PATH } = constants;
+const {
+  COLOR, URL, PATH, RequestStatusBadgeEnum,
+} = constants;
 const { getRequest } = utils;
 const { columns } = config;
 
@@ -39,7 +42,8 @@ const ReimbursementListAdmin = () => {
         const action = renderActionButton(id);
         return {
           name,
-          status,
+          status: <TableBadge enumType={RequestStatusBadgeEnum} content={status}/>,
+          realStatus: status,
           action,
           createdAt: newDate.toLocaleDateString('id-ID'),
           requesterName,
@@ -56,7 +60,7 @@ const ReimbursementListAdmin = () => {
 
   const filteredItems = reimbursementData.filter(
     (item) => {
-      const { action, ...otherItem } = item;
+      const { action, status, ...otherItem } = item;
       return Object.keys(otherItem).some((key) => otherItem[key]
         .toLowerCase().includes(filterText.toLowerCase()));
     },

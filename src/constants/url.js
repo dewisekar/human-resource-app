@@ -8,6 +8,7 @@ const URL = {
     USE_DETAIL_URL: '/user/detail/',
     USER_LEVEL_ALL_URL: '/user/level/all',
     BANK_URL: '/user/bank/all',
+    USER_SUBORDINATE_URL: '/user/subordinate',
   },
   Reimbursement: {
     REIMBURSEMENT_URL: '/reimbursement',
@@ -42,6 +43,8 @@ const URL = {
   },
   TaskManagement: {
     TASK: '/task/',
+    DETAIL: '/task/detail/',
+    SUPERVISOR: '/task/supervisor',
   },
 };
 

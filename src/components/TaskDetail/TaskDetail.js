@@ -3,7 +3,7 @@ import Select from 'react-select';
 
 import TableBadge from '../TableBadge/TableBadge';
 
-const TaskDetail = ({ data, onStatusChange }) => {
+const TaskDetail = ({ data, onStatusChange, isUser = true }) => {
   const StatusEnum = {
     'Not Started': 'danger',
     'On Progress': 'warning',
@@ -61,7 +61,7 @@ const TaskDetail = ({ data, onStatusChange }) => {
             <p className="text-lg mb-1 font-semibold text-gray-400" style={{ fontSize: '11px' }}>Status</p>
             <TableBadge enumType={StatusEnum} content={realStatus}/>
           </div>
-          <div className='mt-2'>
+          {isUser && <div className='mt-2'>
             <p className="text-lg mb-1 font-semibold text-gray-400" style={{ fontSize: '11px' }}>Action</p>
             {isOnGoing && <Select
               defaultValue={{ value: realStatus, label: realStatus }}
@@ -81,7 +81,7 @@ const TaskDetail = ({ data, onStatusChange }) => {
                 }),
               }}/>}
 
-          </div>
+          </div>}
         </div>
       </div>
       <hr className='mt-5'></hr>

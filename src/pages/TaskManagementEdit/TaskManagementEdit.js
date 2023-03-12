@@ -41,7 +41,7 @@ const TaskManagementEdit = () => {
   useEffect(() => {
     const init = async () => {
       try {
-        const fetchedDetail = await getRequest(URL.TaskManagement.TASK + id);
+        const fetchedDetail = await getRequest(URL.TaskManagement.DETAIL + id);
         const convertedData = convertData(fetchedDetail);
         const { status: savedStatus, ...otherData } = convertedData;
 

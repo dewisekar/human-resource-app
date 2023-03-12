@@ -148,7 +148,17 @@ const sidebarRoutes = {
         },
       ],
     },
-
+    {
+      icon: 'CalendarIcon',
+      name: 'Task Management',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.TaskManagement.SUPERVISOR,
+          name: 'Your Team Tasks',
+        },
+      ],
+    },
   ],
   STAFF: [
     {

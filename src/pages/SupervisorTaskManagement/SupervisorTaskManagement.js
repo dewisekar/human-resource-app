@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Button } from '@windmill/react-ui';
 import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Collapse from 'rc-collapse';
+import Select from 'react-select';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
@@ -14,18 +14,16 @@ import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExp
 import AlertModal from '../../components/AlertModal/AlertModal';
 import constants from '../../constants';
 import utils from '../../utils';
-import config from './StaffTaskManagement.config';
-import * as Icons from '../../icons';
-import handlers from './StaffTaskManagement.handlers';
+import config from './SupervisorTaskManagement.config';
+import handlers from './SupervisorTaskManagement.handlers';
 
 const { Panel } = Collapse;
-const { PlusCircleIcon, EditIcon } = Icons;
-const { COLOR, URL, PATH } = constants;
-const { getRequest, isBetweenTwoDates } = utils;
+const { COLOR, URL } = constants;
+const { getRequest, isBetweenTwoDates, convertDataToSelectOptions } = utils;
 const { columns, StatusEnum } = config;
 const { updateStatusHandler } = handlers;
 
-const StaffTaskManagement = () => {
+const SupervisorTaskManagement = () => {
   const [tasks, setTasks] = useState([]);
   const [todaysTasks, setTodaysTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,40 +34,44 @@ const StaffTaskManagement = () => {
   const [isAlertShown, setIsAlertShown] = useState(false);
   const [taskToBeUpdated, setTaskToBeUpdated] = useState({});
   const [alertMessage, setAlertMessage] = useState(null);
+  const [employees, setEmployees] = useState([]);
+  const [chosenEmployee, setChosenEmployee] = useState(null);
   const history = useHistory();
   const confirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
 
-  const renderActionButton = (id) => (
-    <Button tag={Link} to={`${PATH.TaskManagement.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
-      <EditIcon className='w-4 h-4 mr-1'/>Edit
-    </Button>
-  );
-
   useEffect(() => {
     const init = async () => {
-      const fetchedData = await getRequest(URL.TaskManagement.TASK);
-      const mappedData = fetchedData.map((item) => {
+      const fetchedData = await getRequest(URL.TaskManagement.SUPERVISOR);
+      const fetchedSubordinates = await getRequest(URL.User.USER_SUBORDINATE_URL);
+      const fetchedSelfInfo = await getRequest(URL.User.USER_URL);
+      const { name: superiorName } = fetchedSelfInfo;
+      const convertedEmployeeOption = convertDataToSelectOptions(fetchedSubordinates, 'name', 'name');
+      const employeeOption = [...convertedEmployeeOption,
+        { label: superiorName, value: superiorName }];
+
+      const mappedTask = fetchedData.map((item) => {
         const {
-          startDate, endDate, status, id,
+          startDate, endDate, status, asignee: { name: asignee },
         } = item;
         return {
           ...item,
+          asignee,
           realStartDate: startDate,
           realEndDate: endDate,
           startDate: new Date(startDate).toLocaleDateString('id-ID'),
           endDate: new Date(endDate).toLocaleDateString('id-ID'),
           status: <TableBadge enumType={StatusEnum} content={status}/>,
           realStatus: status,
-          action: renderActionButton(id),
         };
       });
-      const filteredTodayTasks = mappedData.filter((item) => {
+      const filteredTodayTasks = mappedTask.filter((item) => {
         const { realStartDate, realEndDate, realStatus } = item;
         return isBetweenTwoDates(realStartDate, realEndDate) && realStatus !== 'Done';
       });
 
+      setEmployees(employeeOption);
       setTodaysTasks(filteredTodayTasks);
-      setTasks(mappedData);
+      setTasks(mappedTask);
       setIsLoading(false);
     };
 
@@ -107,8 +109,10 @@ const StaffTaskManagement = () => {
       const searchableFileds = {
         realStatus, startDate, endDate, name, priority,
       };
+
       return Object.keys(searchableFileds).some((key) => searchableFileds[key]
-        .toLowerCase().includes(filterText.toLowerCase()));
+        .toLowerCase().includes(filterText.toLowerCase()))
+        && item.asignee.toLowerCase().includes(chosenEmployee);
     },
   );
 
@@ -121,15 +125,23 @@ const StaffTaskManagement = () => {
     };
 
     return (
-      <DatatableFilter
-        onFilter={(e) => setFilterText(e.target.value)}
-        onClear={handleClear}
-        filterText={filterText}
-        buttonColor={COLOR.SALMON}
-        size="100%"
-      />
+      <div className="grid grid-cols-12 gap-2" style={{ width: '100% ' }}>
+        <div className="col-span-4">
+          <Select className='mt-5 mb-5' placeholder="Asignee..." isClearable options={employees}
+            onChange={(event) => setChosenEmployee(event ? event.value.toLowerCase() : '')}/>
+        </div>
+        <div className="col-span-8">
+          <DatatableFilter
+            onFilter={(e) => setFilterText(e.target.value)}
+            onClear={handleClear}
+            filterText={filterText}
+            buttonColor={COLOR.SALMON}
+            size="100%"
+          />
+        </div>
+      </div>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, employees]);
 
   const renderSpinner = () => (
     <div className='grid' style={{ justifyContent: 'center' }}>
@@ -145,41 +157,38 @@ const StaffTaskManagement = () => {
       defaultSortFieldId={3}
       defaultSortAsc={false}
       expandableRowsComponent={TaskDetail}
-      expandableRowsComponentProps={{ onStatusChange: updateTaskStatus } }
+      expandableRowsComponentProps={{ onStatusChange: updateTaskStatus, isUser: false } }
     />
   );
 
-  const renderCard = () => (
-    <DataTable
-      columns={columns}
-      data={filteredItems}
-      pagination
-      subHeader
-      subHeaderComponent={subHeaderComponent}
-      expandableRows
-      expandableRowsComponent={TaskDetail}
-      expandableRowsComponentProps={{ onStatusChange: updateTaskStatus } }
-    />
+  const renderAllTask = () => (
+    <>
+      <DataTable
+        columns={columns}
+        data={filteredItems}
+        pagination
+        subHeader
+        subHeaderComponent={subHeaderComponent}
+        expandableRows
+        expandableRowsComponent={TaskDetail}
+        expandableRowsComponentProps={{ onStatusChange: updateTaskStatus, isUser: false } }
+      />
+    </>
   );
 
   const renderContent = () => (
-    <>
-      <Button tag={Link} layout="outline" to={PATH.TaskManagement.ADD} size="small" className="mb-5 border-orange-300 hover:border-gray-200 font-semibold" style={{ width: '100%', padding: '7px' }}>
-        <PlusCircleIcon className='w-4 h-4 mr-1'/>Add Task
-      </Button>
-      <Collapse accordion={false}>
-        <Panel header="Today's Tasks" headerClass="my-header-class">
-          {renderTodaysTasks()}
-        </Panel>
-        <Panel header="All Tasks">{renderCard()}</Panel>
-      </Collapse>
-    </>
+    <Collapse accordion={false}>
+      <Panel header="Today's Tasks" headerClass="my-header-class">
+        {renderTodaysTasks()}
+      </Panel>
+      <Panel header="All Tasks">{renderAllTask()}</Panel>
+    </Collapse>
   );
 
   return (
     <>
       <div className="mt-8">
-        <SectionTitle>Task Management</SectionTitle>
+        <SectionTitle>Your Department Tasks</SectionTitle>
       </div>
       {isLoading ? renderSpinner() : renderContent()}
       {isConfirmationModalShown && <ConfirmationModal message={confirmationMessage}
@@ -191,4 +200,4 @@ const StaffTaskManagement = () => {
   );
 };
 
-export default StaffTaskManagement;
+export default SupervisorTaskManagement;

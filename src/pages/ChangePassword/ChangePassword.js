@@ -55,10 +55,10 @@ const ChangePassword = () => {
     <form onSubmit={handleSubmit(onSubmit)} >
       {formOptions.map((option) => renderTextInput(option))}
       {!isSubmitting ? <Button className="mt-5" style={{ width: '100%' }}
-      type="submit">Submit</Button>
+        type="submit">Submit</Button>
         : <div className='grid' style={{ justifyContent: 'center' }}>
-      <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
-      </div>}
+          <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
+        </div>}
     </form>
   );
 
@@ -67,10 +67,10 @@ const ChangePassword = () => {
       <PageTitle>Change Password</PageTitle>
       <Card className="mb-8 shadow-md">
         <CardBody>
-            {renderForm()}
-            {isModalShown[Modals.SESSION] && <SessionExpiredModal history={history}/>}
-            {isModalShown[Modals.ALERT] && <AlertModal message={alertMessage} type={alertType}
-              onClose={() => closeModal(Modals.ALERT)}/>}
+          {renderForm()}
+          {isModalShown[Modals.SESSION] && <SessionExpiredModal history={history}/>}
+          {isModalShown[Modals.ALERT] && <AlertModal message={alertMessage} type={alertType}
+            onClose={() => closeModal(Modals.ALERT)}/>}
         </CardBody>
       </Card>
     </>

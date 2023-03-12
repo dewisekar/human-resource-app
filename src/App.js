@@ -5,6 +5,8 @@ import {
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
 import './components/Datatable/Datatable.css';
 
+import('rc-collapse/assets/index.css');
+
 const Login = lazy(() => import('./pages/Login/Login'));
 const AuthenticatedPages = lazy(() => import('./routes/AuthenticatedPages'));
 const Page404 = lazy(() => import('./pages/404'));

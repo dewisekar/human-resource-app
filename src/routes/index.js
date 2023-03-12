@@ -37,6 +37,7 @@ const AdminApprovalOverView = lazy(() => import('../pages/AdminApprovalOverView/
 const StaffTaskManagement = lazy(() => import('../pages/StaffTaskManagement/StaffTaskManagement'));
 const TaskManagementAdd = lazy(() => import('../pages/TaskManagementAdd/TaskManagementAdd'));
 const TaskManagementEdit = lazy(() => import('../pages/TaskManagementEdit/TaskManagementEdit'));
+const SupervisorTaskManagement = lazy(() => import('../pages/SupervisorTaskManagement/SupervisorTaskManagement'));
 
 const routes = [
   {
@@ -203,6 +204,11 @@ const routes = [
     path: PATH.TaskManagement.EDIT,
     component: TaskManagementEdit,
     accessibility: [Accessibility.STAFF],
+  },
+  {
+    path: PATH.TaskManagement.SUPERVISOR,
+    component: SupervisorTaskManagement,
+    accessibility: [Accessibility.SUPERVISOR],
   },
 ];
 
