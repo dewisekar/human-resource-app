@@ -5,7 +5,6 @@ import DataTable from 'react-data-table-component';
 import { Link, useHistory } from 'react-router-dom';
 import Collapse from 'rc-collapse';
 
-import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import TableBadge from '../../components/TableBadge/TableBadge';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
@@ -13,6 +12,7 @@ import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationMo
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import constants from '../../constants';
+import PageUtil from '../../utils/PageUtil';
 import utils from '../../utils';
 import config from './StaffTaskManagement.config';
 import * as Icons from '../../icons';
@@ -23,6 +23,7 @@ const { PlusCircleIcon, EditIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest, isBetweenTwoDates } = utils;
 const { columns, StatusEnum } = config;
+const { customTableSort } = PageUtil;
 const { updateStatusHandler } = handlers;
 
 const StaffTaskManagement = () => {
@@ -52,10 +53,11 @@ const StaffTaskManagement = () => {
         const {
           startDate, endDate, status, id,
         } = item;
+
         return {
           ...item,
-          realStartDate: startDate,
-          realEndDate: endDate,
+          realStartDate: new Date(startDate),
+          realEndDate: new Date(endDate),
           startDate: new Date(startDate).toLocaleDateString('id-ID'),
           endDate: new Date(endDate).toLocaleDateString('id-ID'),
           status: <TableBadge enumType={StatusEnum} content={status}/>,
@@ -146,6 +148,7 @@ const StaffTaskManagement = () => {
       defaultSortAsc={false}
       expandableRowsComponent={TaskDetail}
       expandableRowsComponentProps={{ onStatusChange: updateTaskStatus } }
+      sortFunction={customTableSort}
     />
   );
 
@@ -155,31 +158,38 @@ const StaffTaskManagement = () => {
       data={filteredItems}
       pagination
       subHeader
+      defaultSortFieldId={3}
+      defaultSortAsc={false}
       subHeaderComponent={subHeaderComponent}
       expandableRows
       expandableRowsComponent={TaskDetail}
       expandableRowsComponentProps={{ onStatusChange: updateTaskStatus } }
+      sortFunction={customTableSort}
     />
   );
 
   const renderContent = () => (
     <>
-      <Button tag={Link} layout="outline" to={PATH.TaskManagement.ADD} size="small" className="mb-5 border-orange-300 hover:border-gray-200 font-semibold" style={{ width: '100%', padding: '7px' }}>
-        <PlusCircleIcon className='w-4 h-4 mr-1'/>Add Task
-      </Button>
       <Collapse accordion={false}>
-        <Panel header="Today's Tasks" headerClass="my-header-class">
+        <Panel header="TODAY TASKS" headerClass="my-header-class">
           {renderTodaysTasks()}
         </Panel>
-        <Panel header="All Tasks">{renderCard()}</Panel>
+        <Panel header="ALL TASKS">{renderCard()}</Panel>
       </Collapse>
     </>
   );
 
   return (
     <>
-      <div className="mt-8">
-        <SectionTitle>Task Management</SectionTitle>
+      <div className="mt-8 mb-2" style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      }}>
+        <h2 className='m-0' style={{ fontWeight: '500' }}>
+          Task Management
+        </h2>
+        <Button tag={Link} to={PATH.TaskManagement.ADD} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.SALMON }}>
+          <PlusCircleIcon className='w-4 h-4 mr-1'/>Add Task
+        </Button>
       </div>
       {isLoading ? renderSpinner() : renderContent()}
       {isConfirmationModalShown && <ConfirmationModal message={confirmationMessage}

@@ -10,6 +10,7 @@ import TableBadge from '../../components/TableBadge/TableBadge';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './OvertimeList.config';
+import PageUtil from '../../utils/PageUtil';
 import * as Icons from '../../icons';
 
 const { DocumentIcon } = Icons;
@@ -50,6 +51,8 @@ const OvertimeList = () => {
           action,
           realStatus: status,
           hours: hours.toString(),
+          realOvertimeDate: newOvertimeDate,
+          realCreatedAt: newDate,
         };
       });
 
@@ -62,7 +65,9 @@ const OvertimeList = () => {
 
   const filteredItems = overtimeData.filter(
     (item) => {
-      const { action, status, ...otherItem } = item;
+      const {
+        action, status, realCreatedAt, realOvertimeDate, ...otherItem
+      } = item;
       return Object.keys(otherItem).some((key) => otherItem[key]
         .toLowerCase().includes(filterText.toLowerCase()));
     },
@@ -104,6 +109,7 @@ const OvertimeList = () => {
           subHeaderComponent={subHeaderComponent}
           defaultSortFieldId={5}
           defaultSortAsc={false}
+          sortFunction={PageUtil.customTableSort}
         />
       </CardBody>
     </Card>

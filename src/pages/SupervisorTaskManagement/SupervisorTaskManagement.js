@@ -12,6 +12,7 @@ import TaskDetail from '../../components/TaskDetail/TaskDetail';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import AlertModal from '../../components/AlertModal/AlertModal';
+import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './SupervisorTaskManagement.config';
@@ -22,6 +23,7 @@ const { COLOR, URL } = constants;
 const { getRequest, isBetweenTwoDates, convertDataToSelectOptions } = utils;
 const { columns, StatusEnum } = config;
 const { updateStatusHandler } = handlers;
+const { customTableSort } = PageUtil;
 
 const SupervisorTaskManagement = () => {
   const [tasks, setTasks] = useState([]);
@@ -51,13 +53,13 @@ const SupervisorTaskManagement = () => {
 
       const mappedTask = fetchedData.map((item) => {
         const {
-          startDate, endDate, status, asignee: { name: asignee },
+          startDate, endDate, status, assignee: { name: assignee },
         } = item;
         return {
           ...item,
-          asignee,
-          realStartDate: startDate,
-          realEndDate: endDate,
+          assignee,
+          realStartDate: new Date(startDate),
+          realEndDate: new Date(endDate),
           startDate: new Date(startDate).toLocaleDateString('id-ID'),
           endDate: new Date(endDate).toLocaleDateString('id-ID'),
           status: <TableBadge enumType={StatusEnum} content={status}/>,
@@ -112,7 +114,7 @@ const SupervisorTaskManagement = () => {
 
       return Object.keys(searchableFileds).some((key) => searchableFileds[key]
         .toLowerCase().includes(filterText.toLowerCase()))
-        && item.asignee.toLowerCase().includes(chosenEmployee);
+        && item.assignee.toLowerCase().includes(chosenEmployee);
     },
   );
 
@@ -127,7 +129,7 @@ const SupervisorTaskManagement = () => {
     return (
       <div className="grid grid-cols-12 gap-2" style={{ width: '100% ' }}>
         <div className="col-span-4">
-          <Select className='mt-5 mb-5' placeholder="Asignee..." isClearable options={employees}
+          <Select className='mt-5 mb-5' placeholder="Assignee..." isClearable options={employees}
             onChange={(event) => setChosenEmployee(event ? event.value.toLowerCase() : '')}/>
         </div>
         <div className="col-span-8">
@@ -154,10 +156,11 @@ const SupervisorTaskManagement = () => {
       columns={columns}
       data={todaysTasks}
       expandableRows
-      defaultSortFieldId={3}
+      defaultSortFieldId={4}
       defaultSortAsc={false}
       expandableRowsComponent={TaskDetail}
       expandableRowsComponentProps={{ onStatusChange: updateTaskStatus, isUser: false } }
+      sortFunction={customTableSort}
     />
   );
 
@@ -168,20 +171,23 @@ const SupervisorTaskManagement = () => {
         data={filteredItems}
         pagination
         subHeader
+        defaultSortFieldId={4}
+        defaultSortAsc={false}
         subHeaderComponent={subHeaderComponent}
         expandableRows
         expandableRowsComponent={TaskDetail}
         expandableRowsComponentProps={{ onStatusChange: updateTaskStatus, isUser: false } }
+        sortFunction={customTableSort}
       />
     </>
   );
 
   const renderContent = () => (
     <Collapse accordion={false}>
-      <Panel header="Today's Tasks" headerClass="my-header-class">
+      <Panel header="TODAY TASKS" headerClass="my-header-class">
         {renderTodaysTasks()}
       </Panel>
-      <Panel header="All Tasks">{renderAllTask()}</Panel>
+      <Panel header="ALL TASKS">{renderAllTask()}</Panel>
     </Collapse>
   );
 

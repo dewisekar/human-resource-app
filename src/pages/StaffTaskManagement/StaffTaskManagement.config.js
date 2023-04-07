@@ -41,4 +41,6 @@ const StatusEnum = {
   Done: 'success',
 };
 
-export default { columns, StatusEnum };
+export default {
+  columns, StatusEnum,
+};

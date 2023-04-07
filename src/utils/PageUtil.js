@@ -1,3 +1,5 @@
+import orderBy from 'lodash/orderBy';
+
 const checkPageIdIsValid = (id) => {
   const isIdNotInteger = !isNaN(parseInt(id, 10));
   return ((id !== '') && isIdNotInteger);
@@ -14,12 +16,46 @@ const convertDataToSelectOptions = (data, valueKey, labelKey) => {
 };
 
 const isBetweenTwoDates = (startDate, endDate, dateToBeCompared = null) => {
-  const convertedStartDate = new Date(startDate).setHours(0, 0, 0, 0);
-  const convertedEndDate = new Date(endDate).setHours(0, 0, 0, 0);
+  const convertedStartDate = startDate.setHours(0, 0, 0, 0);
+  const convertedEndDate = endDate.setHours(0, 0, 0, 0);
   const convertedDate = dateToBeCompared ? new Date(dateToBeCompared).setHours(0, 0, 0, 0)
     : new Date().setHours(0, 0, 0, 0);
 
   return convertedStartDate <= convertedDate && convertedDate <= convertedEndDate;
+};
+
+const getRealValuesForTable = (data) => {
+  const result = {};
+  const keys = Object.keys(data);
+
+  keys.forEach((key) => {
+    const lastKey = key.toString().substring(1, key.length);
+    const newKey = `real${key[0].toUpperCase()}${lastKey}`;
+    result[newKey] = data[key];
+  });
+
+  return result;
+};
+
+const customTableSort = (rows, field, direction) => {
+  const REAL_FIELDS = {
+    endDate: 'realEndDate',
+    startDate: 'realStartDate',
+    overtimeDate: 'realOvertimeDate',
+    createdAt: 'realCreatedAt',
+  };
+
+  const [, fieldName] = field.toString().split('row => row.');
+
+  const handleField = (row) => {
+    if (REAL_FIELDS[fieldName]) {
+      return row[REAL_FIELDS[fieldName]];
+    }
+
+    return row[fieldName];
+  };
+
+  return orderBy(rows, handleField, direction);
 };
 
 export default {
@@ -27,4 +63,6 @@ export default {
   getRupiahString,
   convertDataToSelectOptions,
   isBetweenTwoDates,
+  getRealValuesForTable,
+  customTableSort,
 };
