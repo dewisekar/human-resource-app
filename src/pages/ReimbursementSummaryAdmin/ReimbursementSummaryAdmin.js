@@ -7,6 +7,7 @@ import DataTable from 'react-data-table-component';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import MultiplePropertyFilter from '../../components/Datatable/MultiplePropertyFilter/MultiplePropertyFilter';
+import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './ReimbursementSummaryAdmin.config';
@@ -17,6 +18,7 @@ const {
 } = constants;
 const { getRequest, getRupiahString, convertDataToSelectOptions } = utils;
 const { columns } = config;
+const { isEmptyString } = PageUtil;
 
 const ReimbursementSummaryAdmin = () => {
   const [reimbursementData, setReimbursementData] = useState([]);
@@ -54,6 +56,8 @@ const ReimbursementSummaryAdmin = () => {
           realApprovedAmount: approvedAmount,
           reimbursementType: reimbursementType.name,
           department,
+          realCreatedAt: newDate,
+          realApprovedDate: newApprovalDate,
         };
       });
 
@@ -76,8 +80,19 @@ const ReimbursementSummaryAdmin = () => {
   });
 
   const filteredItems = reimbursementData.filter(
-    (item) => (item.approvedDate.toLowerCase().includes(filterText.date || '')
-    && item.department.toLowerCase().includes(filterText.department || '')),
+    (item) => {
+      const { realApprovedDate } = item;
+      const { month = '', year = '' } = filterText;
+      const monthFilter = !isEmptyString(month)
+        ? realApprovedDate.getMonth() + 1 === parseInt(month, 10)
+        : realApprovedDate;
+      const yearFilter = !isEmptyString(year)
+        ? realApprovedDate.getFullYear() === parseInt(year, 10)
+        : realApprovedDate;
+
+      return (monthFilter && yearFilter
+    && item.department.toLowerCase().includes(filterText.department || ''));
+    },
   );
 
   const totalApprovedAmount = filteredItems
@@ -111,9 +126,10 @@ const ReimbursementSummaryAdmin = () => {
         <DataTable
           columns={columns}
           data={filteredItems}
-          defaultSortFieldId={3}
+          defaultSortFieldId={5}
           defaultSortAsc={false}
           dense
+          sortFunction={PageUtil.customTableSort}
           pagination
         />
       </CardBody>

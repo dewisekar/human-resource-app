@@ -7,6 +7,7 @@ import DataTable from 'react-data-table-component';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import MultiplePropertyFilter from '../../components/Datatable/MultiplePropertyFilter/MultiplePropertyFilter';
+import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './OvertimeSummaryAdmin.config';
@@ -16,6 +17,7 @@ const {
 } = constants;
 const { getRequest, convertDataToSelectOptions } = utils;
 const { columns } = config;
+const { isEmptyString, customTableSort } = PageUtil;
 
 const OvertimeSummaryAdmin = () => {
   const [overtimeData, setOvertimeData] = useState([]);
@@ -58,6 +60,8 @@ const OvertimeSummaryAdmin = () => {
           realRequesterName: requesterName,
           realHours: hours,
           department,
+          realOvertimeDate: new Date(overtimeDate),
+          realApprovedDate: new Date(approvalDate),
         };
       });
 
@@ -81,9 +85,21 @@ const OvertimeSummaryAdmin = () => {
   };
 
   const filteredItems = overtimeData.filter(
-    (item) => (item.approvedDate.toLowerCase().includes(filterText.date || '')
-    && item.realRequesterName.toLowerCase().includes(filterText.employee || '')
-    && item.department.toLowerCase().includes(filterText.department || '')),
+    (item) => {
+      const { realOvertimeDate } = item;
+      const { month = '', year = '' } = filterText;
+      const monthFilter = !isEmptyString(month)
+        ? realOvertimeDate.getMonth() + 1 === parseInt(month, 10)
+        : realOvertimeDate;
+      const yearFilter = !isEmptyString(year)
+        ? realOvertimeDate.getFullYear() === parseInt(year, 10)
+        : realOvertimeDate;
+
+      return (
+        monthFilter && yearFilter
+        && item.realRequesterName.toLowerCase().includes(filterText.employee || '')
+      && item.department.toLowerCase().includes(filterText.department || ''));
+    },
   );
 
   const totalApprovedHours = filteredItems
@@ -127,6 +143,7 @@ const OvertimeSummaryAdmin = () => {
           defaultSortAsc={false}
           dense
           pagination
+          sortFunction={customTableSort}
         />
       </CardBody>
     </Card>

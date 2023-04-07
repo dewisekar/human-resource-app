@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import TableBadge from '../../components/TableBadge/TableBadge';
+import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './ReimbursementListAdmin.config';
@@ -48,6 +49,7 @@ const ReimbursementListAdmin = () => {
           createdAt: newDate.toLocaleDateString('id-ID'),
           requesterName,
           reimbursementType: reimbursementType.name,
+          realCreatedAt: new Date(createdAt),
         };
       });
 
@@ -60,7 +62,9 @@ const ReimbursementListAdmin = () => {
 
   const filteredItems = reimbursementData.filter(
     (item) => {
-      const { action, status, ...otherItem } = item;
+      const {
+        action, status, realCreatedAt, ...otherItem
+      } = item;
       return Object.keys(otherItem).some((key) => otherItem[key]
         .toLowerCase().includes(filterText.toLowerCase()));
     },
@@ -102,6 +106,7 @@ const ReimbursementListAdmin = () => {
           subHeaderComponent={subHeaderComponent}
           defaultSortFieldId={3}
           defaultSortAsc={false}
+          sortFunction={PageUtil.customTableSort}
         />
       </CardBody>
     </Card>

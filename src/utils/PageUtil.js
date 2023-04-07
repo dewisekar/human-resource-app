@@ -43,6 +43,7 @@ const customTableSort = (rows, field, direction) => {
     startDate: 'realStartDate',
     overtimeDate: 'realOvertimeDate',
     createdAt: 'realCreatedAt',
+    approvedDate: 'realApprovedDate',
   };
 
   const [, fieldName] = field.toString().split('row => row.');
@@ -58,6 +59,8 @@ const customTableSort = (rows, field, direction) => {
   return orderBy(rows, handleField, direction);
 };
 
+const isEmptyString = (params) => params === '';
+
 export default {
   checkPageIdIsValid,
   getRupiahString,
@@ -65,4 +68,5 @@ export default {
   isBetweenTwoDates,
   getRealValuesForTable,
   customTableSort,
+  isEmptyString,
 };

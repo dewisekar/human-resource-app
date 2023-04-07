@@ -16,8 +16,10 @@ const TaskDetail = ({ data, onStatusChange, isUser = true }) => {
   };
 
   const {
-    realStatus, id, name, priority, startDate, endDate, detail, type,
+    realStatus, id, name, priority, startDate, endDate,
+    detail, type, assigner: { name: assignerName },
   } = data;
+
   const isOnGoing = realStatus !== 'Done';
 
   const handleStatusChange = (value) => {
@@ -32,6 +34,10 @@ const TaskDetail = ({ data, onStatusChange, isUser = true }) => {
           <div className=''>
             <p className="text-lg mb-1 font-semibold text-gray-400" style={{ fontSize: '11px' }}>Task Name</p>
             <p className="text-md font-semibold text-gray" style={{ fontSize: '14px' }}>{name}</p>
+          </div>
+          <div className='mt-2'>
+            <p className="text-lg mb-1 font-semibold text-gray-400" style={{ fontSize: '11px' }}>Assigner</p>
+            <p className="text-md font-semibold text-gray" style={{ fontSize: '14px' }}>{assignerName}</p>
           </div>
           <div className='mt-2'>
             <p className="text-lg mb-1 font-semibold text-gray-400" style={{ fontSize: '11px' }}>Detail</p>

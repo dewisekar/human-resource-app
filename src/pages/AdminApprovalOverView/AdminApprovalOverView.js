@@ -7,6 +7,7 @@ import DataTable from 'react-data-table-component';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import MultiplePropertyFilter from '../../components/Datatable/MultiplePropertyFilter/MultiplePropertyFilter';
+import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './AdminApprovalOverView.config';
@@ -14,6 +15,7 @@ import config from './AdminApprovalOverView.config';
 const { COLOR, URL } = constants;
 const { getRequest } = utils;
 const { overtimeColumns, reimbursementColumns, reimbursementByTypeColumns } = config;
+const { isEmptyString } = PageUtil;
 
 const AdminApprovalOverView = () => {
   const [summaryData, setSummaryData] = useState([]);
@@ -64,8 +66,8 @@ const AdminApprovalOverView = () => {
   };
 
   const onSearch = (data) => {
-    const { type = '', date = '' } = data;
-    const [month = null, year = null] = date.split('/');
+    const { type = '', month, year } = data;
+
     const finalMonth = month === '' ? null : month;
     const finalYear = year === '' ? null : year;
 

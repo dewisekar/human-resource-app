@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
+import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './OvertimeListSupervisor.config';
@@ -33,7 +34,7 @@ const OvertimeListSupervisor = () => {
       const fetchedData = await getRequest(URL.Overtime.OVERTIME_SUPERVISOR_URL);
       const mappedData = fetchedData.map((item) => {
         const {
-          id, createdAt, status, requesterName, hours, overtimeDate,
+          id, createdAt, status, requesterName, overtimeDate, hours,
         } = item;
         const newDate = new Date(createdAt).toLocaleDateString('id-ID');
         const newOvertimeDate = new Date(overtimeDate).toLocaleDateString('id-ID');
@@ -43,8 +44,10 @@ const OvertimeListSupervisor = () => {
           action,
           createdAt: newDate,
           requesterName,
+          hours: parseFloat(hours),
           overtimeDate: newOvertimeDate,
-          hours: hours.toString(),
+          realCreatedAt: new Date(createdAt),
+          realOvertimeDate: new Date(overtimeDate),
         };
       });
 
@@ -57,7 +60,9 @@ const OvertimeListSupervisor = () => {
 
   const filteredItems = overtimeData.filter(
     (item) => {
-      const { action, ...otherItem } = item;
+      const {
+        action, hours, realCreatedAt, realOvertimeDate, ...otherItem
+      } = item;
       return Object.keys(otherItem).some((key) => otherItem[key]
         .toLowerCase().includes(filterText.toLowerCase()));
     },
@@ -83,25 +88,26 @@ const OvertimeListSupervisor = () => {
   }, [filterText, resetPaginationToggle]);
 
   const renderSpinner = () => (
-      <div className='grid' style={{ justifyContent: 'center' }}>
-        <MoonLoader color={COLOR.BLUE} size={30} />
-      </div>
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.BLUE} size={30} />
+    </div>
   );
 
   const renderCard = () => (
-      <Card className="mb-8 shadow-md data-table">
-        <CardBody>
-          <DataTable
-            columns={columns}
-            data={filteredItems}
-            pagination
-            subHeader
-            subHeaderComponent={subHeaderComponent}
-            defaultSortFieldId={4}
-            defaultSortAsc={false}
-          />
-        </CardBody>
-      </Card>
+    <Card className="mb-8 shadow-md data-table">
+      <CardBody>
+        <DataTable
+          columns={columns}
+          data={filteredItems}
+          pagination
+          subHeader
+          subHeaderComponent={subHeaderComponent}
+          defaultSortFieldId={4}
+          defaultSortAsc={false}
+          sortFunction={PageUtil.customTableSort}
+        />
+      </CardBody>
+    </Card>
   );
 
   return (

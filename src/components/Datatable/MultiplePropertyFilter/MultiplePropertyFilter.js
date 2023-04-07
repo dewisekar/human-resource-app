@@ -30,8 +30,7 @@ const MultiplePropertyFilter = ({
 
   const onClick = () => {
     const { month = '', year = '' } = state;
-    const dateFilter = (month === '' && year === '') ? '' : `${month}/${year.toString()}`;
-    onSubmit({ date: dateFilter, ...state });
+    onSubmit({ month, year, ...state });
   };
 
   const renderSelectInput = (option) => <Select options={option.options} isClearable
