@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
 import './components/Datatable/Datatable.css';
+import './additional.css';
 
 import('rc-collapse/assets/index.css');
 

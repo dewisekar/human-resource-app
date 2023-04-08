@@ -23,7 +23,7 @@ const { PlusCircleIcon, EditIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest, isBetweenTwoDates } = utils;
 const { columns, StatusEnum } = config;
-const { customTableSort } = PageUtil;
+const { customTableSort, convertDataToSelectOptions } = PageUtil;
 const { updateStatusHandler } = handlers;
 
 const StaffTaskManagement = () => {
@@ -171,10 +171,10 @@ const StaffTaskManagement = () => {
   const renderContent = () => (
     <>
       <Collapse accordion={false}>
-        <Panel header="TODAY TASKS" headerClass="my-header-class">
+        <Panel header={`Today Tasks (${todaysTasks.length})`} headerClass="my-header-class">
           {renderTodaysTasks()}
         </Panel>
-        <Panel header="ALL TASKS">{renderCard()}</Panel>
+        <Panel header={`All Tasks (${tasks.length})`}ader="All Tasks">{renderCard()}</Panel>
       </Collapse>
     </>
   );

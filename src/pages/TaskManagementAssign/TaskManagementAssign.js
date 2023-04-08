@@ -10,16 +10,16 @@ import TextAreaInput from '../../components/Input/TextAreaInput/TextAreaInput';
 import SelectInput from '../../components/Input/SelectInput/SelectInput';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import AlertModal from '../../components/AlertModal/AlertModal';
-import constants from '../../constants';
-import config from './TaskManagementAdd.config';
-import handlers from './TaskManagementAdd.handlers';
 import utils from '../../utils';
+import constants from '../../constants';
+import config from './TaskManagementAssign.config';
+import handlers from './TaskManagementAssign.handlers';
 
-const { COLOR, PATH } = constants;
+const { COLOR, PATH, URL } = constants;
 const { submitRequest } = handlers;
-const { dayOnly } = utils;
+const { getRequest, convertDataToSelectOptions, dayOnly } = utils;
 
-const TaskManagementAdd = () => {
+const TaskManagementAssign = () => {
   const {
     register, handleSubmit, formState: { errors }, control, reset, setError,
   } = useForm();
@@ -30,9 +30,19 @@ const TaskManagementAdd = () => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [alertModalType, setAlertModalType] = useState(null);
+  const [dropdownOptions, setDropdownOptions] = useState({});
 
   useEffect(() => {
+    const init = async () => {
+      try {
+        const fetchedEmployee = await getRequest(URL.User.USER_SUBORDINATE_URL);
+        setDropdownOptions({ assignee: convertDataToSelectOptions(fetchedEmployee, 'id', 'name') });
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
 
+    init();
   }, []);
 
   const openModalHandler = (modal) => setIsModalShown({ ...isModalShown, [modal]: true });
@@ -41,7 +51,9 @@ const TaskManagementAdd = () => {
 
   const onSubmit = async (data) => {
     const submitHandler = { openModalHandler, setAlertMessage, setAlertModalType };
-    const { type, priority, ...otherData } = data;
+    const {
+      type, priority, assignee, ...otherData
+    } = data;
     const { startDate, endDate } = data;
 
     if (dayOnly(endDate) < dayOnly(startDate)) {
@@ -50,7 +62,7 @@ const TaskManagementAdd = () => {
     }
 
     const payload = {
-      ...otherData, type: type.value, priority: priority.value,
+      ...otherData, type: type.value, priority: priority.value, userId: assignee.value,
     };
 
     setIsSubmitting(true);
@@ -68,9 +80,11 @@ const TaskManagementAdd = () => {
 
   const renderFormField = (options) => {
     const { formType, ...otherOptions } = options;
-    const props = {
+    const { name } = options;
+    const defaultProps = {
       register, errors, control, ...otherOptions,
     };
+    const props = formType === 'select' && dropdownOptions[name] ? { ...defaultProps, options: dropdownOptions[name] } : defaultProps;
 
     const Forms = {
       input: renderTextInput(props),
@@ -88,7 +102,7 @@ const TaskManagementAdd = () => {
         {!isSubmitting
           ? <div className='mt-5 flex justify-end'>
             <Button
-              tag={Link} to={PATH.TaskManagement.STAFF}
+              tag={Link} to={PATH.TaskManagement.SUPERVISOR}
               layout="outline" className="mr-1">
             Back
             </Button>
@@ -106,7 +120,7 @@ const TaskManagementAdd = () => {
     <>
       <Card className="mb-8 shadow-md mt-10">
         <CardBody style={{ overflowX: 'auto' }}>
-          <SectionTitle>Add Task</SectionTitle>
+          <SectionTitle>Assign Task To Staff</SectionTitle>
           {renderForm()}
         </CardBody>
       </Card>
@@ -117,4 +131,4 @@ const TaskManagementAdd = () => {
   );
 };
 
-export default TaskManagementAdd;
+export default TaskManagementAssign;

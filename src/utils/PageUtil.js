@@ -64,6 +64,8 @@ const customTableSort = (rows, field, direction) => {
 
 const isEmptyString = (params) => params === '';
 
+const dayOnly = (date) => new Date(date).setHours(0, 0, 0, 0);
+
 export default {
   checkPageIdIsValid,
   getRupiahString,
@@ -72,4 +74,5 @@ export default {
   getRealValuesForTable,
   customTableSort,
   isEmptyString,
+  dayOnly,
 };

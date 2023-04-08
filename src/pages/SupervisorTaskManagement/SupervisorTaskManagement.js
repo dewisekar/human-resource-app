@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Collapse from 'rc-collapse';
 import Select from 'react-select';
+import { Button } from '@windmill/react-ui';
 
-import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import TableBadge from '../../components/TableBadge/TableBadge';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
@@ -17,9 +17,11 @@ import constants from '../../constants';
 import utils from '../../utils';
 import config from './SupervisorTaskManagement.config';
 import handlers from './SupervisorTaskManagement.handlers';
+import * as Icons from '../../icons';
 
 const { Panel } = Collapse;
-const { COLOR, URL } = constants;
+const { PlusCircleIcon } = Icons;
+const { COLOR, URL, PATH } = constants;
 const { getRequest, isBetweenTwoDates, convertDataToSelectOptions } = utils;
 const { columns, StatusEnum } = config;
 const { updateStatusHandler } = handlers;
@@ -46,6 +48,7 @@ const SupervisorTaskManagement = () => {
       const fetchedData = await getRequest(URL.TaskManagement.SUPERVISOR);
       const fetchedSubordinates = await getRequest(URL.User.USER_SUBORDINATE_URL);
       const fetchedSelfInfo = await getRequest(URL.User.USER_URL);
+
       const { name: superiorName } = fetchedSelfInfo;
       const convertedEmployeeOption = convertDataToSelectOptions(fetchedSubordinates, 'name', 'name');
       const employeeOption = [...convertedEmployeeOption,
@@ -184,17 +187,24 @@ const SupervisorTaskManagement = () => {
 
   const renderContent = () => (
     <Collapse accordion={false}>
-      <Panel header="TODAY TASKS" headerClass="my-header-class">
+      <Panel header={`Today Tasks (${todaysTasks.length})`} headerClass="my-header-class">
         {renderTodaysTasks()}
       </Panel>
-      <Panel header="ALL TASKS">{renderAllTask()}</Panel>
+      <Panel header={`All Tasks (${tasks.length})`}>{renderAllTask()}</Panel>
     </Collapse>
   );
 
   return (
     <>
-      <div className="mt-8">
-        <SectionTitle>Your Department Tasks</SectionTitle>
+      <div className="mt-8 mb-2" style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      }}>
+        <h2 className='m-0' style={{ fontWeight: '500' }}>
+          Your Team Tasks
+        </h2>
+        <Button tag={Link} to={PATH.TaskManagement.ASSIGN} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.SALMON }}>
+          <PlusCircleIcon className='w-4 h-4 mr-1'/>Assign Task
+        </Button>
       </div>
       {isLoading ? renderSpinner() : renderContent()}
       {isConfirmationModalShown && <ConfirmationModal message={confirmationMessage}
