@@ -44,6 +44,9 @@ const customTableSort = (rows, field, direction) => {
     overtimeDate: 'realOvertimeDate',
     createdAt: 'realCreatedAt',
     approvedDate: 'realApprovedDate',
+    requesterName: 'realRequesterName',
+    status: 'realStatus',
+    overtimeMoney: 'realOvertimeMoney',
   };
 
   const [, fieldName] = field.toString().split('row => row.');

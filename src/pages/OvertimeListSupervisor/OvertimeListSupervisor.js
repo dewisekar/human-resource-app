@@ -7,13 +7,16 @@ import { Link } from 'react-router-dom';
 import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import PageUtil from '../../utils/PageUtil';
+import TableBadge from '../../components/TableBadge/TableBadge';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './OvertimeListSupervisor.config';
 import * as Icons from '../../icons';
 
 const { SearchIcon } = Icons;
-const { COLOR, URL, PATH } = constants;
+const {
+  COLOR, URL, PATH, RequestStatusBadgeEnum,
+} = constants;
 const { getRequest } = utils;
 const { columns } = config;
 
@@ -39,8 +42,9 @@ const OvertimeListSupervisor = () => {
         const newDate = new Date(createdAt).toLocaleDateString('id-ID');
         const newOvertimeDate = new Date(overtimeDate).toLocaleDateString('id-ID');
         const action = renderActionButton(id);
+        const convertedStatus = <TableBadge enumType={RequestStatusBadgeEnum} content={status} additionalClass="px-10"/>;
         return {
-          status,
+          status: convertedStatus,
           action,
           createdAt: newDate,
           requesterName,
@@ -48,6 +52,7 @@ const OvertimeListSupervisor = () => {
           overtimeDate: newOvertimeDate,
           realCreatedAt: new Date(createdAt),
           realOvertimeDate: new Date(overtimeDate),
+          realStatus: status,
         };
       });
 
@@ -61,7 +66,7 @@ const OvertimeListSupervisor = () => {
   const filteredItems = overtimeData.filter(
     (item) => {
       const {
-        action, hours, realCreatedAt, realOvertimeDate, ...otherItem
+        action, hours, realCreatedAt, realOvertimeDate, status, ...otherItem
       } = item;
       return Object.keys(otherItem).some((key) => otherItem[key]
         .toLowerCase().includes(filterText.toLowerCase()));

@@ -76,10 +76,10 @@ const requestNoteFields = [
 
 const approvalFormOptions = [
   {
-    label: 'Approved Amount',
-    name: 'approvedAmount',
-    placeholder: 'Amount...',
-    formType: 'currency',
+    label: 'Is On Public Holiday (Except Sunday)',
+    name: 'isOnHoliday',
+    formType: 'input',
+    type: 'checkbox',
     rules: {},
   },
   {
@@ -93,16 +93,10 @@ const approvalFormOptions = [
 
 const approvalInfoOptions = [
   {
-    label: 'Approval Date',
-    name: 'approvalDate',
+    label: 'Is On Public Holiday (Except Sunday)',
+    name: 'isOnHoliday',
     formType: 'input',
-    disabled: true,
-    rules: {},
-  },
-  {
-    label: 'Approved Amount',
-    name: 'approvedAmount',
-    formType: 'input',
+    type: 'checkbox',
     disabled: true,
     rules: {},
   },
@@ -110,6 +104,13 @@ const approvalInfoOptions = [
     label: 'Approval Note',
     name: 'approvalNote',
     formType: 'textarea',
+    disabled: true,
+    rules: {},
+  },
+  {
+    label: 'Overtime Money',
+    name: 'overtimeMoney',
+    formType: 'input',
     disabled: true,
     rules: {},
   },

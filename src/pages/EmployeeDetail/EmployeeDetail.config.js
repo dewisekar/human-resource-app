@@ -68,6 +68,10 @@ const requestFields = [
     label: 'Department',
   },
   {
+    key: 'baseSalary',
+    label: 'Base Salary',
+  },
+  {
     key: 'maximumCheckInTime',
     label: 'Maximum Check In Time',
   },

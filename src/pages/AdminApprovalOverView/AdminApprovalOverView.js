@@ -15,7 +15,7 @@ import config from './AdminApprovalOverView.config';
 const { COLOR, URL } = constants;
 const { getRequest } = utils;
 const { overtimeColumns, reimbursementColumns, reimbursementByTypeColumns } = config;
-const { isEmptyString } = PageUtil;
+const { getRupiahString, customTableSort } = PageUtil;
 
 const AdminApprovalOverView = () => {
   const [summaryData, setSummaryData] = useState([]);
@@ -56,7 +56,16 @@ const AdminApprovalOverView = () => {
       const data = await getRequest(finalUrl);
       const byTypeData = isOvertime ? [] : await getRequest(reimbursementByTypeUrl);
 
-      setSummaryData(data);
+      const mappedData = data.map((item) => {
+        const { overtimeMoney = 0 } = item;
+        return {
+          ...item,
+          overtimeMoney: getRupiahString(overtimeMoney),
+          realOvertimeMoney: overtimeMoney,
+        };
+      });
+
+      setSummaryData(mappedData);
       setReimbursementByTypeData(byTypeData);
       setColumns(TableColumns[type]);
     } catch (error) {
@@ -96,6 +105,7 @@ const AdminApprovalOverView = () => {
         defaultSortAsc={false}
         dense
         className='mt-2'
+        sortFunction={customTableSort}
       />
     </>
   );

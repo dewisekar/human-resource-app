@@ -18,7 +18,9 @@ const { DownloadIcon } = Icons;
 const {
   COLOR, URL, PATH, Accessibility, RequestStatusBadgeEnum,
 } = constants;
-const { getRequest, checkPageIdIsValid, getRole } = utils;
+const {
+  getRequest, checkPageIdIsValid, getRole, getRupiahString,
+} = utils;
 const {
   requestFields, approvalFields, dateOptions,
 } = config;
@@ -42,7 +44,7 @@ const OvertimeDetail = () => {
 
   const convertData = (data) => {
     const {
-      createdAt, supportingDocument, approvalDate, status,
+      createdAt, supportingDocument, approvalDate, status, overtimeMoney,
       overtimeDate, ...otherProps
     } = data;
 
@@ -61,6 +63,7 @@ const OvertimeDetail = () => {
       supportingDocument: convertedProof,
       status: convertedStatus,
       ...otherProps,
+      overtimeMoney: getRupiahString(overtimeMoney),
     };
   };
 

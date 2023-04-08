@@ -12,16 +12,19 @@ const columns = [
     name: 'Department',
     selector: (row) => row.department,
     sortable: true,
+    width: '200px',
   },
   {
     name: 'Name',
     selector: (row) => row.name,
     sortable: true,
+    width: '200px',
   },
   {
     name: 'Reimbursement Type',
     selector: (row) => row.reimbursementType,
     sortable: true,
+    width: '200px',
   },
   {
     name: 'Request Date',

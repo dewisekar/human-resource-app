@@ -58,6 +58,7 @@ const ReimbursementSummaryAdmin = () => {
           department,
           realCreatedAt: newDate,
           realApprovedDate: newApprovalDate,
+          realRequesterName: requesterName,
         };
       });
 

@@ -18,6 +18,11 @@ const overtimeColumns = [
     selector: (row) => row.totalrequest,
     sortable: true,
   },
+  {
+    name: 'Total Overtime Money',
+    selector: (row) => row.overtimeMoney,
+    sortable: true,
+  },
 ];
 
 const reimbursementColumns = [

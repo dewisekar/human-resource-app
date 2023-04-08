@@ -15,7 +15,7 @@ import config from './OvertimeSummaryAdmin.config';
 const {
   COLOR, URL, PATH, RequestStatus,
 } = constants;
-const { getRequest, convertDataToSelectOptions } = utils;
+const { getRequest, convertDataToSelectOptions, getRupiahString } = utils;
 const { columns } = config;
 const { isEmptyString, customTableSort } = PageUtil;
 
@@ -47,7 +47,7 @@ const OvertimeSummaryAdmin = () => {
       const approvedRequest = fetchedData.filter((item) => item.status === RequestStatus.APPROVED);
       const mappedData = approvedRequest.map((item) => {
         const {
-          id, requesterName, hours, overtimeDate, approvalDate, department,
+          id, requesterName, hours, overtimeDate, approvalDate, department, overtimeMoney,
         } = item;
         const linkName = <a href={`${PATH.Overtime.DETAIL}?id=${id}`} style={{ textDecoration: 'underline' }}>{requesterName}</a>;
         const newOvertimeDate = new Date(overtimeDate).toLocaleDateString('id-ID');
@@ -62,6 +62,8 @@ const OvertimeSummaryAdmin = () => {
           department,
           realOvertimeDate: new Date(overtimeDate),
           realApprovedDate: new Date(approvalDate),
+          overtimeMoney: getRupiahString(overtimeMoney),
+          realOvertimeMoney: overtimeMoney,
         };
       });
 
@@ -105,6 +107,9 @@ const OvertimeSummaryAdmin = () => {
   const totalApprovedHours = filteredItems
     .reduce((sum, { realHours }) => sum + realHours, 0);
 
+  const totalApprovedMoney = filteredItems
+    .reduce((sum, { realOvertimeMoney }) => sum + realOvertimeMoney, 0);
+
   const renderSpinner = () => (
     <div className='grid' style={{ justifyContent: 'center' }}>
       <MoonLoader color={COLOR.DARK_PURPLE} size={30} />
@@ -129,8 +134,11 @@ const OvertimeSummaryAdmin = () => {
               <div className='col-span-12 md:col-span-3'>
                 <p className="text-md font-semibold text-gray-500">Total Overtime: {filteredItems.length}</p>
               </div>
-              <div className='col-span-12 md:col-span-4'>
+              <div className='col-span-12 md:col-span-3'>
                 <p className="text-md font-semibold text-gray-500">Total Approved Hours: {totalApprovedHours}</p>
+              </div>
+              <div className='col-span-12 md:col-span-4'>
+                <p className="text-md font-semibold text-gray-500">Total Overtime Money: {getRupiahString(totalApprovedMoney)}</p>
               </div>
             </div>
           </div>

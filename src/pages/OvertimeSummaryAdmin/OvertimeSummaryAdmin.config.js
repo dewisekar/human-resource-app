@@ -24,6 +24,11 @@ const columns = [
     selector: (row) => row.approvedDate,
     sortable: true,
   },
+  {
+    name: 'Overtime Money',
+    selector: (row) => row.overtimeMoney,
+    sortable: true,
+  },
 ];
 
 export default { columns };

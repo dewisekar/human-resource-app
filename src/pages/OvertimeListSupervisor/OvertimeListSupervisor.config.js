@@ -13,6 +13,7 @@ const columns = [
     name: 'Hours',
     selector: (row) => row.hours,
     sortable: true,
+    width: '100px',
   },
   {
     name: 'Request Date',

@@ -14,6 +14,7 @@ import TextAreaInput from '../../components/Input/TextAreaInput/TextAreaInput';
 import SelectInput from '../../components/Input/SelectInput/SelectInput';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
+import RupiahCurrencyInput from '../../components/Input/RupiahCurrencyInput/RupiahCurrencyInput';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './EmployeeEdit.config';
@@ -120,6 +121,8 @@ const EmployeeEdit = () => {
 
   const renderSelectInput = (options) => <SelectInput {...options} key={options.name}/>;
 
+  const renderRupiahInput = (options) => <RupiahCurrencyInput {...options} key={options.name}/>;
+
   const renderFormField = (options) => {
     const { formType, ...otherOptions } = options;
     const defaultProps = {
@@ -132,6 +135,7 @@ const EmployeeEdit = () => {
       input: renderTextInput(props),
       textarea: renderTextAreaInput(props),
       select: renderSelectInput(props),
+      currency: renderRupiahInput(props),
     };
 
     return Forms[formType];

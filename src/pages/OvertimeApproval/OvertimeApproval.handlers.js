@@ -2,13 +2,13 @@ import utils from '../../utils';
 import config from './OvertimeApproval.config';
 import constants from '../../constants';
 
-const { unpackError, patchRequest } = utils;
+const { unpackError, patchRequest, getRupiahString } = utils;
 const { dateOptions } = config;
 const { URL, AlertMessage, AxiosErrorMessage } = constants;
 
 const convertData = (data) => {
   const {
-    approvalDate, createdAt, overtimeDate, ...otherProps
+    approvalDate, createdAt, overtimeDate, isOnHoliday = false, overtimeMoney, ...otherProps
   } = data;
 
   const convertedCreatedAt = new Date(createdAt).toLocaleDateString('id-ID', dateOptions);
@@ -20,6 +20,8 @@ const convertData = (data) => {
     overtimeDate: convertedOvertimeDate,
     approvalDate: convertedApprovalDate,
     ...otherProps,
+    isOnHoliday,
+    overtimeMoney: getRupiahString(overtimeMoney),
   };
 };
 

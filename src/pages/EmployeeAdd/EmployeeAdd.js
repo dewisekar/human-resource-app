@@ -7,6 +7,7 @@ import { Link, useHistory } from 'react-router-dom';
 import SectionTitle from '../../components/Typography/SectionTitle';
 import TextInput from '../../components/Input/TextInput/TextInput';
 import TextAreaInput from '../../components/Input/TextAreaInput/TextAreaInput';
+import RupiahCurrencyInput from '../../components/Input/RupiahCurrencyInput/RupiahCurrencyInput';
 import SelectInput from '../../components/Input/SelectInput/SelectInput';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
@@ -107,6 +108,8 @@ const EmployeeAdd = () => {
 
   const renderSelectInput = (options) => <SelectInput {...options} key={options.name}/>;
 
+  const renderRupiahInput = (options) => <RupiahCurrencyInput {...options} key={options.name}/>;
+
   const renderFormField = (options) => {
     const { formType, ...otherOptions } = options;
     const defaultProps = {
@@ -119,6 +122,7 @@ const EmployeeAdd = () => {
       input: renderTextInput(props),
       textarea: renderTextAreaInput(props),
       select: renderSelectInput(props),
+      currency: renderRupiahInput(props),
     };
 
     return Forms[formType];

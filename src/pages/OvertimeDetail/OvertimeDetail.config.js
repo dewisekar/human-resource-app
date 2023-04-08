@@ -46,6 +46,10 @@ const approvalFields = [
     key: 'approvalNote',
     label: 'Approval Note',
   },
+  {
+    key: 'overtimeMoney',
+    label: 'Overtime Money',
+  },
 ];
 
 const dateOptions = {

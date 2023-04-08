@@ -121,6 +121,13 @@ const formFields = [
     rules: { required: true },
   },
   {
+    label: 'Base Salary',
+    name: 'baseSalary',
+    placeholder: 'Base Salary...',
+    rules: { required: true },
+    formType: 'currency',
+  },
+  {
     name: 'maximumCheckInTime',
     label: 'Maximum Check In Time',
     formType: 'input',
