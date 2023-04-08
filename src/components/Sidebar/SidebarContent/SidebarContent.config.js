@@ -73,12 +73,6 @@ const sidebarRoutes = {
       type: 'DIVIDER',
     },
     {
-      path: '/cards',
-      icon: 'CardsIcon',
-      name: 'Attendance',
-      type: 'MENU',
-    },
-    {
       icon: 'MoneyIcon',
       name: 'Reimbursement',
       type: 'SUBMENU_HEADER',
@@ -128,6 +122,42 @@ const sidebarRoutes = {
         {
           path: PATH.Organization.DEPARTEMENT_LIST,
           name: 'Departments',
+        },
+      ],
+    },
+  ],
+  BOD: [
+    {
+      name: 'Board of Directors',
+      type: 'DIVIDER',
+    },
+    {
+      icon: 'ChartsIcon',
+      name: 'Summary',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.Reimbursement.SUMMARY,
+          name: 'Reimbursement',
+        },
+        {
+          path: PATH.Overtime.SUMMARY,
+          name: 'Overtime',
+        },
+        {
+          path: PATH.Admin.Summary,
+          name: 'All Summary',
+        },
+      ],
+    },
+    {
+      icon: 'PeopleIcon',
+      name: 'Organization',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.Employees.LIST,
+          name: 'Employees',
         },
       ],
     },

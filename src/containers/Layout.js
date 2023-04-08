@@ -28,13 +28,13 @@ function Layout() {
           <Suspense fallback={<ThemedSuspense />}>
             <Switch>
               {routes.map((route, i) => (route.component ? (
-                  <PrivateRoute
-                    key={i}
-                    exact={true}
-                    path={route.path}
-                    component={route.component}
-                    accessibility={route.accessibility}
-                  />
+                <PrivateRoute
+                  key={i}
+                  exact={true}
+                  path={route.path}
+                  component={route.component}
+                  accessibility={route.accessibility}
+                />
               ) : null))}
             </Switch>
           </Suspense>

@@ -4,7 +4,6 @@ import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
 
-import SectionTitle from '../../components/Typography/SectionTitle';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import constants from '../../constants';
 import utils from '../../utils';
@@ -13,7 +12,7 @@ import * as Icons from '../../icons';
 
 const { DocumentIcon, EditIcon, UserPlusIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest } = utils;
+const { getRequest, getRole } = utils;
 const { columns } = config;
 
 const Employees = () => {
@@ -21,16 +20,17 @@ const Employees = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const userRoles = getRole();
+  const isAdmin = userRoles.includes('ADMIN');
 
   const renderActionButton = (id) => (
     <>
-      <Button tag={Link} to={`${PATH.Employees.DETAIL}?id=${id}`} size="small" className="mt-2 mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
+      <Button tag={Link} to={`${PATH.Employees.DETAIL}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
         <DocumentIcon className='w-4 h-4 mr-1'/>Detail
       </Button>
-      <br></br>
-      <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} className="mb-2" size="small" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
+      {isAdmin && <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
         <EditIcon className='w-4 h-4 mr-1'/>Edit
-      </Button>
+      </Button>}
     </>
   );
 
@@ -94,28 +94,34 @@ const Employees = () => {
   );
 
   const renderCard = () => (
-    <Card className="mb-8 shadow-md data-table">
-      <CardBody>
-        <Button tag={Link} to={PATH.Employees.ADD} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE, width: '100%' }}>
+    <>
+      <div className="mt-8 mb-2" style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      }}>
+        <h3 className='m-0' style={{ fontWeight: '500' }}>
+          Employee List
+        </h3>
+        {isAdmin && <Button tag={Link} to={PATH.Employees.ADD} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
           <UserPlusIcon className='w-4 h-4 mr-1'/>Add Employee
-        </Button>
-        <DataTable
-          columns={columns}
-          data={filteredItems}
-          pagination
-          subHeader
-          subHeaderComponent={subHeaderComponent}
-          defaultSortFieldId={1}
-        />
-      </CardBody>
-    </Card>
+        </Button>}
+      </div>
+      <Card className="shadow-md data-table">
+        <CardBody>
+          <DataTable
+            columns={columns}
+            data={filteredItems}
+            pagination
+            subHeader
+            subHeaderComponent={subHeaderComponent}
+            defaultSortFieldId={1}
+          />
+        </CardBody>
+      </Card>
+    </>
   );
 
   return (
     <>
-      <div className="mt-8">
-        <SectionTitle>Employee List</SectionTitle>
-      </div>
       {isLoading ? renderSpinner() : renderCard()}
     </>
   );

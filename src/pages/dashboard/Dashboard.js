@@ -17,7 +17,6 @@ const Dashboard = () => {
   useEffect(() => {
     const init = async () => {
       const fetchedUserInfo = await getRequest(URL.User.USER_URL);
-      console.log(fetchedUserInfo);
       const { level } = fetchedUserInfo;
       const roles = level.map((item) => <li style={{ listStyleType: 'none' }} key={item.id}>{item.name}</li>);
       setUserInfo({

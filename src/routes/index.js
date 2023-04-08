@@ -108,7 +108,7 @@ const routes = [
   {
     path: PATH.Reimbursement.SUMMARY,
     component: ReimbursementSummaryAdmin,
-    accessibility: [Accessibility.ADMIN],
+    accessibility: [Accessibility.ADMIN, Accessibility.BOD],
   },
   {
     path: PATH.Reimbursement.APPROVAL,
@@ -143,7 +143,7 @@ const routes = [
   {
     path: PATH.Overtime.SUMMARY,
     component: OvertimeSummaryAdmin,
-    accessibility: [Accessibility.ADMIN],
+    accessibility: [Accessibility.ADMIN, Accessibility.BOD],
   },
   {
     path: PATH.Password.CHANGE,
@@ -153,12 +153,12 @@ const routes = [
   {
     path: PATH.Employees.LIST,
     component: Employees,
-    accessibility: [Accessibility.ADMIN],
+    accessibility: [Accessibility.ADMIN, Accessibility.BOD],
   },
   {
     path: PATH.Employees.DETAIL,
     component: EmployeeDetail,
-    accessibility: [Accessibility.ADMIN],
+    accessibility: [Accessibility.ADMIN, Accessibility.BOD],
   },
   {
     path: PATH.Employees.EDIT,
@@ -188,7 +188,7 @@ const routes = [
   {
     path: PATH.Admin.Summary,
     component: AdminApprovalOverView,
-    accessibility: [Accessibility.ADMIN],
+    accessibility: [Accessibility.ADMIN, Accessibility.BOD],
   },
   {
     path: PATH.TaskManagement.STAFF,

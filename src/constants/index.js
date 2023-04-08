@@ -8,6 +8,7 @@ const Accessibility = {
   ADMIN: 'ADMIN',
   SUPERVISOR: 'SUPERVISOR',
   STAFF: 'STAFF',
+  BOD: 'BOD',
 };
 
 const AlertMessage = {

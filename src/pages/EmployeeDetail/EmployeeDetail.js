@@ -15,7 +15,7 @@ import * as Icons from '../../icons';
 
 const { EditIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest, checkPageIdIsValid } = utils;
+const { getRequest, checkPageIdIsValid, getRole } = utils;
 const { requestFields, dateOptions } = config;
 
 const EmployeeDetail = () => {
@@ -26,6 +26,8 @@ const EmployeeDetail = () => {
   const isIdValid = checkPageIdIsValid(id);
   const [employeeData, setEmployeeData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const userRoles = getRole();
+  const isAdmin = userRoles.includes('ADMIN');
 
   const convertData = (data) => {
     const {
@@ -82,9 +84,9 @@ const EmployeeDetail = () => {
         <Button tag={Link} to={PATH.Employees.LIST} layout="outline" className="mr-2">
           Back
         </Button>
-        <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} layout="outline" className="bg-gray-200">
+        { isAdmin && <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} layout="outline" className="bg-gray-200">
           <EditIcon className='w-4 h-4 mr-1'/> Edit
-        </Button>
+        </Button>}
       </CardBody>
     </Card>
   );
