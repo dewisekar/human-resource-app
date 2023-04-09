@@ -19,6 +19,7 @@ const { COLOR, PATH, URL } = constants;
 const { submitRequest } = handlers;
 const {
   getRequest, convertDataToSelectOptions, dayOnly, resetFormToNull,
+  getRole,
 } = utils;
 
 const TaskManagementAssign = () => {
@@ -28,6 +29,8 @@ const TaskManagementAssign = () => {
   } = useForm();
   const { formOptions, Modals } = config;
   const history = useHistory();
+  const userRoles = getRole();
+  const isBod = userRoles.includes('BOD');
 
   const [isModalShown, setIsModalShown] = useState({});
   const [alertMessage, setAlertMessage] = useState(null);
@@ -38,7 +41,8 @@ const TaskManagementAssign = () => {
   useEffect(() => {
     const init = async () => {
       try {
-        const fetchedEmployee = await getRequest(URL.User.USER_SUBORDINATE_URL);
+        const employeeUrl = isBod ? URL.User.USER_ALL_URL : URL.User.USER_SUBORDINATE_URL;
+        const fetchedEmployee = await getRequest(employeeUrl);
         setDropdownOptions({ assignee: convertDataToSelectOptions(fetchedEmployee, 'id', 'name') });
       } catch (error) {
         console.log('Error:', error);
