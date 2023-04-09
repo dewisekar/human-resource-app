@@ -17,11 +17,14 @@ import handlers from './TaskManagementAssign.handlers';
 
 const { COLOR, PATH, URL } = constants;
 const { submitRequest } = handlers;
-const { getRequest, convertDataToSelectOptions, dayOnly } = utils;
+const {
+  getRequest, convertDataToSelectOptions, dayOnly, resetFormToNull,
+} = utils;
 
 const TaskManagementAssign = () => {
   const {
     register, handleSubmit, formState: { errors }, control, reset, setError,
+    setValue,
   } = useForm();
   const { formOptions, Modals } = config;
   const history = useHistory();
@@ -70,6 +73,7 @@ const TaskManagementAssign = () => {
     setIsSubmitting(false);
 
     reset();
+    resetFormToNull(formOptions, setValue);
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;

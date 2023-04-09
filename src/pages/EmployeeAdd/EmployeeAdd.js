@@ -20,7 +20,9 @@ import AlertModal from '../../components/AlertModal/AlertModal';
 
 const { CheckCircleIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest, formatIndonesianPhoneNumber, formatNumberOnly } = utils;
+const {
+  getRequest, formatIndonesianPhoneNumber, formatNumberOnly, resetFormToNull,
+} = utils;
 const { formFields } = config;
 const { addEmployeeHandler, updateDropdownOptions } = handlers;
 
@@ -35,7 +37,7 @@ const EmployeeAdd = () => {
   const [isSessionExpiredModalShown, setIsSessionExpiredModalShown] = useState(false);
   const [submittedData, setSubmittedData] = useState({});
   const {
-    register, handleSubmit, formState: { errors }, control,
+    register, handleSubmit, formState: { errors }, control, setValue,
   } = useForm();
 
   useEffect(() => {
@@ -100,6 +102,7 @@ const EmployeeAdd = () => {
     setIsSubmitting(true);
     const submitHandler = { showAlert, setAlertMessage, showExpiredModal };
     await addEmployeeHandler(submittedData, submitHandler);
+    resetFormToNull(formFields, setValue);
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;

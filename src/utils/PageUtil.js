@@ -66,6 +66,10 @@ const isEmptyString = (params) => params === '';
 
 const dayOnly = (date) => new Date(date).setHours(0, 0, 0, 0);
 
+const resetFormToNull = (fields, setValue) => {
+  fields.forEach(({ name }) => { setValue(name, null); });
+};
+
 export default {
   checkPageIdIsValid,
   getRupiahString,
@@ -75,4 +79,5 @@ export default {
   customTableSort,
   isEmptyString,
   dayOnly,
+  resetFormToNull,
 };

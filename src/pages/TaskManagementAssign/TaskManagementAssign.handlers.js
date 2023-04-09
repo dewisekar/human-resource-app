@@ -13,7 +13,7 @@ const submitRequest = async (payload, handlers) => {
   const { openModalHandler, setAlertMessage, setAlertModalType } = handlers;
 
   try {
-    await postRequest(URL.TaskManagement.TASK, payload);
+    await postRequest(URL.TaskManagement.ASSIGN, payload);
 
     setAlertMessage(successMessage);
     setAlertModalType(SUCCESS);

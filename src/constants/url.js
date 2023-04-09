@@ -45,6 +45,7 @@ const URL = {
     TASK: '/task/',
     DETAIL: '/task/detail/',
     SUPERVISOR: '/task/supervisor',
+    ASSIGN: '/task/assign',
   },
 };
 

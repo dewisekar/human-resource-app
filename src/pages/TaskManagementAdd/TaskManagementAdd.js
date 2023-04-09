@@ -17,11 +17,12 @@ import utils from '../../utils';
 
 const { COLOR, PATH } = constants;
 const { submitRequest } = handlers;
-const { dayOnly } = utils;
+const { dayOnly, resetFormToNull } = utils;
 
 const TaskManagementAdd = () => {
   const {
     register, handleSubmit, formState: { errors }, control, reset, setError,
+    setValue,
   } = useForm();
   const { formOptions, Modals } = config;
   const history = useHistory();
@@ -58,6 +59,7 @@ const TaskManagementAdd = () => {
     setIsSubmitting(false);
 
     reset();
+    resetFormToNull(formOptions, setValue);
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;
