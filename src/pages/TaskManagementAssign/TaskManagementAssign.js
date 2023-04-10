@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Card, CardBody, Button } from '@windmill/react-ui';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import MoonLoader from 'react-spinners/MoonLoader';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
@@ -15,7 +15,7 @@ import constants from '../../constants';
 import config from './TaskManagementAssign.config';
 import handlers from './TaskManagementAssign.handlers';
 
-const { COLOR, PATH, URL } = constants;
+const { COLOR, URL } = constants;
 const { submitRequest } = handlers;
 const {
   getRequest, convertDataToSelectOptions, dayOnly, resetFormToNull,

@@ -171,7 +171,7 @@ const sidebarRoutes = {
           name: 'Today\'s Tasks',
         },
         {
-          path: PATH.TaskManagement.SUPERVISOR,
+          path: PATH.TaskManagement.BOD_ALL,
           name: 'All Tasks',
         },
       ],

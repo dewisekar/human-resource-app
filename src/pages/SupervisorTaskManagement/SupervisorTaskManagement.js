@@ -181,6 +181,7 @@ const SupervisorTaskManagement = () => {
         expandableRowsComponent={TaskDetail}
         expandableRowsComponentProps={{ onStatusChange: updateTaskStatus, isUser: false } }
         sortFunction={customTableSort}
+        paginationRowsPerPageOptions={[10, 25, 50, 100]}
       />
     </>
   );

@@ -152,6 +152,7 @@ const OvertimeSummaryAdmin = () => {
           dense
           pagination
           sortFunction={customTableSort}
+          paginationRowsPerPageOptions={[10, 25, 50, 100]}
         />
       </CardBody>
     </Card>

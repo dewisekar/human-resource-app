@@ -23,7 +23,7 @@ const { PlusCircleIcon, EditIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest, isBetweenTwoDates } = utils;
 const { columns, StatusEnum } = config;
-const { customTableSort, convertDataToSelectOptions } = PageUtil;
+const { customTableSort } = PageUtil;
 const { updateStatusHandler } = handlers;
 
 const StaffTaskManagement = () => {
@@ -165,6 +165,7 @@ const StaffTaskManagement = () => {
       expandableRowsComponent={TaskDetail}
       expandableRowsComponentProps={{ onStatusChange: updateTaskStatus } }
       sortFunction={customTableSort}
+      paginationRowsPerPageOptions={[10, 25, 50, 100]}
     />
   );
 

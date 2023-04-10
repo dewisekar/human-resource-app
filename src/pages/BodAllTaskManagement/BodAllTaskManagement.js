@@ -14,8 +14,8 @@ import AlertModal from '../../components/AlertModal/AlertModal';
 import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
 import utils from '../../utils';
-import config from './BodTodayTaskManagement.config';
-import handlers from './BodTodayTaskManagement.handlers';
+import config from './BodAllTaskManagement.config';
+import handlers from './BodAllTaskManagement.handlers';
 import * as Icons from '../../icons';
 
 const { PlusCircleIcon } = Icons;
@@ -27,7 +27,7 @@ const { columns, StatusEnum } = config;
 const { updateStatusHandler } = handlers;
 const { customTableSort } = PageUtil;
 
-const BodTodayTaskManagement = () => {
+const BodAllTaskManagement = () => {
   const allOption = { value: 'ALL', label: 'All Department' };
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +60,7 @@ const BodTodayTaskManagement = () => {
     const init = async () => {
       setIsLoading(true);
       const isAllDepartment = chosenDepartment === 'ALL';
-      const url = URL.TaskManagement.BOD_TODAY;
+      const url = URL.TaskManagement.BOD_ALL;
       const finalUrl = isAllDepartment ? url : `${url}?departmentId=${chosenDepartment}`;
 
       try {
@@ -203,7 +203,7 @@ const BodTodayTaskManagement = () => {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
         <h2 className='m-0' style={{ fontWeight: '500' }}>
-          {'Today\'s Tasks'}
+          {'All Tasks'}
         </h2>
         <Button tag={Link} to={PATH.TaskManagement.ASSIGN} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.SALMON }}>
           <PlusCircleIcon className='w-4 h-4 mr-1'/>Assign Task
@@ -219,4 +219,4 @@ const BodTodayTaskManagement = () => {
   );
 };
 
-export default BodTodayTaskManagement;
+export default BodAllTaskManagement;

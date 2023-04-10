@@ -107,6 +107,7 @@ const ReimbursementListAdmin = () => {
           defaultSortFieldId={3}
           defaultSortAsc={false}
           sortFunction={PageUtil.customTableSort}
+          paginationRowsPerPageOptions={[10, 25, 50, 100]}
         />
       </CardBody>
     </Card>

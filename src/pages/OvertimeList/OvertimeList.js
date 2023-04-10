@@ -110,6 +110,7 @@ const OvertimeList = () => {
           defaultSortFieldId={5}
           defaultSortAsc={false}
           sortFunction={PageUtil.customTableSort}
+          paginationRowsPerPageOptions={[10, 25, 50, 100]}
         />
       </CardBody>
     </Card>
