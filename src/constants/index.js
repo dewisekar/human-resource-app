@@ -97,6 +97,12 @@ const RequestStatusBadgeEnum = {
   REJECTED: 'danger',
 };
 
+const TaskStatusOptions = [
+  { value: 'Not Started', label: 'Not Started' },
+  { value: 'On Progress', label: 'On Progress' },
+  { value: 'Done', label: 'Done' },
+];
+
 export default {
   URL,
   Accessibility,
@@ -117,4 +123,5 @@ export default {
   TaskPriorityOptions,
   LongDateOptions,
   RequestStatusBadgeEnum,
+  TaskStatusOptions,
 };

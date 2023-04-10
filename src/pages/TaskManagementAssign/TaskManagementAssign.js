@@ -80,6 +80,8 @@ const TaskManagementAssign = () => {
     resetFormToNull(formOptions, setValue);
   };
 
+  const goBack = () => { history.goBack(); };
+
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;
 
   const renderTextAreaInput = (options) => <TextAreaInput {...options} key={options.name}/>;
@@ -110,9 +112,9 @@ const TaskManagementAssign = () => {
         {!isSubmitting
           ? <div className='mt-5 flex justify-end'>
             <Button
-              tag={Link} to={PATH.TaskManagement.SUPERVISOR}
+              onClick={goBack}
               layout="outline" className="mr-1">
-            Back
+              Back
             </Button>
             <Button style={{ backgroundColor: COLOR.SALMON }}
               type="submit">Save Task</Button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
 import { Link, useHistory } from 'react-router-dom';
@@ -19,7 +19,9 @@ import handlers from './BodTodayTaskManagement.handlers';
 import * as Icons from '../../icons';
 
 const { PlusCircleIcon } = Icons;
-const { COLOR, URL, PATH } = constants;
+const {
+  COLOR, URL, PATH, TaskStatusOptions,
+} = constants;
 const { getRequest, convertDataToSelectOptions } = utils;
 const { columns, StatusEnum } = config;
 const { updateStatusHandler } = handlers;
@@ -38,6 +40,7 @@ const BodTodayTaskManagement = () => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [department, setDepartment] = useState([]);
   const [chosenDepartment, setChosenDepartment] = useState('');
+  const [chosenStatus, setChosenStatus] = useState('');
   const history = useHistory();
   const confirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
 
@@ -117,11 +120,13 @@ const BodTodayTaskManagement = () => {
         realStatus, startDate, endDate, name, priority, assignee,
       } = item;
       const searchableFileds = {
-        realStatus, startDate, endDate, name, priority, assignee,
+        startDate, endDate, name, priority, assignee,
       };
+      const statusFilter = chosenStatus === '' ? realStatus
+        : realStatus.toLowerCase() === chosenStatus.toLowerCase();
 
-      return Object.keys(searchableFileds).some((key) => searchableFileds[key]
-        .toLowerCase().includes(filterText.toLowerCase()));
+      return (Object.keys(searchableFileds).some((key) => searchableFileds[key]
+        .toLowerCase().includes(filterText.toLowerCase())) && statusFilter);
     },
   );
 
@@ -134,12 +139,19 @@ const BodTodayTaskManagement = () => {
 
   const renderFilter = () => (
     <div className="grid grid-cols-12 gap-2" style={{ width: '100% ' }}>
-      <div className="col-span-4">
+      <div className="col-span-3">
         <Select className='mt-5 mb-5' placeholder="Department..." options={department}
           onChange={(event) => setChosenDepartment(event ? event.value : '')}
+          defaultValue={allOption}
         />
       </div>
-      <div className="col-span-8">
+      <div className="col-span-3">
+        <Select className='mt-5 mb-5' placeholder="Status..." options={TaskStatusOptions}
+          onChange={(event) => setChosenStatus(event ? event.value : '')}
+          isClearable
+        />
+      </div>
+      <div className="col-span-6">
         <DatatableFilter
           onFilter={(e) => setFilterText(e.target.value)}
           onClear={handleClearFilter}
