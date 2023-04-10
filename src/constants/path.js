@@ -40,6 +40,8 @@ const PATH = {
     SUPERVISOR: '/task-management/supervisor',
     EDIT: '/task-management/edit/',
     ASSIGN: '/task-management/assign',
+    BOD_TODAY: '/task-management/bod/today',
+    BOD_ALL: '/task-management/bod/all',
   },
 };
 

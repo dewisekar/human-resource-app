@@ -161,6 +161,21 @@ const sidebarRoutes = {
         },
       ],
     },
+    {
+      icon: 'CalendarIcon',
+      name: 'Task Management',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.TaskManagement.BOD_TODAY,
+          name: 'Today\'s Tasks',
+        },
+        {
+          path: PATH.TaskManagement.SUPERVISOR,
+          name: 'All Tasks',
+        },
+      ],
+    },
   ],
   SUPERVISOR: [
     {

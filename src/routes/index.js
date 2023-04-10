@@ -39,6 +39,7 @@ const TaskManagementAdd = lazy(() => import('../pages/TaskManagementAdd/TaskMana
 const TaskManagementAssign = lazy(() => import('../pages/TaskManagementAssign/TaskManagementAssign'));
 const TaskManagementEdit = lazy(() => import('../pages/TaskManagementEdit/TaskManagementEdit'));
 const SupervisorTaskManagement = lazy(() => import('../pages/SupervisorTaskManagement/SupervisorTaskManagement'));
+const BodTodayTaskManagement = lazy(() => import('../pages/BodTodayTaskManagement/BodTodayTaskManagement'));
 
 const routes = [
   {
@@ -215,6 +216,11 @@ const routes = [
     path: PATH.TaskManagement.SUPERVISOR,
     component: SupervisorTaskManagement,
     accessibility: [Accessibility.SUPERVISOR],
+  },
+  {
+    path: PATH.TaskManagement.BOD_TODAY,
+    component: BodTodayTaskManagement,
+    accessibility: [Accessibility.BOD],
   },
 ];
 
