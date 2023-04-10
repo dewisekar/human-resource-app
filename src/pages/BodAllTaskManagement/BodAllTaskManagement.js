@@ -8,6 +8,7 @@ import { Button, Card, CardBody } from '@windmill/react-ui';
 import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
 import TableBadge from '../../components/TableBadge/TableBadge';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
+import DateRangeFilter from '../../components/Datatable/DateRangeFilter/DateRangeFilter';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import AlertModal from '../../components/AlertModal/AlertModal';
@@ -18,20 +19,23 @@ import config from './BodAllTaskManagement.config';
 import handlers from './BodAllTaskManagement.handlers';
 import * as Icons from '../../icons';
 
-const { PlusCircleIcon } = Icons;
+const { PlusCircleIcon, SearchIcon } = Icons;
 const {
   COLOR, URL, PATH, TaskStatusOptions,
 } = constants;
 const { getRequest, convertDataToSelectOptions } = utils;
 const { columns, StatusEnum } = config;
 const { updateStatusHandler } = handlers;
-const { customTableSort } = PageUtil;
+const { customTableSort, isBetweenTwoDates } = PageUtil;
 
 const BodAllTaskManagement = () => {
   const allOption = { value: 'ALL', label: 'All Department' };
   const [tasks, setTasks] = useState([]);
+  const [filteredTask, setFilteredTask] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterText, setFilterText] = useState('');
+  const [dateRangeError, setDateRangeError] = useState('');
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [isConfirmationModalShown, setIsConfirmationModalShown] = useState(false);
   const [isSessionExpired, setIsSessionExpired] = useState(false);
@@ -82,6 +86,7 @@ const BodAllTaskManagement = () => {
         });
 
         setTasks(mappedTask);
+        setFilteredTask(mappedTask);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -114,21 +119,38 @@ const BodAllTaskManagement = () => {
     await updateStatusHandler(taskToBeUpdated, updateHandlers);
   };
 
-  const filteredItems = tasks.filter(
-    (item) => {
-      const {
-        realStatus, startDate, endDate, name, priority, assignee,
-      } = item;
-      const searchableFileds = {
-        startDate, endDate, name, priority, assignee,
-      };
-      const statusFilter = chosenStatus === '' ? realStatus
-        : realStatus.toLowerCase() === chosenStatus.toLowerCase();
+  const onFilter = () => {
+    const { startDate: startDateFilter, endDate: endDateFilter } = dateRange;
+    const dateStart = new Date(startDateFilter);
+    const dateEnd = new Date(endDateFilter);
 
-      return (Object.keys(searchableFileds).some((key) => searchableFileds[key]
-        .toLowerCase().includes(filterText.toLowerCase())) && statusFilter);
-    },
-  );
+    if (dateStart > dateEnd) {
+      setDateRangeError('Start date has to be the same or earlier than end date!');
+      return;
+    }
+
+    setDateRangeError('');
+    const filteredItems = tasks.filter(
+      (item) => {
+        const {
+          realStatus, name, priority, assignee, realStartDate, realEndDate,
+        } = item;
+        const searchableFileds = { name, priority, assignee };
+        const statusFilter = chosenStatus === '' ? realStatus
+          : realStatus.toLowerCase() === chosenStatus.toLowerCase();
+        const startDateFinalFilter = startDateFilter
+          ? (dateStart <= realStartDate && realStartDate <= dateEnd) : realStartDate;
+        const endDateFinalFilter = endDateFilter
+          ? (dateStart <= realEndDate && realEndDate <= dateEnd) : realEndDate;
+
+        return (Object.keys(searchableFileds).some((key) => searchableFileds[key]
+          .toLowerCase().includes(filterText.toLowerCase())) && statusFilter
+          && (startDateFinalFilter || endDateFinalFilter));
+      },
+    );
+
+    setFilteredTask(filteredItems);
+  };
 
   const handleClearFilter = () => {
     if (filterText) {
@@ -138,29 +160,45 @@ const BodAllTaskManagement = () => {
   };
 
   const renderFilter = () => (
-    <div className="grid grid-cols-12 gap-2" style={{ width: '100% ' }}>
-      <div className="col-span-3">
-        <Select className='mt-5 mb-5' placeholder="Department..." options={department}
-          onChange={(event) => setChosenDepartment(event ? event.value : '')}
-          defaultValue={allOption}
-        />
+    <>
+      <div className="grid grid-cols-12 gap-2" style={{ width: '100% ' }}>
+        <div className="col-span-6">
+          <Select placeholder="Department..." options={department}
+            onChange={(event) => setChosenDepartment(event ? event.value : '')}
+            defaultValue={allOption}
+          />
+        </div>
+        <div className="col-span-6">
+          <Select placeholder="Status..." options={TaskStatusOptions}
+            onChange={(event) => setChosenStatus(event ? event.value : '')}
+            isClearable
+          />
+        </div>
+        <div className="col-span-12">
+          <DateRangeFilter
+            onFilter={setDateRange}
+            dateValue={dateRange}
+            buttonColor={COLOR.SALMON}
+            size="100%"
+            errorMessage={dateRangeError}
+          />
+        </div>
+        <div className="col-span-10">
+          <DatatableFilter
+            onFilter={(e) => setFilterText(e.target.value)}
+            onClear={handleClearFilter}
+            filterText={filterText}
+            buttonColor={COLOR.SALMON}
+            size="100%"
+          />
+        </div>
+        <div className="col-span-2" onClick={onFilter} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'top' }}>
+          <Button onClick={onFilter} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.SALMON, height: '41px' }}>
+            <SearchIcon className='w-4 h-4 mr-1'/> Search
+          </Button>
+        </div>
       </div>
-      <div className="col-span-3">
-        <Select className='mt-5 mb-5' placeholder="Status..." options={TaskStatusOptions}
-          onChange={(event) => setChosenStatus(event ? event.value : '')}
-          isClearable
-        />
-      </div>
-      <div className="col-span-6">
-        <DatatableFilter
-          onFilter={(e) => setFilterText(e.target.value)}
-          onClear={handleClearFilter}
-          filterText={filterText}
-          buttonColor={COLOR.SALMON}
-          size="100%"
-        />
-      </div>
-    </div>
+    </>
   );
 
   const renderSpinner = () => (
@@ -173,7 +211,7 @@ const BodAllTaskManagement = () => {
     <>
       <DataTable
         columns={columns}
-        data={filteredItems}
+        data={filteredTask}
         pagination
         subHeader
         defaultSortFieldId={4}

@@ -132,7 +132,7 @@ const SupervisorTaskManagement = () => {
     return (
       <div className="grid grid-cols-12 gap-2" style={{ width: '100% ' }}>
         <div className="col-span-4">
-          <Select className='mt-5 mb-5' placeholder="Assignee..." isClearable options={employees}
+          <Select placeholder="Assignee..." isClearable options={employees}
             onChange={(event) => setChosenEmployee(event ? event.value.toLowerCase() : '')}/>
         </div>
         <div className="col-span-8">

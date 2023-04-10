@@ -161,7 +161,7 @@ const Departments = () => {
   const renderCard = () => (
     <Card className="mb-8 shadow-md data-table">
       <CardBody>
-        <Button onClick={onClickAddDepartment} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE, width: '100%' }}>
+        <Button onClick={onClickAddDepartment} size="small" className="mb-3" style={{ backgroundColor: COLOR.LIGHT_BLUE, width: '100%' }}>
           <PlusCircleIcon className='w-4 h-4 mr-1'/>Add Department
         </Button>
         <DataTable

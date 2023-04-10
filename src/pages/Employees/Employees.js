@@ -101,7 +101,7 @@ const Employees = () => {
         <h3 className='m-0' style={{ fontWeight: '500' }}>
           Employee List
         </h3>
-        {isAdmin && <Button tag={Link} to={PATH.Employees.ADD} size="small" className="mb-1" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
+        {isAdmin && <Button tag={Link} to={PATH.Employees.ADD} size="small" className="mb-3" style={{ backgroundColor: COLOR.LIGHT_BLUE }}>
           <UserPlusIcon className='w-4 h-4 mr-1'/>Add Employee
         </Button>}
       </div>

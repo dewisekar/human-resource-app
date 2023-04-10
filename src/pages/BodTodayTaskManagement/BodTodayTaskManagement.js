@@ -138,15 +138,15 @@ const BodTodayTaskManagement = () => {
   };
 
   const renderFilter = () => (
-    <div className="grid grid-cols-12 gap-2" style={{ width: '100% ' }}>
+    <div className="grid grid-cols-12 gap-2 mt-4" style={{ width: '100% ' }}>
       <div className="col-span-3">
-        <Select className='mt-5 mb-5' placeholder="Department..." options={department}
+        <Select placeholder="Department..." options={department}
           onChange={(event) => setChosenDepartment(event ? event.value : '')}
           defaultValue={allOption}
         />
       </div>
       <div className="col-span-3">
-        <Select className='mt-5 mb-5' placeholder="Status..." options={TaskStatusOptions}
+        <Select placeholder="Status..." options={TaskStatusOptions}
           onChange={(event) => setChosenStatus(event ? event.value : '')}
           isClearable
         />
