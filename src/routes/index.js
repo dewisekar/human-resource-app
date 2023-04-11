@@ -211,7 +211,7 @@ const routes = [
   {
     path: PATH.TaskManagement.EDIT,
     component: TaskManagementEdit,
-    accessibility: [Accessibility.STAFF],
+    accessibility: [Accessibility.STAFF, Accessibility.BOD, Accessibility.SUPERVISOR],
   },
   {
     path: PATH.TaskManagement.SUPERVISOR,

@@ -1,5 +1,3 @@
-import orderBy from 'lodash/orderBy';
-
 import utils from '../../utils';
 
 const { statusBadgeSort } = utils;
@@ -36,31 +34,18 @@ const columns = [
     sortable: true,
     sortFunction: statusBadgeSort,
   },
+  {
+    name: 'Action',
+    selector: (row) => row.action,
+    sortable: false,
+    width: '150px',
+  },
 ];
 
 const StatusEnum = {
   'Not Started': 'danger',
   'On Progress': 'warning',
   Done: 'success',
-};
-
-const customSort = (rows, field, direction) => {
-  const REAL_FIELDS = {
-    deadlinePost: 'realDeadlinePost',
-    status: 'realStatus',
-  };
-
-  const [, fieldName] = field.toString().split('row => row.');
-
-  const handleField = (row) => {
-    if (REAL_FIELDS[fieldName]) {
-      return row[REAL_FIELDS[fieldName]];
-    }
-
-    return row[fieldName];
-  };
-
-  return orderBy(rows, handleField, direction);
 };
 
 export default { columns, StatusEnum };

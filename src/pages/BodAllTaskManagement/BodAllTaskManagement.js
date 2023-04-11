@@ -19,14 +19,14 @@ import config from './BodAllTaskManagement.config';
 import handlers from './BodAllTaskManagement.handlers';
 import * as Icons from '../../icons';
 
-const { PlusCircleIcon, SearchIcon } = Icons;
+const { PlusCircleIcon, SearchIcon, EditIcon } = Icons;
 const {
   COLOR, URL, PATH, TaskStatusOptions,
 } = constants;
-const { getRequest, convertDataToSelectOptions } = utils;
+const { getRequest, convertDataToSelectOptions, getUserId } = utils;
 const { columns, StatusEnum } = config;
 const { updateStatusHandler } = handlers;
-const { customTableSort, isBetweenTwoDates } = PageUtil;
+const { customTableSort } = PageUtil;
 
 const BodAllTaskManagement = () => {
   const allOption = { value: 'ALL', label: 'All Department' };
@@ -46,6 +46,7 @@ const BodAllTaskManagement = () => {
   const [chosenDepartment, setChosenDepartment] = useState('');
   const [chosenStatus, setChosenStatus] = useState('');
   const history = useHistory();
+  const currentUserId = getUserId();
   const confirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
 
   useEffect(() => {
@@ -71,8 +72,14 @@ const BodAllTaskManagement = () => {
         const fetchedData = await getRequest(finalUrl);
         const mappedTask = fetchedData.map((item) => {
           const {
-            startDate, endDate, status, assignee: { name: assignee },
+            startDate, endDate, status, assignee: { name: assignee }, assignerId, id,
           } = item;
+          const isEditable = parseInt(currentUserId, 10) === assignerId;
+
+          const action = isEditable && <Button tag={Link} to={`${PATH.TaskManagement.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
+            <EditIcon className='w-4 h-4 mr-1'/>Edit
+          </Button>;
+
           return {
             ...item,
             assignee,
@@ -82,9 +89,11 @@ const BodAllTaskManagement = () => {
             endDate: new Date(endDate).toLocaleDateString('id-ID'),
             status: <TableBadge enumType={StatusEnum} content={status}/>,
             realStatus: status,
+            action,
           };
         });
 
+        console.log(mappedTask);
         setTasks(mappedTask);
         setFilteredTask(mappedTask);
         setIsLoading(false);
