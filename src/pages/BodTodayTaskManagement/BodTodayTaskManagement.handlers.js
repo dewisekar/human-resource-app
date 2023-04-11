@@ -1,18 +1,16 @@
 import utils from '../../utils';
 import constants from '../../constants';
 
-const { patchRequest, unpackError } = utils;
+const { unpackError, deleteRequest } = utils;
 const { URL, AlertMessage, AxiosErrorMessage } = constants;
 
-const updateStatusHandler = async (data, handlers) => {
+const deleteTaskHandler = async (id, handlers) => {
   const {
     seIsSessionExpired, showAlert, setAlertMessage, reloadPage,
   } = handlers;
-  const { status, id } = data;
-  const payload = { status };
 
   try {
-    await patchRequest(URL.TaskManagement.TASK + id, payload);
+    await deleteRequest(URL.TaskManagement.TASK + id);
     reloadPage();
   } catch (error) {
     const errorMessage = error.response
@@ -28,4 +26,4 @@ const updateStatusHandler = async (data, handlers) => {
   }
 };
 
-export default { updateStatusHandler };
+export default { deleteTaskHandler };

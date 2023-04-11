@@ -112,7 +112,7 @@ const SupervisorTaskManagement = () => {
 
   const reloadPage = () => window.location.reload();
 
-  const onHandleUpdateTaskStatus = async () => {
+  const onHandleDeleteTask = async () => {
     setIsConfirmationModalShown(false);
     const updateHandlers = {
       setIsSessionExpired,
@@ -226,7 +226,7 @@ const SupervisorTaskManagement = () => {
       </div>
       {isLoading ? renderSpinner() : renderContent()}
       {isConfirmationModalShown && <ConfirmationModal message={deleteConfirmationMessage}
-        onClose={onCancelDeleteTask} onConfirm={onHandleUpdateTaskStatus}/>}
+        onClose={onCancelDeleteTask} onConfirm={onHandleDeleteTask}/>}
       {isSessionExpired && <SessionExpiredModal history={history}/>}
       {isAlertShown
         && <AlertModal message={alertMessage} onClose={() => setIsAlertShown(false)}/>}
