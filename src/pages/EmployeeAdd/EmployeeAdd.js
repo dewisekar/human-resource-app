@@ -74,11 +74,12 @@ const EmployeeAdd = () => {
   const handleAddEmployee = (data) => {
     const selectFields = ['bankCode', 'gender', 'maritalStatus', 'employmentStatus', 'department', 'division'];
     const {
-      roles, superior, phoneNumber, contractEndDate, ...otherData
+      roles, superior, phoneNumber, contractEndDate, maximumCheckInTime, ...otherData
     } = data;
     const mappedOptions = {};
     selectFields.forEach((item) => Object.assign(mappedOptions, { [item]: data[item].value }));
     const mappedRoles = roles.map((item) => item.value);
+    const convertedMaximumCheckInTime = maximumCheckInTime === '' ? null : maximumCheckInTime;
 
     setAlertMessage('Are you sure you want to add this employee?');
     setSubmittedData({
@@ -88,6 +89,7 @@ const EmployeeAdd = () => {
       superior: superior ? superior.value : null,
       ...mappedOptions,
       contractEndDate: contractEndDate || null,
+      maximumCheckInTime: convertedMaximumCheckInTime,
     });
     showConfirmModal();
   };
