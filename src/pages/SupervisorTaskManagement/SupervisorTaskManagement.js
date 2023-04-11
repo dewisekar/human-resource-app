@@ -20,9 +20,11 @@ import handlers from './SupervisorTaskManagement.handlers';
 import * as Icons from '../../icons';
 
 const { Panel } = Collapse;
-const { PlusCircleIcon } = Icons;
+const { PlusCircleIcon, EditIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest, isBetweenTwoDates, convertDataToSelectOptions } = utils;
+const {
+  getRequest, isBetweenTwoDates, convertDataToSelectOptions, getUserId,
+} = utils;
 const { columns, StatusEnum } = config;
 const { updateStatusHandler } = handlers;
 const { customTableSort } = PageUtil;
@@ -40,6 +42,7 @@ const SupervisorTaskManagement = () => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [chosenEmployee, setChosenEmployee] = useState('');
+  const currentUserId = getUserId();
   const history = useHistory();
   const confirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
 
@@ -57,7 +60,14 @@ const SupervisorTaskManagement = () => {
       const mappedTask = fetchedData.map((item) => {
         const {
           startDate, endDate, status, assignee: { name: assignee },
+          assignerId, id,
         } = item;
+        const isEditable = parseInt(currentUserId, 10) === assignerId;
+
+        const action = isEditable && <Button tag={Link} to={`${PATH.TaskManagement.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
+          <EditIcon className='w-4 h-4 mr-1'/>Edit
+        </Button>;
+
         return {
           ...item,
           assignee,
@@ -67,6 +77,7 @@ const SupervisorTaskManagement = () => {
           endDate: new Date(endDate).toLocaleDateString('id-ID'),
           status: <TableBadge enumType={StatusEnum} content={status}/>,
           realStatus: status,
+          action,
         };
       });
       const filteredTodayTasks = mappedTask.filter((item) => {

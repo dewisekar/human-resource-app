@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Card, CardBody, Button } from '@windmill/react-ui';
-import { useHistory, Link, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import MoonLoader from 'react-spinners/MoonLoader';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
@@ -102,6 +102,8 @@ const TaskManagementEdit = () => {
     return Forms[formType];
   };
 
+  const onBack = () => { history.goBack(); };
+
   const renderForm = () => (
     <>
       <form onSubmit={handleSubmit(onSubmit)} >
@@ -109,7 +111,7 @@ const TaskManagementEdit = () => {
         {!isSubmitting
           ? <div className='mt-5 flex justify-end'>
             <Button
-              tag={Link} to={PATH.TaskManagement.STAFF}
+              onClick={onBack}
               layout="outline" className="mr-1">
             Back
             </Button>
