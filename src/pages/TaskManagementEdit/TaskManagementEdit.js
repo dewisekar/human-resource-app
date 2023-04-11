@@ -23,7 +23,7 @@ const { formOptions, Modals, StatusEnum } = config;
 
 const TaskManagementEdit = () => {
   const {
-    register, handleSubmit, formState: { errors }, control, reset, setValue,
+    register, handleSubmit, formState: { errors }, control, setValue,
   } = useForm();
 
   const history = useHistory();
