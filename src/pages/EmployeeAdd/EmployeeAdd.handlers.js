@@ -10,7 +10,6 @@ const {
 const addEmployeeHandler = async (payload, handlers) => {
   const { showAlert, setAlertMessage, showExpiredModal } = handlers;
   const successMessage = 'Successfully update employee data!';
-  console.log(payload);
 
   try {
     await postRequest(URL.User.USER_URL, payload);

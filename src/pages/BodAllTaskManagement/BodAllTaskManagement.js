@@ -106,7 +106,6 @@ const BodAllTaskManagement = () => {
           };
         });
 
-        console.log(mappedTask);
         setTasks(mappedTask);
         setFilteredTask(mappedTask);
         setIsLoading(false);
