@@ -19,13 +19,15 @@ import config from './BodAllTaskManagement.config';
 import handlers from './BodAllTaskManagement.handlers';
 import * as Icons from '../../icons';
 
-const { PlusCircleIcon, SearchIcon, EditIcon } = Icons;
+const {
+  PlusCircleIcon, SearchIcon, EditIcon, TrashIcon,
+} = Icons;
 const {
   COLOR, URL, PATH, TaskStatusOptions,
 } = constants;
 const { getRequest, convertDataToSelectOptions, getUserId } = utils;
 const { columns, StatusEnum } = config;
-const { updateStatusHandler } = handlers;
+const { deleteTaskHandler } = handlers;
 const { customTableSort } = PageUtil;
 
 const BodAllTaskManagement = () => {
@@ -40,14 +42,14 @@ const BodAllTaskManagement = () => {
   const [isConfirmationModalShown, setIsConfirmationModalShown] = useState(false);
   const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [isAlertShown, setIsAlertShown] = useState(false);
-  const [taskToBeUpdated, setTaskToBeUpdated] = useState({});
   const [alertMessage, setAlertMessage] = useState(null);
   const [department, setDepartment] = useState([]);
   const [chosenDepartment, setChosenDepartment] = useState('');
   const [chosenStatus, setChosenStatus] = useState('');
   const history = useHistory();
   const currentUserId = getUserId();
-  const confirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
+  const [toBeDeletedTask, setToBeDeletedTask] = useState(null);
+  const deleteConfirmationMessage = 'Are you sure you want to delete this task?';
 
   useEffect(() => {
     const init = async () => {
@@ -60,6 +62,11 @@ const BodAllTaskManagement = () => {
 
     init();
   }, []);
+
+  const deleteTask = (id) => {
+    setToBeDeletedTask(id);
+    setIsConfirmationModalShown(true);
+  };
 
   useEffect(() => {
     const init = async () => {
@@ -76,9 +83,15 @@ const BodAllTaskManagement = () => {
           } = item;
           const isEditable = parseInt(currentUserId, 10) === assignerId;
 
-          const action = isEditable && <Button tag={Link} to={`${PATH.TaskManagement.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
-            <EditIcon className='w-4 h-4 mr-1'/>Edit
-          </Button>;
+          const action = isEditable
+          && <>
+            <Button tag={Link} to={`${PATH.TaskManagement.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
+              <EditIcon className='w-4 h-4 mr-1'/>Edit
+            </Button>
+            <Button onClick={() => deleteTask(id)} size="small" style={{ backgroundColor: COLOR.SALMON, marginLeft: '8px' }}>
+              <TrashIcon className='w-4 h-4 mr-1'/>Delete
+            </Button>
+          </>;
 
           return {
             ...item,
@@ -105,19 +118,14 @@ const BodAllTaskManagement = () => {
     init();
   }, [chosenDepartment]);
 
-  const updateTaskStatus = (data) => {
-    setTaskToBeUpdated(data);
-    setIsConfirmationModalShown(true);
-  };
-
-  const onCancelUpdateTaskStatus = () => {
-    setTaskToBeUpdated({});
+  const onCancelDeleteTask = () => {
+    setToBeDeletedTask(null);
     setIsConfirmationModalShown(false);
   };
 
   const reloadPage = () => window.location.reload();
 
-  const onHandleUpdateTaskStatus = async () => {
+  const onHandleDeleteTask = async () => {
     setIsConfirmationModalShown(false);
     const updateHandlers = {
       setIsSessionExpired,
@@ -125,7 +133,7 @@ const BodAllTaskManagement = () => {
       setAlertMessage,
       reloadPage,
     };
-    await updateStatusHandler(taskToBeUpdated, updateHandlers);
+    await deleteTaskHandler(toBeDeletedTask, updateHandlers);
   };
 
   const onFilter = () => {
@@ -227,7 +235,7 @@ const BodAllTaskManagement = () => {
         defaultSortAsc={false}
         expandableRows
         expandableRowsComponent={TaskDetail}
-        expandableRowsComponentProps={{ onStatusChange: updateTaskStatus, isUser: false } }
+        expandableRowsComponentProps={{ onStatusChange: () => {}, isUser: false } }
         sortFunction={customTableSort}
         paginationResetDefaultPage={resetPaginationToggle}
         paginationRowsPerPageOptions={[10, 25, 50, 100]}
@@ -257,8 +265,8 @@ const BodAllTaskManagement = () => {
         </Button>
       </div>
       {renderContent()}
-      {isConfirmationModalShown && <ConfirmationModal message={confirmationMessage}
-        onClose={onCancelUpdateTaskStatus} onConfirm={onHandleUpdateTaskStatus}/>}
+      {isConfirmationModalShown && <ConfirmationModal message={deleteConfirmationMessage}
+        onClose={onCancelDeleteTask} onConfirm={onHandleDeleteTask}/>}
       {isSessionExpired && <SessionExpiredModal history={history}/>}
       {isAlertShown
         && <AlertModal message={alertMessage} onClose={() => setIsAlertShown(false)}/>}

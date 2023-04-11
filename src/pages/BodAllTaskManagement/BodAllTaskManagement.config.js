@@ -38,7 +38,7 @@ const columns = [
     name: 'Action',
     selector: (row) => row.action,
     sortable: false,
-    width: '150px',
+    width: '250px',
   },
 ];
 
