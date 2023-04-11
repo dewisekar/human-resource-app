@@ -32,6 +32,7 @@ const columns = [
   {
     name: 'Action',
     selector: (row) => row.action,
+    width: '250px',
   },
 ];
 

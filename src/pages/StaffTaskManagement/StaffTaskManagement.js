@@ -19,12 +19,12 @@ import * as Icons from '../../icons';
 import handlers from './StaffTaskManagement.handlers';
 
 const { Panel } = Collapse;
-const { PlusCircleIcon, EditIcon } = Icons;
+const { PlusCircleIcon, EditIcon, TrashIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest, isBetweenTwoDates } = utils;
 const { columns, StatusEnum } = config;
 const { customTableSort } = PageUtil;
-const { updateStatusHandler } = handlers;
+const { updateStatusHandler, deleteTaskHandler } = handlers;
 
 const StaffTaskManagement = () => {
   const [tasks, setTasks] = useState([]);
@@ -36,14 +36,29 @@ const StaffTaskManagement = () => {
   const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [isAlertShown, setIsAlertShown] = useState(false);
   const [taskToBeUpdated, setTaskToBeUpdated] = useState({});
+  const [toBeDeletedTask, setToBeDeletedTask] = useState(null);
   const [alertMessage, setAlertMessage] = useState(null);
+  const [confirmationMessage, setConfirmationMessage] = useState('');
   const history = useHistory();
-  const confirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
+  const changeStatusConfirmationMessage = 'Are you sure you want to update this task\'s status? Changed status can not be revert';
+  const deleteConfirmationMessage = 'Are you sure you want to delete this task?';
+
+  const deleteTask = (id) => {
+    setConfirmationMessage(deleteConfirmationMessage);
+    setToBeDeletedTask(id);
+    setTaskToBeUpdated({});
+    setIsConfirmationModalShown(true);
+  };
 
   const renderActionButton = (id) => (
-    <Button tag={Link} to={`${PATH.TaskManagement.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
-      <EditIcon className='w-4 h-4 mr-1'/>Edit
-    </Button>
+    <>
+      <Button tag={Link} to={`${PATH.TaskManagement.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.SALMON }}>
+        <EditIcon className='w-4 h-4 mr-1'/>Edit
+      </Button>
+      <Button onClick={() => deleteTask(id)} size="small" style={{ backgroundColor: COLOR.SALMON, marginLeft: '8px' }}>
+        <TrashIcon className='w-4 h-4 mr-1'/>Delete
+      </Button>
+    </>
   );
 
   useEffect(() => {
@@ -79,18 +94,21 @@ const StaffTaskManagement = () => {
   }, []);
 
   const updateTaskStatus = (data) => {
+    setConfirmationMessage(changeStatusConfirmationMessage);
     setTaskToBeUpdated(data);
+    setToBeDeletedTask(null);
     setIsConfirmationModalShown(true);
   };
 
-  const onCancelUpdateTaskStatus = () => {
+  const onCancelConfirmation = () => {
     setTaskToBeUpdated({});
+    setToBeDeletedTask(null);
     setIsConfirmationModalShown(false);
   };
 
   const reloadPage = () => window.location.reload();
 
-  const onHandleUpdateTaskStatus = async () => {
+  const onHandleConfirm = async () => {
     setIsConfirmationModalShown(false);
     const updateHandlers = {
       setIsSessionExpired,
@@ -98,6 +116,9 @@ const StaffTaskManagement = () => {
       setAlertMessage,
       reloadPage,
     };
+    const isDelete = toBeDeletedTask !== null;
+
+    if (isDelete) { await deleteTaskHandler(toBeDeletedTask, updateHandlers); return; }
     await updateStatusHandler(taskToBeUpdated, updateHandlers);
   };
 
@@ -194,7 +215,7 @@ const StaffTaskManagement = () => {
       </div>
       {isLoading ? renderSpinner() : renderContent()}
       {isConfirmationModalShown && <ConfirmationModal message={confirmationMessage}
-        onClose={onCancelUpdateTaskStatus} onConfirm={onHandleUpdateTaskStatus}/>}
+        onClose={onCancelConfirmation} onConfirm={onHandleConfirm}/>}
       {isSessionExpired && <SessionExpiredModal history={history}/>}
       {isAlertShown
         && <AlertModal message={alertMessage} onClose={() => setIsAlertShown(false)}/>}
