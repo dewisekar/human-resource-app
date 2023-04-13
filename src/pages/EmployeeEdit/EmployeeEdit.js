@@ -37,7 +37,7 @@ const EmployeeEdit = () => {
   const id = pageParams.get('id');
   const isIdValid = checkPageIdIsValid(id);
   const [drowpdownOptions, setDropdownOptions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [alertMessage, setAlertMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isConfirmModalShown, setIsConfirmModalShown] = useState(false);
