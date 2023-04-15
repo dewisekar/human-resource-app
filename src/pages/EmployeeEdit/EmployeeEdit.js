@@ -66,7 +66,8 @@ const EmployeeEdit = () => {
         Object.keys(convertedData)
           .forEach((key) => setValue(key, convertedData[key]));
       } catch (error) {
-        history.replace(PATH.Dashboard);
+        // history.replace(PATH.Dashboard);
+        console.log('error', error);
       }
 
       setIsLoading(false);

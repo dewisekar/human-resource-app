@@ -42,6 +42,13 @@ const formFields = [
     formType: 'select',
   },
   {
+    name: 'birthDate',
+    label: 'Birth Date',
+    rules: { required: true },
+    formType: 'input',
+    type: 'date',
+  },
+  {
     name: 'maritalStatus',
     label: 'Marital Status',
     rules: { required: true },

@@ -12,6 +12,10 @@ const requestFields = [
     label: 'Gender',
   },
   {
+    key: 'birthDate',
+    label: 'Birth Date',
+  },
+  {
     key: 'maritalStatus',
     label: 'Marital Status',
   },
