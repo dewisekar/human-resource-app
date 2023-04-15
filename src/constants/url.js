@@ -9,6 +9,7 @@ const URL = {
     USER_LEVEL_ALL_URL: '/user/level/all',
     BANK_URL: '/user/bank/all',
     USER_SUBORDINATE_URL: '/user/subordinate',
+    USER_BIRTHDAYS_THIS_MONTH: '/user/birthdays/this-month',
   },
   Reimbursement: {
     REIMBURSEMENT_URL: '/reimbursement',
