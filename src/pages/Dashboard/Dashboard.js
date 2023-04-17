@@ -8,6 +8,7 @@ import RoundIcon from '../../components/RoundIcon';
 import { PeopleIcon } from '../../icons';
 import constants from '../../constants';
 import EmployeeOverview from './EmployeeOverview/EmployeeOverview';
+import TaskOverview from './TaskOverview/TaskOverview';
 
 const { getRequest, getRole } = utils;
 const { URL, Accessibility } = constants;
@@ -90,7 +91,10 @@ const Dashboard = () => {
     </Card>
   );
 
-  const renderOverviewDashboard = () => (<EmployeeOverview/>);
+  const renderOverviewDashboard = () => (<>
+    <EmployeeOverview/>
+    <TaskOverview/>
+  </>);
 
   return (
     <>

@@ -49,6 +49,7 @@ const URL = {
     ASSIGN: '/task/assign',
     BOD_TODAY: '/admin/task/today',
     BOD_ALL: '/admin/task/all',
+    NEWEST_TASK: '/admin/task/newest',
   },
 };
 

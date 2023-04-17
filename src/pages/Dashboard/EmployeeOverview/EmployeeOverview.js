@@ -5,6 +5,7 @@ import DataTable from 'react-data-table-component';
 import utils from '../../../utils';
 import { CalendarIcon } from '../../../icons';
 import constants from '../../../constants';
+import Spinner from '../../../components/Spinner/Spinner';
 
 const { getRequest } = utils;
 const { URL } = constants;
@@ -14,6 +15,7 @@ const columns = [
 
 const EmployeeOverview = () => {
   const [birthdays, setBirthdays] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const thisMonth = new Date().toLocaleDateString('id-ID', { month: 'long' });
   const today = new Date().getDate();
 
@@ -29,6 +31,7 @@ const EmployeeOverview = () => {
       });
 
       setBirthdays(mappedBirthdays);
+      setIsLoading(false);
     };
 
     init();
@@ -38,16 +41,14 @@ const EmployeeOverview = () => {
     <div className="grid grid-cols-12 gap-2 mt-1 mb-5">
       <div className="col-span-12">
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <CalendarIcon className='w-10 h-10 mr-5'/>
+          <CalendarIcon className='w-10 h-10 mr-2'/>
           <p className="text-md font-semibold text-gray">Employee Birthdays This Month: {thisMonth}</p>
         </div>
         <div className="col-span-12 mt-5" style={{ maxHeight: '250px', overflowY: 'auto' }}>
           <DataTable
             columns={columns}
             data={birthdays}
-            pagination
             dense
-            paginationRowsPerPageOptions={[10, 25, 50, 100]}
           />
         </div>
       </div>
@@ -64,7 +65,7 @@ const EmployeeOverview = () => {
 
   return (
     <>
-      {renderCard()}
+      {isLoading ? <Spinner/> : renderCard()}
     </>
   );
 };
