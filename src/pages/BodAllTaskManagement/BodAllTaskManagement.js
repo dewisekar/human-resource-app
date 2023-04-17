@@ -31,7 +31,7 @@ const { deleteTaskHandler } = handlers;
 const { customTableSort } = PageUtil;
 
 const BodAllTaskManagement = () => {
-  const allOption = { value: 'ALL', label: 'All Department' };
+  const allOption = { value: 'ALL', label: 'ALL' };
   const [tasks, setTasks] = useState([]);
   const [filteredTask, setFilteredTask] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +44,9 @@ const BodAllTaskManagement = () => {
   const [isAlertShown, setIsAlertShown] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
   const [department, setDepartment] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [chosenDepartment, setChosenDepartment] = useState('');
+  const [chosenEmployee, setChosenEmployee] = useState('');
   const [chosenStatus, setChosenStatus] = useState('');
   const history = useHistory();
   const currentUserId = getUserId();
@@ -54,9 +56,12 @@ const BodAllTaskManagement = () => {
   useEffect(() => {
     const init = async () => {
       const fetchedDepartment = await getRequest(URL.Organization.DEPARTMENT_ALL_URL);
+      const fetchedEmployees = await getRequest(URL.User.USER_ALL_URL);
       const convertedDepartmentOptions = convertDataToSelectOptions(fetchedDepartment, 'id', 'name');
+      const convertedEmployeeOptions = convertDataToSelectOptions(fetchedEmployees, 'id', 'name');
 
       setDepartment([allOption, ...convertedDepartmentOptions]);
+      setEmployees([allOption, ...convertedEmployeeOptions]);
       setIsLoading(false);
     };
 
@@ -139,6 +144,7 @@ const BodAllTaskManagement = () => {
     const { startDate: startDateFilter, endDate: endDateFilter } = dateRange;
     const dateStart = new Date(startDateFilter);
     const dateEnd = new Date(endDateFilter);
+    const isAllEmployee = chosenEmployee === 'ALL';
 
     if (dateStart > dateEnd) {
       setDateRangeError('Start date has to be the same or earlier than end date!');
@@ -151,17 +157,18 @@ const BodAllTaskManagement = () => {
         const {
           realStatus, name, priority, assignee, realStartDate, realEndDate,
         } = item;
-        const searchableFileds = { name, priority, assignee };
+        const searchableFileds = { name, priority };
         const statusFilter = chosenStatus === '' ? realStatus
           : realStatus.toLowerCase() === chosenStatus.toLowerCase();
         const startDateFinalFilter = startDateFilter
           ? (dateStart <= realStartDate && realStartDate <= dateEnd) : realStartDate;
         const endDateFinalFilter = endDateFilter
           ? (dateStart <= realEndDate && realEndDate <= dateEnd) : realEndDate;
+        const employeeFilter = isAllEmployee ? assignee : assignee === chosenEmployee;
 
         return (Object.keys(searchableFileds).some((key) => searchableFileds[key]
           .toLowerCase().includes(filterText.toLowerCase())) && statusFilter
-          && (startDateFinalFilter || endDateFinalFilter));
+          && (startDateFinalFilter || endDateFinalFilter) && employeeFilter);
       },
     );
 
@@ -185,9 +192,8 @@ const BodAllTaskManagement = () => {
           />
         </div>
         <div className="col-span-6">
-          <Select placeholder="Status..." options={TaskStatusOptions}
-            onChange={(event) => setChosenStatus(event ? event.value : '')}
-            isClearable
+          <Select placeholder="Employee..." options={employees}
+            onChange={(event) => setChosenEmployee(event ? event.label : '')}
           />
         </div>
         <div className="col-span-12">
@@ -199,7 +205,13 @@ const BodAllTaskManagement = () => {
             errorMessage={dateRangeError}
           />
         </div>
-        <div className="col-span-10">
+        <div className="col-span-5">
+          <Select placeholder="Status..." options={TaskStatusOptions}
+            onChange={(event) => setChosenStatus(event ? event.value : '')}
+            isClearable
+          />
+        </div>
+        <div className="col-span-5">
           <DatatableFilter
             onFilter={(e) => setFilterText(e.target.value)}
             onClear={handleClearFilter}
