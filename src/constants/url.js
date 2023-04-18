@@ -51,6 +51,9 @@ const URL = {
     BOD_ALL: '/admin/task/all',
     NEWEST_TASK: '/admin/task/newest',
   },
+  Attendance: {
+    SCAN: '/attendance/report/scan',
+  },
 };
 
 export default URL;

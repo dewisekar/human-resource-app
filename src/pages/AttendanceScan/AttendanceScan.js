@@ -1,194 +1,92 @@
 import React, { useState, useEffect } from 'react';
 import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
-import { Link, useHistory } from 'react-router-dom';
 import Select from 'react-select';
 import { Button, Card, CardBody } from '@windmill/react-ui';
 
-import DatatableFilter from '../../components/Datatable/DatatableFilter/DatatableFilter';
-import TableBadge from '../../components/TableBadge/TableBadge';
-import TaskDetail from '../../components/TaskDetail/TaskDetail';
 import DateRangeFilter from '../../components/Datatable/DateRangeFilter/DateRangeFilter';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
-import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './AttendanceScan.config';
-import handlers from './AttendanceScan.handlers';
 import * as Icons from '../../icons';
 
-const {
-  PlusCircleIcon, SearchIcon, EditIcon, TrashIcon,
-} = Icons;
-const {
-  COLOR, URL, PATH, TaskStatusOptions,
-} = constants;
-const { getRequest, convertDataToSelectOptions, getUserId } = utils;
-const { columns, StatusEnum } = config;
-const { deleteTaskHandler } = handlers;
+const { SearchIcon, SyncIcon } = Icons;
+const { COLOR, URL, PATH } = constants;
+const { getRequest, convertDataToSelectOptions } = utils;
+const { columns } = config;
 const { customTableSort } = PageUtil;
 
 const AttendanceScan = () => {
   const allOption = { value: 'ALL', label: 'ALL' };
-  const [tasks, setTasks] = useState([]);
-  const [filteredTask, setFilteredTask] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filterText, setFilterText] = useState('');
+  const [attendance, setAttendance] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isConfirmationModalShown, setIsConfirmationModalShown] = useState(false);
   const [dateRangeError, setDateRangeError] = useState(null);
   const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [isConfirmationModalShown, setIsConfirmationModalShown] = useState(false);
-  const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [isAlertShown, setIsAlertShown] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
-  const [department, setDepartment] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const [chosenDepartment, setChosenDepartment] = useState('');
   const [chosenEmployee, setChosenEmployee] = useState('');
-  const [chosenStatus, setChosenStatus] = useState('');
-  const history = useHistory();
-  const currentUserId = getUserId();
-  const [toBeDeletedTask, setToBeDeletedTask] = useState(null);
   const filterStyle = { display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' };
-  const deleteConfirmationMessage = 'Are you sure you want to delete this task?';
+  const syncMessage = 'Are you sure you want to sync data from the machine with HRIS data? Maximum syncing is 40 times a day';
 
   useEffect(() => {
     const init = async () => {
-      const fetchedDepartment = await getRequest(URL.Organization.DEPARTMENT_ALL_URL);
       const fetchedEmployees = await getRequest(URL.User.USER_ALL_URL);
-      const convertedDepartmentOptions = convertDataToSelectOptions(fetchedDepartment, 'id', 'name');
-      const convertedEmployeeOptions = convertDataToSelectOptions(fetchedEmployees, 'id', 'name');
+      const convertedEmployeeOptions = convertDataToSelectOptions(fetchedEmployees, 'fingerprintPin', 'name');
 
-      setDepartment([allOption, ...convertedDepartmentOptions]);
       setEmployees([allOption, ...convertedEmployeeOptions]);
-      setIsLoading(false);
     };
 
     init();
   }, []);
 
-  const deleteTask = (id) => {
-    setToBeDeletedTask(id);
-    setIsConfirmationModalShown(true);
-  };
-
-  useEffect(() => {
-    const init = async () => {
-      setIsLoading(true);
-      const isAllDepartment = chosenDepartment === 'ALL';
-      const url = URL.TaskManagement.BOD_ALL;
-      const finalUrl = isAllDepartment ? url : `${url}?departmentId=${chosenDepartment}`;
-
-      try {
-        const fetchedData = await getRequest(finalUrl);
-        const mappedTask = fetchedData.map((item) => {
-          const {
-            startDate, endDate, status, assignee: { name: assignee }, assignerId, id,
-          } = item;
-          const isEditable = parseInt(currentUserId, 10) === assignerId;
-
-          const action = isEditable
-          && <>
-            <Button tag={Link} to={`${PATH.TaskManagement.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.BLUE }}>
-              <EditIcon className='w-4 h-4 mr-1'/>Edit
-            </Button>
-            <Button onClick={() => deleteTask(id)} size="small" style={{ backgroundColor: COLOR.BLUE, marginLeft: '8px' }}>
-              <TrashIcon className='w-4 h-4 mr-1'/>Delete
-            </Button>
-          </>;
-
-          return {
-            ...item,
-            assignee,
-            realStartDate: new Date(startDate),
-            realEndDate: new Date(endDate),
-            startDate: new Date(startDate).toLocaleDateString('id-ID'),
-            endDate: new Date(endDate).toLocaleDateString('id-ID'),
-            status: <TableBadge enumType={StatusEnum} content={status}/>,
-            realStatus: status,
-            action,
-          };
-        });
-
-        setTasks(mappedTask);
-        setFilteredTask(mappedTask);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    init();
-  }, [chosenDepartment]);
-
-  const onCancelDeleteTask = () => {
-    setToBeDeletedTask(null);
-    setIsConfirmationModalShown(false);
-  };
-
-  const reloadPage = () => window.location.reload();
-
-  const onHandleDeleteTask = async () => {
-    setIsConfirmationModalShown(false);
-    const updateHandlers = {
-      setIsSessionExpired,
-      showAlert: () => setIsAlertShown(true),
-      setAlertMessage,
-      reloadPage,
-    };
-    await deleteTaskHandler(toBeDeletedTask, updateHandlers);
-  };
-
-  const onFilter = () => {
+  const onFilter = async () => {
     const { startDate: startDateFilter, endDate: endDateFilter } = dateRange;
     const dateStart = new Date(startDateFilter);
     const dateEnd = new Date(endDateFilter);
     const isAllEmployee = chosenEmployee === 'ALL';
+    const pin = isAllEmployee ? '' : chosenEmployee;
 
+    if (pin === 0) {
+      setAlertMessage('Employee does not have fingerprint pin yet. Please set it in edit employee menu');
+      setIsAlertShown(true);
+      setChosenEmployee('');
+      return;
+    }
+
+    if (startDateFilter === null || endDateFilter === null) {
+      setDateRangeError('Please fill start and end dates');
+      return;
+    }
     if (dateStart > dateEnd) {
       setDateRangeError('Start date has to be the same or earlier than end date!');
       return;
     }
-
     setDateRangeError('');
-    const filteredItems = tasks.filter(
-      (item) => {
-        const {
-          realStatus, name, priority, assignee, realStartDate, realEndDate,
-        } = item;
-        const searchableFileds = { name, priority };
-        const statusFilter = chosenStatus === '' ? realStatus
-          : realStatus.toLowerCase() === chosenStatus.toLowerCase();
-        const startDateFinalFilter = startDateFilter
-          ? (dateStart <= realStartDate && realStartDate <= dateEnd) : realStartDate;
-        const endDateFinalFilter = endDateFilter
-          ? (dateStart <= realEndDate && realEndDate <= dateEnd) : realEndDate;
-        const employeeFilter = isAllEmployee ? assignee : assignee === chosenEmployee;
 
-        return (Object.keys(searchableFileds).some((key) => searchableFileds[key]
-          .toLowerCase().includes(filterText.toLowerCase())) && statusFilter
-          && (startDateFinalFilter || endDateFinalFilter) && employeeFilter);
-      },
-    );
-
-    setFilteredTask(filteredItems);
-  };
-
-  const handleClearFilter = () => {
-    if (filterText) {
+    const url = `${PATH.Attendance.SCAN}?startDate=${startDateFilter}&endDate=${endDateFilter}&pin=${pin}`;
+    setIsLoading(true);
+    try {
+      const fetchedData = await getRequest(url);
+      setAttendance(fetchedData);
       setResetPaginationToggle(!resetPaginationToggle);
-      setFilterText('');
+    } catch (error) {
+      console.log(error);
     }
+    setIsLoading(false);
   };
 
   const renderFilter = () => (
     <>
-      <div className="grid grid-cols-12 gap-2 text-gray-500 " style={{ width: '100% ' }}>
+      <div className="grid grid-cols-12 gap-2 mb-5" style={{ width: '100% ' }}>
         <div className="col-span-4" style={filterStyle}>
           <Select placeholder="Employee..." options={employees}
-            onChange={(event) => setChosenEmployee(event ? event.label : '')}
+            onChange={(event) => setChosenEmployee(event ? event.value : '')}
           />
         </div>
         <div className="col-span-6">
@@ -200,9 +98,14 @@ const AttendanceScan = () => {
             errorMessage={dateRangeError}
           />
         </div>
-        <div className="col-span-2" onClick={onFilter} style={filterStyle}>
+        <div className="col-span-1" onClick={onFilter} style={filterStyle}>
           <Button onClick={onFilter} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '41px' }}>
             <SearchIcon className='w-4 h-4 mr-1'/> Search
+          </Button>
+        </div>
+        <div className="col-span-1" onClick={onFilter} style={filterStyle}>
+          <Button onClick={onFilter} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '41px' }}>
+            <SyncIcon className='w-4 h-4 mr-1'/> Sync
           </Button>
         </div>
       </div>
@@ -210,23 +113,18 @@ const AttendanceScan = () => {
   );
 
   const renderSpinner = () => (
-    <div className='grid' style={{ justifyContent: 'center' }}>
+    <div className='grid mt-5' style={{ justifyContent: 'center' }}>
       <MoonLoader color={COLOR.BLUE} size={30} />
     </div>
   );
 
-  const renderAllTask = () => (
+  const renderTable = () => (
     <>
       <DataTable
         columns={columns}
-        data={filteredTask}
+        data={attendance}
         pagination
-        subHeader
-        defaultSortFieldId={4}
-        defaultSortAsc={false}
-        expandableRows
-        expandableRowsComponent={TaskDetail}
-        expandableRowsComponentProps={{ onStatusChange: () => {}, isUser: false } }
+        dense
         sortFunction={customTableSort}
         paginationResetDefaultPage={resetPaginationToggle}
         paginationRowsPerPageOptions={[10, 25, 50, 100]}
@@ -238,7 +136,7 @@ const AttendanceScan = () => {
     <Card className="mb-8 shadow-md data-table">
       <CardBody style={{ minHeight: '400px' }}>
         {renderFilter()}
-        {isLoading ? renderSpinner() : renderAllTask()}
+        {isLoading ? renderSpinner() : renderTable()}
       </CardBody>
     </Card>
   );
@@ -249,16 +147,11 @@ const AttendanceScan = () => {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
         <h2 className='m-0' style={{ fontWeight: '500' }}>
-          {'All Tasks'}
+          {'Attendance Scan Report'}
         </h2>
-        <Button tag={Link} to={PATH.TaskManagement.ASSIGN} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE }}>
-          <PlusCircleIcon className='w-4 h-4 mr-1'/>Assign Task
-        </Button>
       </div>
       {renderContent()}
-      {isConfirmationModalShown && <ConfirmationModal message={deleteConfirmationMessage}
-        onClose={onCancelDeleteTask} onConfirm={onHandleDeleteTask}/>}
-      {isSessionExpired && <SessionExpiredModal history={history}/>}
+      {isConfirmationModalShown && <ConfirmationModal message={syncMessage}/>}
       {isAlertShown
         && <AlertModal message={alertMessage} onClose={() => setIsAlertShown(false)}/>}
     </>

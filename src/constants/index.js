@@ -103,6 +103,11 @@ const TaskStatusOptions = [
   { value: 'Done', label: 'Done' },
 ];
 
+const AttendanceType = {
+  SCAN_IN: 'Scan In',
+  SCAN_OUT: 'Scan Out',
+};
+
 export default {
   URL,
   Accessibility,
@@ -124,4 +129,5 @@ export default {
   LongDateOptions,
   RequestStatusBadgeEnum,
   TaskStatusOptions,
+  AttendanceType,
 };

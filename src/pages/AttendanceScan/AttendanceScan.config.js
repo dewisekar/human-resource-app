@@ -1,51 +1,29 @@
-import utils from '../../utils';
-
-const { statusBadgeSort } = utils;
-
 const columns = [
   {
-    name: 'Assignee',
-    selector: (row) => row.assignee,
+    name: 'Pin',
+    selector: (row) => row.pin,
     sortable: true,
   },
   {
-    name: 'Task',
+    name: 'Name',
     selector: (row) => row.name,
     sortable: true,
   },
   {
-    name: 'Start Date',
-    selector: (row) => row.startDate,
+    name: 'Date',
+    selector: (row) => row.date,
     sortable: true,
   },
   {
-    name: 'Deadline',
-    selector: (row) => row.endDate,
+    name: 'Time',
+    selector: (row) => row.dateTime,
     sortable: true,
   },
   {
-    name: 'Priority',
-    selector: (row) => row.priority,
+    name: 'Type',
+    selector: (row) => row.type,
     sortable: true,
-  },
-  {
-    name: 'Status',
-    selector: (row) => row.status,
-    sortable: true,
-    sortFunction: statusBadgeSort,
-  },
-  {
-    name: 'Action',
-    selector: (row) => row.action,
-    sortable: false,
-    width: '250px',
   },
 ];
 
-const StatusEnum = {
-  'Not Started': 'danger',
-  'On Progress': 'warning',
-  Done: 'success',
-};
-
-export default { columns, StatusEnum };
+export default { columns };
