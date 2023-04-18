@@ -12,12 +12,14 @@ import constants from '../../constants';
 import utils from '../../utils';
 import config from './AttendanceScan.config';
 import * as Icons from '../../icons';
+import handlers from './AttendanceScan.handlers';
 
-const { SearchIcon, SyncIcon } = Icons;
+const { SearchIcon, SyncIcon, DownloadIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest, convertDataToSelectOptions } = utils;
+const { getRequest, convertDataToSelectOptions, exportToExcel } = utils;
 const { columns } = config;
 const { customTableSort } = PageUtil;
+const { convertData } = handlers;
 
 const AttendanceScan = () => {
   const allOption = { value: 'ALL', label: 'ALL' };
@@ -73,7 +75,7 @@ const AttendanceScan = () => {
     setIsLoading(true);
     try {
       const fetchedData = await getRequest(url);
-      setAttendance(fetchedData);
+      setAttendance(convertData(fetchedData));
       setResetPaginationToggle(!resetPaginationToggle);
     } catch (error) {
       console.log(error);
@@ -89,7 +91,7 @@ const AttendanceScan = () => {
             onChange={(event) => setChosenEmployee(event ? event.value : '')}
           />
         </div>
-        <div className="col-span-6">
+        <div className="col-span-6" style={filterStyle}>
           <DateRangeFilter
             onFilter={setDateRange}
             dateValue={dateRange}
@@ -98,13 +100,16 @@ const AttendanceScan = () => {
             errorMessage={dateRangeError}
           />
         </div>
-        <div className="col-span-1" onClick={onFilter} style={filterStyle}>
-          <Button onClick={onFilter} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '41px' }}>
+        <div className="col-span-1" style={filterStyle}>
+          <Button onClick={onFilter} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '100%' }}>
             <SearchIcon className='w-4 h-4 mr-1'/> Search
           </Button>
         </div>
-        <div className="col-span-1" onClick={onFilter} style={filterStyle}>
-          <Button onClick={onFilter} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '41px' }}>
+        <div className="col-span-1" style={filterStyle}>
+          <Button onClick={() => exportToExcel(attendance, `jiera_attendance_${new Date().toISOString()}`)} size="small" className="font-semibold mb-2" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '50%' }}>
+            <DownloadIcon className='w-4 h-4 mr-1'/> XLSX
+          </Button>
+          <Button onClick={() => exportToExcel(attendance, 'attendance')} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '50%' }}>
             <SyncIcon className='w-4 h-4 mr-1'/> Sync
           </Button>
         </div>
@@ -143,12 +148,14 @@ const AttendanceScan = () => {
 
   return (
     <>
-      <div className="mt-8 mb-5" style={{
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      }}>
+      <div className="mt-8 mb-5">
         <h2 className='m-0' style={{ fontWeight: '500' }}>
           {'Attendance Scan Report'}
         </h2>
+        <small>Tombol sync merupakan fitur untuk mensinkronisasi data absen pada mesin dan
+          sistem HRIS sesuai permintaan. Maksimal melakukan sync adalah 40 kali dalam sehari.
+          Data yang dapat di sync adalah dimulai dari saat ini hingga sampai 60 hari yang lalu.
+        </small>
       </div>
       {renderContent()}
       {isConfirmationModalShown && <ConfirmationModal message={syncMessage}/>}
