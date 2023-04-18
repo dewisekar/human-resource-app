@@ -43,6 +43,9 @@ const PATH = {
     BOD_TODAY: '/task-management/bod/today',
     BOD_ALL: '/task-management/bod/all',
   },
+  Attendance: {
+    SCAN: '/attendance/report/scan',
+  },
 };
 
 export default PATH;

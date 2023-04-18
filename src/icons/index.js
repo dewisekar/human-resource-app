@@ -37,6 +37,7 @@ import { ReactComponent as QuestionIcon } from './question.svg';
 import { ReactComponent as CalendarIcon } from './calendar.svg';
 import { ReactComponent as UserPlusIcon } from './user-plus.svg';
 import { ReactComponent as PlusCircleIcon } from './plus-circle.svg';
+import { ReactComponent as FingerprintIcon } from './fingerprint.svg';
 
 export {
   ButtonsIcon,
@@ -78,4 +79,5 @@ export {
   UserPlusIcon,
   CalendarIcon,
   PlusCircleIcon,
+  FingerprintIcon,
 };

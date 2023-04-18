@@ -2,62 +2,6 @@ import constants from '../../../constants';
 
 const { PATH } = constants;
 
-const routes = [
-  {
-    path: '/dashboard',
-    icon: 'HomeIcon',
-    name: 'Dashboard',
-  },
-  {
-    path: '/forms',
-    icon: 'FormsIcon',
-    name: 'Forms',
-  },
-  {
-    path: '/cards',
-    icon: 'CardsIcon',
-    name: 'Cards',
-  },
-  {
-    path: '/charts',
-    icon: 'ChartsIcon',
-    name: 'Charts',
-  },
-  {
-    path: '/buttons',
-    icon: 'ButtonsIcon',
-    name: 'Buttons',
-  },
-  {
-    path: '/modals',
-    icon: 'ModalsIcon',
-    name: 'Modals',
-  },
-  {
-    path: '/tables',
-    icon: 'TablesIcon',
-    name: 'Tables',
-  },
-  {
-    icon: 'PagesIcon',
-    name: 'Pages',
-    routes: [
-      {
-        path: '/login',
-        name: 'Login',
-      },
-      {
-        path: '/404',
-        name: '404',
-      },
-      {
-        path: '/blank',
-        name: 'Blank',
-      },
-    ],
-  },
-];
-
 const sidebarRoutes = {
   DASHBOARD: [
     {
@@ -71,6 +15,21 @@ const sidebarRoutes = {
     {
       name: 'Admin',
       type: 'DIVIDER',
+    },
+    {
+      icon: 'FingerprintIcon',
+      name: 'Attendance',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.Attendance.SCAN,
+          name: 'Scan Report',
+        },
+        {
+          path: PATH.Reimbursement.TYPE,
+          name: 'Manage Type',
+        },
+      ],
     },
     {
       icon: 'MoneyIcon',
@@ -261,4 +220,4 @@ const sidebarRoutes = {
   ],
 };
 
-export default { routes, sidebarRoutes };
+export default { sidebarRoutes };
