@@ -22,7 +22,7 @@ const convertData = (data) => {
   const divisionValue = division && { value: division.id, label: division.name };
   const bankValue = bankAccount && { value: bankAccount.id, label: bankAccount.name };
   return {
-    fingerprintPin: fingerprintPin.toString(),
+    fingerprintPin: fingerprintPin ? fingerprintPin.toString() : '',
     status: { value: status, label: status },
     roles,
     ...otherProps,

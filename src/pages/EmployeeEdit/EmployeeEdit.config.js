@@ -145,7 +145,7 @@ const formFields = [
     name: 'fingerprintPin',
     label: 'Fingerprint Machine PIN',
     formType: 'input',
-    rules: { required: true },
+    rules: {},
   },
   {
     label: 'Contract Start Date',

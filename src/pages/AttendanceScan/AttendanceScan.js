@@ -5,7 +5,6 @@ import Select from 'react-select';
 import { Button, Card, CardBody } from '@windmill/react-ui';
 
 import DateRangeFilter from '../../components/Datatable/DateRangeFilter/DateRangeFilter';
-import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
@@ -14,7 +13,7 @@ import config from './AttendanceScan.config';
 import * as Icons from '../../icons';
 import handlers from './AttendanceScan.handlers';
 
-const { SearchIcon, SyncIcon, DownloadIcon } = Icons;
+const { SearchIcon, DownloadIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest, convertDataToSelectOptions, exportToExcel } = utils;
 const { columns } = config;
@@ -25,7 +24,6 @@ const AttendanceScan = () => {
   const allOption = { value: 'ALL', label: 'ALL' };
   const [attendance, setAttendance] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isConfirmationModalShown, setIsConfirmationModalShown] = useState(false);
   const [dateRangeError, setDateRangeError] = useState(null);
   const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -34,7 +32,7 @@ const AttendanceScan = () => {
   const [employees, setEmployees] = useState([]);
   const [chosenEmployee, setChosenEmployee] = useState('');
   const filterStyle = { display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' };
-  const syncMessage = 'Are you sure you want to sync data from the machine with HRIS data? Maximum syncing is 40 times a day';
+  const syncMessage = 'Anda yakin akan melakukan sync data? Pastikan anda hanya ingin benar-benar melakukan sync data jika diperlukan. Maksimum sync data 5 kali sehari.';
 
   useEffect(() => {
     const init = async () => {
@@ -57,7 +55,6 @@ const AttendanceScan = () => {
     if (pin === 0) {
       setAlertMessage('Employee does not have fingerprint pin yet. Please set it in edit employee menu');
       setIsAlertShown(true);
-      setChosenEmployee('');
       return;
     }
 
@@ -101,16 +98,13 @@ const AttendanceScan = () => {
           />
         </div>
         <div className="col-span-1" style={filterStyle}>
-          <Button onClick={onFilter} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '100%' }}>
+          <Button onClick={onFilter} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '41px' }}>
             <SearchIcon className='w-4 h-4 mr-1'/> Search
           </Button>
         </div>
         <div className="col-span-1" style={filterStyle}>
-          <Button onClick={() => exportToExcel(attendance, `jiera_attendance_${new Date().toISOString()}`)} size="small" className="font-semibold mb-2" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '50%' }}>
+          <Button onClick={() => exportToExcel(attendance, `jiera_attendance_${new Date().toISOString()}`)} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '41px' }}>
             <DownloadIcon className='w-4 h-4 mr-1'/> XLSX
-          </Button>
-          <Button onClick={() => exportToExcel(attendance, 'attendance')} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '50%' }}>
-            <SyncIcon className='w-4 h-4 mr-1'/> Sync
           </Button>
         </div>
       </div>
@@ -153,12 +147,11 @@ const AttendanceScan = () => {
           {'Attendance Scan Report'}
         </h2>
         <small>Tombol sync merupakan fitur untuk mensinkronisasi data absen pada mesin dan
-          sistem HRIS sesuai permintaan. Maksimal melakukan sync adalah 40 kali dalam sehari.
-          Data yang dapat di sync adalah dimulai dari saat ini hingga sampai 60 hari yang lalu.
+          sistem HRIS sesuai permintaan. Maksimal melakukan sync adalah 5 kali dalam sehari.
+          Data yang dapat di sync adalah dimulai dari saat ini hingga sampai 10 hari yang lalu.
         </small>
       </div>
       {renderContent()}
-      {isConfirmationModalShown && <ConfirmationModal message={syncMessage}/>}
       {isAlertShown
         && <AlertModal message={alertMessage} onClose={() => setIsAlertShown(false)}/>}
     </>
