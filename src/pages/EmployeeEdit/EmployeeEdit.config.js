@@ -150,13 +150,20 @@ const formFields = [
   {
     label: 'Contract Start Date',
     name: 'contractStartDate',
+    rules: {},
+    type: 'date',
+    formType: 'input',
+  },
+  {
+    label: 'Contract Start Date Una',
+    name: 'contractStartDateUna',
     rules: { required: true },
     type: 'date',
     formType: 'input',
   },
   {
     label: 'Contract End Date',
-    name: 'contractEndDate',
+    name: 'contractEndDateUna',
     rules: { required: false },
     type: 'date',
     formType: 'input',

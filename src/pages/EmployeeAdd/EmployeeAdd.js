@@ -74,7 +74,8 @@ const EmployeeAdd = () => {
   const handleAddEmployee = (data) => {
     const selectFields = ['bankCode', 'gender', 'maritalStatus', 'employmentStatus', 'department', 'division'];
     const {
-      roles, superior, phoneNumber, contractEndDate, maximumCheckInTime, ...otherData
+      roles, superior, phoneNumber, contractEndDateUna,
+      contractStartDate, maximumCheckInTime, ...otherData
     } = data;
     const mappedOptions = {};
     selectFields.forEach((item) => Object.assign(mappedOptions, { [item]: data[item].value }));
@@ -88,7 +89,8 @@ const EmployeeAdd = () => {
       phoneNumber: formatIndonesianPhoneNumber(formatNumberOnly(phoneNumber)),
       superior: superior ? superior.value : null,
       ...mappedOptions,
-      contractEndDate: contractEndDate || null,
+      contractEndDateUna: contractEndDateUna || null,
+      contractStartDate: contractStartDate || null,
       maximumCheckInTime: convertedMaximumCheckInTime,
     });
     showConfirmModal();

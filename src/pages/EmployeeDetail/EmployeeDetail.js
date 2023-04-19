@@ -31,7 +31,8 @@ const EmployeeDetail = () => {
 
   const convertData = (data) => {
     const {
-      level, superior, subordinate, contractStartDate, contractEndDate, bankAccount, baseSalary,
+      level, superior, subordinate, contractStartDate, contractStartDateUna,
+      contractEndDateUna, bankAccount, baseSalary,
       birthDate, department, division, ...otherProps
     } = data;
     const convertedRoles = level.map((item) => <li key={item.id}>{item.name}</li>);
@@ -42,8 +43,9 @@ const EmployeeDetail = () => {
       roles: convertedRoles,
       superior: superior ? superior.name : '-',
       subordinate: convertedSubordinate,
-      contractStartDate: new Date(contractStartDate).toLocaleDateString('id-ID', dateOptions),
-      contractEndDate: contractEndDate ? new Date(contractEndDate).toLocaleDateString('id-ID', dateOptions) : '-',
+      contractStartDateUna: new Date(contractStartDateUna).toLocaleDateString('id-ID', dateOptions),
+      contractStartDate: contractStartDate ? new Date(contractStartDate).toLocaleDateString('id-ID', dateOptions) : '-',
+      contractEndDateUna: contractEndDateUna ? new Date(contractEndDateUna).toLocaleDateString('id-ID', dateOptions) : '-',
       birthDate: !birthDate || new Date(birthDate).toLocaleDateString('id-ID', dateOptions),
       department: department ? department.name : '-',
       division: division ? division.name : '-',
