@@ -37,6 +37,17 @@ const getRealValuesForTable = (data) => {
   return result;
 };
 
+const convertObjectToRupiahString = (data) => {
+  const result = {};
+  const keys = Object.keys(data);
+
+  keys.forEach((key) => {
+    result[key] = getRupiahString(data[key]);
+  });
+
+  return result;
+};
+
 const customTableSort = (rows, field, direction) => {
   const REAL_FIELDS = {
     endDate: 'realEndDate',
@@ -80,4 +91,5 @@ export default {
   isEmptyString,
   dayOnly,
   resetFormToNull,
+  convertObjectToRupiahString,
 };

@@ -7,7 +7,6 @@ import {
 
 import SectionTitle from '../../components/Typography/SectionTitle';
 import VerticalTable from '../../components/VerticalTable/VerticalTable';
-import RupiahCurrency from '../../components/RupiahCurrency/RupiahCurrency';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './EmployeeDetail.config';
@@ -15,7 +14,9 @@ import * as Icons from '../../icons';
 
 const { EditIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest, checkPageIdIsValid, getRole } = utils;
+const {
+  getRequest, checkPageIdIsValid, getRole, convertObjectToRupiahString,
+} = utils;
 const { requestFields, dateOptions } = config;
 
 const EmployeeDetail = () => {
@@ -32,11 +33,21 @@ const EmployeeDetail = () => {
   const convertData = (data) => {
     const {
       level, superior, subordinate, contractStartDate, contractStartDateUna,
-      contractEndDateUna, bankAccount, baseSalary,
+      contractEndDateUna, bankAccount, baseSalary, baseSalaryMealAllowance,
+      positionAllowance, transportAllowance, familyAllowance, mealAllowance,
       birthDate, department, division, ...otherProps
     } = data;
     const convertedRoles = level.map((item) => <li key={item.id}>{item.name}</li>);
     const convertedSubordinate = subordinate ? subordinate.map((item) => <li key={item.id}>{item.name}</li>) : '-';
+    const toBeConvertedToCurrency = {
+      baseSalary,
+      baseSalaryMealAllowance,
+      positionAllowance,
+      transportAllowance,
+      familyAllowance,
+      mealAllowance,
+    };
+    const convertedCurrency = convertObjectToRupiahString(toBeConvertedToCurrency);
 
     return {
       ...otherProps,
@@ -50,7 +61,7 @@ const EmployeeDetail = () => {
       department: department ? department.name : '-',
       division: division ? division.name : '-',
       bankCode: bankAccount ? bankAccount.name : '-',
-      baseSalary: <RupiahCurrency balance={baseSalary}/>,
+      ...convertedCurrency,
     };
   };
 
