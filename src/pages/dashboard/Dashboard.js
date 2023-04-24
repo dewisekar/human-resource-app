@@ -9,6 +9,7 @@ import { PeopleIcon } from '../../icons';
 import constants from '../../constants';
 import EmployeeOverview from './EmployeeOverview/EmployeeOverview';
 import TaskOverview from './TaskOverview/TaskOverview';
+import AttendanceOverview from './AttendanceOverview/AttendanceOverview';
 
 const { getRequest, getRole } = utils;
 const { URL, Accessibility } = constants;
@@ -93,6 +94,7 @@ const Dashboard = () => {
 
   const renderOverviewDashboard = () => (<>
     <EmployeeOverview/>
+    <AttendanceOverview/>
     <TaskOverview/>
   </>);
 

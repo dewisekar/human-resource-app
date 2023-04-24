@@ -146,9 +146,8 @@ const AttendanceScan = () => {
         <h2 className='m-0' style={{ fontWeight: '500' }}>
           {'Attendance Scan Report'}
         </h2>
-        <small>Tombol sync merupakan fitur untuk mensinkronisasi data absen pada mesin dan
-          sistem HRIS sesuai permintaan. Maksimal melakukan sync adalah 5 kali dalam sehari.
-          Data yang dapat di sync adalah dimulai dari saat ini hingga sampai 10 hari yang lalu.
+        <small>Data scan absen akan tersinkronisasi dengan mesin absen setiap 30 menit kecuali
+          pukul 06.00 s/d 08.59 WIB dan 14.00 s/d 15.59 WIB
         </small>
       </div>
       {renderContent()}

@@ -53,6 +53,7 @@ const URL = {
   },
   Attendance: {
     SCAN: '/attendance/report/scan',
+    LATE_CHECK_IN: '/attendance/report/late-check-in',
   },
 };
 
