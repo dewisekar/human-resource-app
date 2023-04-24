@@ -3,7 +3,7 @@ import { Card, CardBody, Button } from '@windmill/react-ui';
 import DataTable from 'react-data-table-component';
 
 import utils from '../../../utils';
-import { WarningCircleIcon, SearchIcon } from '../../../icons';
+import { WarningCircleIcon, SearchIcon, CheckCircleIcon } from '../../../icons';
 import constants from '../../../constants';
 import Spinner from '../../../components/Spinner/Spinner';
 import DateRangeFilter from '../../../components/Datatable/DateRangeFilter/DateRangeFilter';
@@ -22,6 +22,7 @@ const AttendanceOverview = () => {
   const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
   const [filterErrorMessage, setFilterErrorMessage] = useState(null);
   const [lateCheckIn, setLateCheckIn] = useState([]);
+  const [obidientEmployees, setObidientEmployees] = useState([]);
 
   useEffect(() => {
     const init = async () => {
@@ -55,13 +56,17 @@ const AttendanceOverview = () => {
     setIsLoading(true);
     setFilterErrorMessage(null);
     try {
-      const lateCheckInData = await getRequest(URL.Attendance.LATE_CHECK_IN + params);
-      const mappedLateData = lateCheckInData.map((item) => {
+      const {
+        lateAttendanceStats,
+        neverLateEmployees,
+      } = await getRequest(URL.Attendance.LATE_CHECK_IN + params);
+      const mappedLateData = lateAttendanceStats.map((item) => {
         const { frequency, employee: { name } } = item;
         return { frequency: parseInt(frequency, 10), name };
       });
 
       setLateCheckIn(mappedLateData);
+      setObidientEmployees(neverLateEmployees);
     } catch (error) {
       console.log(error);
     }
@@ -106,6 +111,24 @@ const AttendanceOverview = () => {
     </div>
   );
 
+  const renderObidientEmployees = () => (
+    <div className="grid grid-cols-12 gap-2 mt-1 mb-5">
+      <div className="col-span-12">
+        <div style={{ display: 'flex', alignItems: 'center' }} className="mt-3 mb-1">
+          <CheckCircleIcon className='w-5 h-5 mr-2'/>
+          <p className="text-md font-semibold text-gray-600">Always On Time Employees</p>
+        </div>
+        <div className="col-span-12" style={{ maxHeight: '250px', overflowY: 'auto' }}>
+          <DataTable
+            columns={[{ name: 'Name', selector: (row) => row.name, sortable: true }]}
+            data={obidientEmployees}
+            dense
+          />
+        </div>
+      </div>
+    </div>
+  );
+
   const renderCard = () => (
     <Card className="mb-8 shadow-md">
       <CardBody className="pt-6 pb-6 pl-10 pr-10">
@@ -114,6 +137,7 @@ const AttendanceOverview = () => {
         </div>
         {renderDateRangeFilter()}
         {isLoading ? <Spinner/> : renderLateStatistics()}
+        {isLoading ? <Spinner/> : renderObidientEmployees()}
       </CardBody>
     </Card>
   );

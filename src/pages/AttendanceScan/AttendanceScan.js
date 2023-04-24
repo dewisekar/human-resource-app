@@ -32,7 +32,6 @@ const AttendanceScan = () => {
   const [employees, setEmployees] = useState([]);
   const [chosenEmployee, setChosenEmployee] = useState('');
   const filterStyle = { display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' };
-  const syncMessage = 'Anda yakin akan melakukan sync data? Pastikan anda hanya ingin benar-benar melakukan sync data jika diperlukan. Maksimum sync data 5 kali sehari.';
 
   useEffect(() => {
     const init = async () => {
