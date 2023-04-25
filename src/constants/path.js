@@ -45,6 +45,7 @@ const PATH = {
   },
   Attendance: {
     SCAN: '/attendance/report/scan',
+    MISSED_SCAN: '/attendance/report/missed-scan',
   },
 };
 

@@ -42,6 +42,7 @@ const SupervisorTaskManagement = lazy(() => import('../pages/SupervisorTaskManag
 const BodTodayTaskManagement = lazy(() => import('../pages/BodTodayTaskManagement/BodTodayTaskManagement'));
 const BodAllTaskManagement = lazy(() => import('../pages/BodAllTaskManagement/BodAllTaskManagement'));
 const AttendanceScan = lazy(() => import('../pages/AttendanceScan/AttendanceScan'));
+const AttendanceMissedScan = lazy(() => import('../pages/AttendanceMissedScan/AttendanceMissedScan'));
 
 const routes = [
   {
@@ -232,6 +233,11 @@ const routes = [
   {
     path: PATH.Attendance.SCAN,
     component: AttendanceScan,
+    accessibility: [Accessibility.BOD, Accessibility.ADMIN],
+  },
+  {
+    path: PATH.Attendance.MISSED_SCAN,
+    component: AttendanceMissedScan,
     accessibility: [Accessibility.BOD, Accessibility.ADMIN],
   },
 ];

@@ -27,7 +27,6 @@ const TaskOverview = () => {
     const init = async () => {
       const fetchedNewestTasks = await getRequest(URL.TaskManagement.NEWEST_TASK);
       const fetchedAllTask = await getRequest(URL.TaskManagement.BOD_ALL);
-      console.log(fetchedAllTask);
       const notStartedTasks = fetchedAllTask.filter(({ status }) => status === 'Not Started').length;
       const onProgressTasks = fetchedAllTask.filter(({ status }) => status === 'On Progress').length;
       const doneTasks = fetchedAllTask.filter(({ status }) => status === 'Done').length;

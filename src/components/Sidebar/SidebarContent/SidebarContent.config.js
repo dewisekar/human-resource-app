@@ -26,8 +26,8 @@ const sidebarRoutes = {
           name: 'Scan Report',
         },
         {
-          path: PATH.Reimbursement.TYPE,
-          name: 'Manage Type',
+          path: PATH.Attendance.MISSED_SCAN,
+          name: 'Missed Scan',
         },
       ],
     },
@@ -132,6 +132,21 @@ const sidebarRoutes = {
         {
           path: PATH.TaskManagement.BOD_ALL,
           name: 'All Tasks',
+        },
+      ],
+    },
+    {
+      icon: 'FingerprintIcon',
+      name: 'Attendance',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.Attendance.SCAN,
+          name: 'Scan Report',
+        },
+        {
+          path: PATH.Attendance.MISSED_SCAN,
+          name: 'Missed Scan',
         },
       ],
     },

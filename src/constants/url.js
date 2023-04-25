@@ -55,6 +55,7 @@ const URL = {
     SCAN: '/attendance/report/scan',
     LATE_CHECK_IN: '/attendance/report/late-check-in',
     UNREGISTERED_USER: '/attendance/unregistered-user',
+    MISSED_SCAN: '/attendance/report/missed-scan',
   },
 };
 
