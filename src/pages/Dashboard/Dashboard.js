@@ -10,6 +10,7 @@ import constants from '../../constants';
 import EmployeeOverview from './EmployeeOverview/EmployeeOverview';
 import TaskOverview from './TaskOverview/TaskOverview';
 import AttendanceOverview from './AttendanceOverview/AttendanceOverview';
+import AttendanceRegistration from './AttendanceRegistration/AttendanceRegistration';
 
 const { getRequest, getRole } = utils;
 const { URL, Accessibility } = constants;
@@ -92,11 +93,19 @@ const Dashboard = () => {
     </Card>
   );
 
-  const renderOverviewDashboard = () => (<>
-    <EmployeeOverview/>
-    <AttendanceOverview/>
-    <TaskOverview/>
-  </>);
+  const renderOverviewDashboard = () => (
+    <>
+      <div className='grid grid-cols-12 gap-5'>
+        <div className='col-span-6'>
+          <EmployeeOverview/>
+        </div>
+        <div className='col-span-6'>
+          <AttendanceRegistration/>
+        </div>
+      </div>
+      <AttendanceOverview/>
+      <TaskOverview/>
+    </>);
 
   return (
     <>

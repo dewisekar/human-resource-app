@@ -114,6 +114,7 @@ const Employees = () => {
             subHeader
             subHeaderComponent={subHeaderComponent}
             defaultSortFieldId={1}
+            paginationRowsPerPageOptions={[10, 25, 50, 100]}
           />
         </CardBody>
       </Card>

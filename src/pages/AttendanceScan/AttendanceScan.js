@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
 import Select from 'react-select';
-import { Button, Card, CardBody } from '@windmill/react-ui';
+import {
+  Button, Card, CardBody, Badge,
+} from '@windmill/react-ui';
 
 import DateRangeFilter from '../../components/Datatable/DateRangeFilter/DateRangeFilter';
 import AlertModal from '../../components/AlertModal/AlertModal';
@@ -15,13 +17,13 @@ import handlers from './AttendanceScan.handlers';
 
 const { SearchIcon, DownloadIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
-const { getRequest, convertDataToSelectOptions, exportToExcel } = utils;
+const { getRequest, exportToExcel } = utils;
 const { columns } = config;
 const { customTableSort } = PageUtil;
 const { convertData } = handlers;
 
 const AttendanceScan = () => {
-  const allOption = { value: 'ALL', label: 'ALL' };
+  const allOption = { value: 'ALL', label: 'ALL', status: null };
   const [attendance, setAttendance] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [dateRangeError, setDateRangeError] = useState(null);
@@ -35,8 +37,17 @@ const AttendanceScan = () => {
 
   useEffect(() => {
     const init = async () => {
+      const BadgeType = {
+        Active: 'success',
+        Inactive: 'danger',
+      };
       const fetchedEmployees = await getRequest(URL.User.USER_ALL_URL);
-      const convertedEmployeeOptions = convertDataToSelectOptions(fetchedEmployees, 'fingerprintPin', 'name');
+      const convertedEmployeeOptions = fetchedEmployees.map((item) => {
+        const { fingerprintPin, name, status } = item;
+        return {
+          value: fingerprintPin, label: name, status, type: BadgeType[status],
+        };
+      });
 
       setEmployees([allOption, ...convertedEmployeeOptions]);
     };
@@ -71,7 +82,11 @@ const AttendanceScan = () => {
     setIsLoading(true);
     try {
       const fetchedData = await getRequest(url);
-      setAttendance(convertData(fetchedData));
+      const mappedData = fetchedData.map((item) => {
+        const { employee: { name: employeeName }, ...otherItem } = item;
+        return { ...otherItem, name: employeeName };
+      });
+      setAttendance(convertData(mappedData));
       setResetPaginationToggle(!resetPaginationToggle);
     } catch (error) {
       console.log(error);
@@ -85,6 +100,15 @@ const AttendanceScan = () => {
         <div className="col-span-4" style={filterStyle}>
           <Select placeholder="Employee..." options={employees}
             onChange={(event) => setChosenEmployee(event ? event.value : '')}
+            getOptionValue={(event) => event.value}
+            getOptionLabel={(e) => (
+              <div
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+              >
+                <span>{e.label}</span>
+                {e.status && <Badge type={e.type}>{e.status}</Badge>}
+              </div>
+            )}
           />
         </div>
         <div className="col-span-6" style={filterStyle}>
