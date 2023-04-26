@@ -47,6 +47,10 @@ const PATH = {
     SCAN: '/attendance/report/scan',
     MISSED_SCAN: '/attendance/report/missed-scan',
   },
+  Payroll: {
+    FIX_RATE: '/payroll/fix-rate',
+    ADMIN: '/payroll/admin',
+  },
 };
 
 export default PATH;

@@ -32,6 +32,21 @@ const sidebarRoutes = {
       ],
     },
     {
+      icon: 'WalletIcon',
+      name: 'Payroll',
+      type: 'SUBMENU_HEADER',
+      routes: [
+        {
+          path: PATH.Payroll.MAIN,
+          name: 'Manage',
+        },
+        {
+          path: PATH.Payroll.FIX_RATE,
+          name: 'Fix Rate',
+        },
+      ],
+    },
+    {
       icon: 'MoneyIcon',
       name: 'Reimbursement',
       type: 'SUBMENU_HEADER',
