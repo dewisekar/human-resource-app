@@ -108,7 +108,7 @@ const PayrollFixRate = () => {
     setIsConfirmModalShown(false);
     setIsLoading(true);
     const submitHandler = { showAlert, setAlertMessage, showExpiredModal };
-    // await updateFixRateHandler(submittedData, submitHandler);
+    await updateFixRateHandler(submittedData, submitHandler);
     setIsLoading(false);
   };
 

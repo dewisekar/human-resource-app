@@ -6,10 +6,10 @@ const { URL, AlertMessage, AxiosErrorMessage } = constants;
 
 const updateFixRateHandler = async (payload, handlers) => {
   const { showAlert, setAlertMessage, showExpiredModal } = handlers;
-  const successMessage = 'Successfully update employee data!';
+  const successMessage = 'Berhasil update fix rate!';
 
   try {
-    await postRequest(URL.User.USER_URL, payload);
+    await postRequest(URL.Payroll.FIX_RATE, payload);
 
     setAlertMessage(successMessage);
     showAlert();
