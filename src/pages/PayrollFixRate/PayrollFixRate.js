@@ -18,7 +18,7 @@ import handlers from './PayrollFixRate.handlers';
 
 const { EditIcon } = Icons;
 const { COLOR, URL } = constants;
-const { getRequest, postRequest } = utils;
+const { getRequest, getRupiahString } = utils;
 const { columns, formFields } = config;
 const { customTableSort } = PageUtil;
 const { updateFixRateHandler } = handlers;
@@ -35,6 +35,36 @@ const PayrollFixRate = () => {
   const {
     register, handleSubmit, formState: { errors }, control,
   } = useForm();
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const fetchedHistory = await getRequest(URL.Payroll.FIX_RATE);
+        const mappedData = fetchedHistory.map((item, index) => {
+          const className = index === 0 && 'bg-yellow-100';
+          const {
+            createdAt, maxSalaryJaminanPensiun, maxSalaryJaminanKesehatan, umr,
+          } = item;
+          const convertedDate = new Date(createdAt);
+
+          return {
+            createdAt: <p className={className}>{convertedDate.toLocaleDateString('id-ID')}</p>,
+            realCreatedAt: convertedDate,
+            maxSalaryJaminanKesehatan: <p className={className}>{
+              getRupiahString(maxSalaryJaminanKesehatan)}</p>,
+            maxSalaryJaminanPensiun: <p className={className}>
+              {getRupiahString(maxSalaryJaminanPensiun)}</p>,
+            umr: <p className={className}>{getRupiahString(umr)}</p>,
+          };
+        });
+        setFixRate(mappedData);
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+
+    init();
+  }, []);
 
   const renderSpinner = () => (
     <div className='grid mt-5' style={{ justifyContent: 'center' }}>
@@ -61,6 +91,7 @@ const PayrollFixRate = () => {
         dense
         sortFunction={customTableSort}
         paginationRowsPerPageOptions={[10, 25, 50, 100]}
+        className="mt-3"
       />
     </>
   );

@@ -57,6 +57,9 @@ const URL = {
     UNREGISTERED_USER: '/attendance/unregistered-user',
     MISSED_SCAN: '/attendance/report/missed-scan',
   },
+  Payroll: {
+    FIX_RATE: '/payroll/fix-rate',
+  },
 };
 
 export default URL;

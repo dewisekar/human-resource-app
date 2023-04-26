@@ -1,27 +1,24 @@
 const columns = [
   {
-    name: 'Maksimal Gaji Jaminan Pensiun',
+    name: 'Maksimal Gaji JP',
     selector: (row) => row.maxSalaryJaminanPensiun,
-    sortable: true,
-    width: '100px',
+    width: '220px',
   },
   {
     name: 'Maksimal Gaji BPJSKES',
     selector: (row) => row.maxSalaryJaminanKesehatan,
-    sortable: true,
-    width: '150px',
+    width: '220px',
   },
   {
     name: 'UMR',
     selector: (row) => row.umr,
-    sortable: true,
-    width: '150px',
+    width: '200px',
   },
   {
     name: 'Tanggal Dibuat',
     selector: (row) => row.createdAt,
     sortable: true,
-    width: '150px',
+    width: '200px',
   },
 ];
 
