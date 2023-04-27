@@ -99,7 +99,7 @@ const PayrollAdmin = () => {
         <h3 className='m-0' style={{ fontWeight: '500' }}>
           Manage Payroll
         </h3>
-        <Button tag={Link} to={PATH.Employees.ADD} size="small" className="mb-3" style={{ backgroundColor: COLOR.GREEN }}>
+        <Button tag={Link} to={PATH.Payroll.ADD} size="small" className="mb-3" style={{ backgroundColor: COLOR.GREEN }}>
           <UserPlusIcon className='w-4 h-4 mr-1'/>Add Payroll
         </Button>
       </div>

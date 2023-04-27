@@ -59,6 +59,7 @@ const URL = {
   },
   Payroll: {
     FIX_RATE: '/payroll/fix-rate',
+    EMPLOYEES: '/payroll/employees',
   },
 };
 

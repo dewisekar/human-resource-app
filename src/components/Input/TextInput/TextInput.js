@@ -20,7 +20,7 @@ const TextInput = (props) => {
     <Label className="mt-4">
       {!isCheckbox && renderLabel()}
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Input value={value} className="mr-2" disabled {...otherProps}
+        <Input value={value} disabled {...otherProps}
           checked={isCheckbox && value}/>{isCheckbox && label}
       </div>
     </Label>
@@ -31,7 +31,7 @@ const TextInput = (props) => {
       {!isCheckbox && renderLabel()}
       {subtitle && <><HelperText className="text-gray-500 mb-1">{subtitle}</HelperText></>}
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Input name={name} className="mr-2" {...otherProps} {...register(name, rules)}
+        <Input name={name} {...otherProps} {...register(name, rules)}
           checked={isCheckbox && value}/> {isCheckbox && label}
       </div>
       {errors[name] && <HelperText valid={false}>{ErrorMessage[errors[name].type]
