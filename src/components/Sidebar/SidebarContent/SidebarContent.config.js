@@ -37,7 +37,7 @@ const sidebarRoutes = {
       type: 'SUBMENU_HEADER',
       routes: [
         {
-          path: PATH.Payroll.MAIN,
+          path: PATH.Payroll.ADMIN,
           name: 'Manage',
         },
         {

@@ -100,7 +100,7 @@ const AttendanceScan = () => {
         <div className="col-span-4" style={filterStyle}>
           <Select placeholder="Employee..." options={employees}
             onChange={(event) => setChosenEmployee(event ? event.value : '')}
-            getOptionValue={(event) => event.value}
+            getOptionValue={(event) => event.label}
             getOptionLabel={(e) => (
               <div
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}

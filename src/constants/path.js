@@ -50,6 +50,7 @@ const PATH = {
   Payroll: {
     FIX_RATE: '/payroll/fix-rate',
     ADMIN: '/payroll/admin',
+    ADD: '/payroll/add',
   },
 };
 
