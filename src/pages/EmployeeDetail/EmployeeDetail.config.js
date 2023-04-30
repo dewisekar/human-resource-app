@@ -76,21 +76,12 @@ const requestFields = [
     label: 'Base Salary Without Meal',
   },
   {
-    key: 'baseSalaryMealAllowance',
-    label: 'Base Salary With Meal',
-  },
-
-  {
     label: 'Position Allowance',
     key: 'positionAllowance',
   },
   {
     label: 'Transport Allowance',
     key: 'transportAllowance',
-  },
-  {
-    label: 'Meal Allowance',
-    key: 'mealAllowance',
   },
   {
     label: 'Family Allowance',

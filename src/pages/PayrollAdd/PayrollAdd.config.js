@@ -1,45 +1,70 @@
-const formOptions = [
+const bonusOptions = [
   {
-    label: 'Reimburse Name',
-    name: 'reimbursementName',
-    placeholder: 'Name...',
-    rules: { required: true },
-    type: 'text',
-    formType: 'input',
-  },
-  {
-    label: 'Reimburse Type',
-    name: 'reimbursementType',
-    rules: { required: true },
-    formType: 'select',
-  },
-  {
-    label: 'Invoice Date',
-    name: 'invoiceDate',
-    rules: { required: true },
-    type: 'date',
-    formType: 'input',
-  },
-  {
-    label: 'Requested Amount',
-    name: 'requestedAmount',
-    placeholder: 'Amount...',
-    rules: { required: true },
+    label: 'Overtime Pay',
+    name: 'overtimePay',
+    placeholder: 'Overtime Pay...',
+    rules: { },
     formType: 'currency',
   },
   {
-    label: 'Proof',
-    name: 'proof',
-    rules: { required: true },
-    type: 'file',
-    formType: 'input',
+    label: 'No-Late Bonus',
+    name: 'noLateBonus',
+    placeholder: 'No-Late Bonus...',
+    rules: { },
+    formType: 'currency',
   },
   {
-    label: 'Request Note',
-    name: 'requestNote',
-    formType: 'textarea',
-    placeholder: 'Note...',
-    rules: {},
+    label: 'Other Bonus',
+    name: 'otherBonus',
+    placeholder: 'Other Bonus...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'THR',
+    name: 'thr',
+    placeholder: 'THR...',
+    rules: { },
+    formType: 'currency',
+  },
+
+];
+
+const allowanceOptions = [
+  {
+    label: 'Position Allowance',
+    name: 'positionAllowance',
+    placeholder: 'Position Allowance...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Transport Allowance',
+    name: 'transportAllowance',
+    placeholder: 'Transport Allowance...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Family Allowance',
+    name: 'familyAllowance',
+    placeholder: 'Family Allowance...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Meal Allowance',
+    name: 'mealAllowance',
+    placeholder: 'Meal Allowance...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Other Allowance',
+    name: 'otherAllowance',
+    placeholder: 'Other Allowance...',
+    rules: { },
+    formType: 'currency',
   },
 ];
 
@@ -48,4 +73,53 @@ const Modals = {
   ALERT: 'ALERT',
 };
 
-export default { formOptions, Modals };
+const employeeDetailFields = [
+  {
+    key: 'employeeId',
+    label: 'Employee ID',
+  },
+  {
+    key: 'name',
+    label: 'Name',
+  },
+  {
+    key: 'npwp',
+    label: 'NPWP',
+  },
+  {
+    key: 'bank',
+    label: 'Bank',
+  },
+  {
+    key: 'bankAccountNumber',
+    label: 'Bank Account Number',
+  },
+  {
+    key: 'bankAccountOwnerName',
+    label: 'Bank Account Owner Name',
+  },
+  {
+    key: 'jobTitle',
+    label: 'Job Title',
+  },
+  {
+    key: 'department',
+    label: 'Department',
+  },
+  {
+    key: 'baseSalary',
+    label: 'Base Salary',
+  },
+];
+
+const getRangeParams = (employeeId, chosenMonth) => {
+  const month = chosenMonth.getMonth() + 1;
+  const year = chosenMonth.getFullYear();
+  const StartDate = `${year}-${month - 1}-29`;
+  const endDate = `${year}-${month}-28`;
+  return `?employee=${employeeId}&startDate=${StartDate}&endDate=${endDate}`;
+};
+
+export default {
+  allowanceOptions, Modals, employeeDetailFields, bonusOptions, getRangeParams,
+};

@@ -135,14 +135,6 @@ const formFields = [
     formType: 'currency',
   },
   {
-    label: 'Base Salary With Meal',
-    name: 'baseSalaryMealAllowance',
-    placeholder: 'Base Salary With Meal...',
-    rules: { required: true },
-    formType: 'currency',
-  },
-
-  {
     label: 'Position Allowance',
     name: 'positionAllowance',
     placeholder: 'Position Allowance...',
@@ -153,13 +145,6 @@ const formFields = [
     label: 'Transport Allowance',
     name: 'transportAllowance',
     placeholder: 'Transport Allowance...',
-    rules: {},
-    formType: 'currency',
-  },
-  {
-    label: 'Meal Allowance',
-    name: 'mealAllowance',
-    placeholder: 'Meal Allowance...',
     rules: {},
     formType: 'currency',
   },

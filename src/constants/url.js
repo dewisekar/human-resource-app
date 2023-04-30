@@ -32,6 +32,7 @@ const URL = {
     APPROVE_URL: '/supervisor/overtime/approve/',
     DOWNLOAD_PROOF_URL: '/overtime/proof/download/',
     SUMMARY: '/overtime/summary',
+    PAY_BY_DATE: '/overtime/pay-by-date',
   },
   Password: {
     PASSWORD: '/password',

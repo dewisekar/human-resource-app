@@ -13,6 +13,7 @@ import TextInput from '../../components/Input/TextInput/TextInput';
 import TextAreaInput from '../../components/Input/TextAreaInput/TextAreaInput';
 import RupiahCurrencyInput from '../../components/Input/RupiahCurrencyInput/RupiahCurrencyInput';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
+import VerticalTable from '../../components/VerticalTable/VerticalTable';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import constants from '../../constants';
 import config from './PayrollAdd.config';
@@ -21,28 +22,34 @@ import utils from '../../utils';
 
 const { COLOR, URL } = constants;
 const { submitRequest } = handlers;
-const { getRequest } = utils;
+const { getRequest, getRupiahString, isObjectEmpty } = utils;
+const {
+  employeeDetailFields, allowanceOptions, bonusOptions, getRangeParams,
+} = config;
 
 const PayrollAddPayrollAdd = () => {
   const {
-    register, handleSubmit, formState: { errors }, control, setError, reset,
+    register, handleSubmit, formState: { errors }, control, setError, reset, setValue,
   } = useForm();
   const { Modals } = config;
-  const formOptions = [];
   const history = useHistory();
 
   const [isModalShown, setIsModalShown] = useState({});
   const [alertMessage, setAlertMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingEmployee, setIsLoadingEmployee] = useState(false);
+  const [isLoadingForm, setIsLoadingForm] = useState(false);
   const [alertModalType, setAlertModalType] = useState(null);
   const [chosenMonth, setChosenMonth] = useState(new Date());
   const [employees, setEmployees] = useState([]);
   const [chosenEmployee, setChosenEmployee] = useState('');
+  const [employeeData, setEmployeeData] = useState({});
 
   useEffect(() => {
     const init = async () => {
       setIsLoadingEmployee(true);
+      setChosenEmployee('');
+      setEmployeeData({});
       const month = chosenMonth.getMonth() + 1;
       const year = chosenMonth.getFullYear();
       const params = `?month=${month}&year=${year}`;
@@ -60,6 +67,31 @@ const PayrollAddPayrollAdd = () => {
     init();
   }, [chosenMonth]);
 
+  useEffect(() => {
+    const init = async () => {
+      setIsLoadingForm(true);
+      if (chosenEmployee !== '') {
+        const overtimeParams = getRangeParams(chosenEmployee, chosenMonth);
+        const fetchedDetail = await getRequest(URL.User.USE_DETAIL_URL + chosenEmployee);
+        const { overtimePay } = await getRequest(URL.Overtime.PAY_BY_DATE + overtimeParams);
+        const { baseSalary, bankAccount, department } = fetchedDetail;
+        const realBaseSalary = baseSalary;
+        setEmployeeData({
+          ...fetchedDetail,
+          realBaseSalary,
+          baseSalary: getRupiahString(baseSalary),
+          bank: bankAccount && bankAccount.name,
+          department: department && department.name,
+        });
+
+        setValue('overtimePay', overtimePay);
+      }
+      setIsLoadingForm(false);
+    };
+
+    init();
+  }, [chosenEmployee]);
+
   const renderSpinner = () => (
     <div className='grid' style={{ justifyContent: 'center' }}>
       <MoonLoader color={COLOR.GREEN} size={30} />
@@ -72,12 +104,13 @@ const PayrollAddPayrollAdd = () => {
 
   const onSubmit = async (data) => {
     const submitHandler = { openModalHandler, setAlertMessage, setAlertModalType };
+    console.log('data', data);
 
-    setIsSubmitting(true);
-    await submitRequest(data, submitHandler);
-    setIsSubmitting(false);
+    // setIsSubmitting(true);
+    // await submitRequest(data, submitHandler);
+    // setIsSubmitting(false);
 
-    reset();
+    // reset();
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;
@@ -100,6 +133,10 @@ const PayrollAddPayrollAdd = () => {
 
     return Forms[formType];
   };
+
+  const renderEmployeeDetail = () => (
+    <VerticalTable data={employeeData} fields={employeeDetailFields} padding="py-1 px-2" column={2}/>
+  );
 
   const renderMonthPicker = () => (
     <>
@@ -137,7 +174,10 @@ const PayrollAddPayrollAdd = () => {
     <>
       {chosenEmployee !== ''
       && <form onSubmit={handleSubmit(onSubmit)} >
-        {formOptions.map((option) => renderFormField(option))}
+        <p className='font-semibold mb-1 text-gray-600'>Cash Allowance</p>
+        {allowanceOptions.map((option) => renderFormField(option))}
+        <p className='font-semibold mb-1 mt-3 text-gray-600'>Bonus</p>
+        {bonusOptions.map((option) => renderFormField(option))}
         {!isSubmitting ? <Button className="mt-5" style={{ backgroundColor: COLOR.GREEN, width: '100%' }}
           type="submit">Simpan</Button>
           : renderSpinner()}
@@ -145,13 +185,18 @@ const PayrollAddPayrollAdd = () => {
     </>
   );
 
+  const renderPayrollForm = () => (<>
+    {!isObjectEmpty(employeeData) && renderEmployeeDetail()}
+    {renderForm()}
+  </>);
+
   return (
     <>
-      <Card className="mb-8 shadow-md" style={{ minHeight: '500px' }}>
+      <Card className="mb-8 shadow-md mt-10" style={{ minHeight: '500px' }}>
         <CardBody>
           <SectionTitle>Add New Payroll/Slip</SectionTitle>
           {renderMonthPicker()}
-          {renderForm()}
+          {isLoadingForm ? renderSpinner() : renderPayrollForm()}
         </CardBody>
       </Card>
       {isModalShown[Modals.SESSION] && <SessionExpiredModal history={history}/>}

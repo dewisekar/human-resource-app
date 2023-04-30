@@ -81,6 +81,12 @@ const resetFormToNull = (fields, setValue) => {
   fields.forEach(({ name }) => { setValue(name, null); });
 };
 
+const isObjectEmpty = (objectName) => (
+  objectName
+    && Object.keys(objectName).length === 0
+    && objectName.constructor === Object
+);
+
 export default {
   checkPageIdIsValid,
   getRupiahString,
@@ -92,4 +98,5 @@ export default {
   dayOnly,
   resetFormToNull,
   convertObjectToRupiahString,
+  isObjectEmpty,
 };
