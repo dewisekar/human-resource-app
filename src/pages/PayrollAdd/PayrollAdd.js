@@ -19,6 +19,7 @@ import constants from '../../constants';
 import config from './PayrollAdd.config';
 import handlers from './PayrollAdd.handlers';
 import utils from '../../utils';
+import PreviewTable from './PreviewTable/PreviewTable';
 
 const { COLOR, URL } = constants;
 const { submitRequest } = handlers;
@@ -44,12 +45,20 @@ const PayrollAddPayrollAdd = () => {
   const [employees, setEmployees] = useState([]);
   const [chosenEmployee, setChosenEmployee] = useState('');
   const [employeeData, setEmployeeData] = useState({});
+  const [submittedData, setSubmittedData] = useState({});
+
+  const resetForm = () => {
+    allowanceOptions.forEach(({ name: fieldName }) => setValue(fieldName, 0));
+    bonusOptions.forEach(({ name: fieldName }) => setValue(fieldName, 0));
+    setEmployeeData({});
+    setSubmittedData({});
+  };
 
   useEffect(() => {
     const init = async () => {
       setIsLoadingEmployee(true);
+      resetForm();
       setChosenEmployee('');
-      setEmployeeData({});
       const month = chosenMonth.getMonth() + 1;
       const year = chosenMonth.getFullYear();
       const params = `?month=${month}&year=${year}`;
@@ -71,9 +80,10 @@ const PayrollAddPayrollAdd = () => {
     const init = async () => {
       setIsLoadingForm(true);
       if (chosenEmployee !== '') {
+        resetForm();
         const overtimeParams = getRangeParams(chosenEmployee, chosenMonth);
         const fetchedDetail = await getRequest(URL.User.USE_DETAIL_URL + chosenEmployee);
-        const { overtimePay } = await getRequest(URL.Overtime.PAY_BY_DATE + overtimeParams);
+        const { overtimePay = 0 } = await getRequest(URL.Overtime.PAY_BY_DATE + overtimeParams);
         const { baseSalary, bankAccount, department } = fetchedDetail;
         const realBaseSalary = baseSalary;
         setEmployeeData({
@@ -104,13 +114,17 @@ const PayrollAddPayrollAdd = () => {
 
   const onSubmit = async (data) => {
     const submitHandler = { openModalHandler, setAlertMessage, setAlertModalType };
-    console.log('data', data);
 
     // setIsSubmitting(true);
     // await submitRequest(data, submitHandler);
     // setIsSubmitting(false);
 
     // reset();
+  };
+
+  const onPreviewCalculation = (data) => {
+    const { realBaseSalary } = employeeData;
+    setSubmittedData({ ...data, baseSalary: realBaseSalary });
   };
 
   const renderTextInput = (options) => <TextInput {...options} key={options.name}/>;
@@ -170,18 +184,37 @@ const PayrollAddPayrollAdd = () => {
     </>
   );
 
+  const renderCalculationPreview = () => (
+    <PreviewTable {...submittedData}/>
+  );
+
+  const renderFormInput = () => (
+    <form onSubmit={handleSubmit(onSubmit)} >
+      <p className='font-semibold mb-1 text-gray-600'>Cash Allowance</p>
+      {allowanceOptions.map((option) => renderFormField(option))}
+      <p className='font-semibold mb-1 mt-3 text-gray-600'>Bonus</p>
+      {bonusOptions.map((option) => renderFormField(option))}
+      {!isSubmitting ? <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Button className="mt-5 mr-3" style={{ backgroundColor: COLOR.GREEN, width: '68%' }}
+          onClick={handleSubmit(onSubmit)}>Simpan</Button>
+        <Button className="mt-5" style={{ backgroundColor: COLOR.BLUE, width: '30%' }} onClick={handleSubmit(onPreviewCalculation)}
+        >Lihat Perhitungan</Button></div>
+        : renderSpinner()}
+    </form>
+  );
+
   const renderForm = () => (
     <>
       {chosenEmployee !== ''
-      && <form onSubmit={handleSubmit(onSubmit)} >
-        <p className='font-semibold mb-1 text-gray-600'>Cash Allowance</p>
-        {allowanceOptions.map((option) => renderFormField(option))}
-        <p className='font-semibold mb-1 mt-3 text-gray-600'>Bonus</p>
-        {bonusOptions.map((option) => renderFormField(option))}
-        {!isSubmitting ? <Button className="mt-5" style={{ backgroundColor: COLOR.GREEN, width: '100%' }}
-          type="submit">Simpan</Button>
-          : renderSpinner()}
-      </form>}
+      && <div className=" grid grid-cols-12 gap-4">
+        <div className='col-span-6'>
+          {renderFormInput()}
+        </div>
+        <div className='col-span-6'>
+          <p className='font-semibold mb-1 text-gray-600'>Preview Perhitungan</p>
+          {renderCalculationPreview()}
+        </div>
+      </div>}
     </>
   );
 
