@@ -25,20 +25,20 @@ const RupiahCurrencyInput = (props) => {
 
   return (
     <Label className="mt-4">
-        <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span>
-        <Controller
-          name={name}
-          control={control}
-          rules={rules}
-          render={({ field: { onChange, value } }) => (
-            <NumberFormatBase className={AdditionalClasses.FormInput}
+      <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span>
+      <Controller
+        name={name}
+        control={control}
+        rules={rules}
+        render={({ field: { onChange, value } }) => (
+          <NumberFormatBase className={AdditionalClasses.FormInput}
             onValueChange={(v) => {
               onChange(Number(v.value));
             }}
             {...otherProps} format={format} value={value}/>
-          )}
-        />
-        {errors[name] && <HelperText valid={false}>{ErrorMessage[errors[name].type]
+        )}
+      />
+      {errors[name] && <HelperText valid={false}>{ErrorMessage[errors[name].type]
         || errors[name].message}</HelperText>}
     </Label>
   );

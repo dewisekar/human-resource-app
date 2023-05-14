@@ -1,44 +1,58 @@
 const columns = [
   {
-    name: 'Name',
-    selector: (row) => row.name,
+    name: 'Employee Name',
+    selector: (row) => row.employee,
     sortable: true,
     width: '200px',
   },
   {
-    name: 'Username',
-    selector: (row) => row.username,
+    name: 'Month',
+    selector: (row) => row.month,
     sortable: true,
+    width: '150px',
   },
   {
-    name: 'Job Title',
-    selector: (row) => row.jobTitle,
+    name: 'Year',
+    selector: (row) => row.year,
+    sortable: true,
+  },
+  // {
+  //   name: 'Division',
+  //   selector: (row) => row.division,
+  //   sortable: true,
+  //   width: '200px',
+  // },
+  // {
+  //   name: 'Department',
+  //   selector: (row) => row.department,
+  //   sortable: true,
+  //   width: '200px',
+  // },
+  {
+    name: 'Maker',
+    selector: (row) => row.maker,
     sortable: true,
     width: '200px',
   },
   {
-    name: 'Division',
-    selector: (row) => row.division,
+    name: 'Created At',
+    selector: (row) => row.createdAt,
     sortable: true,
     width: '200px',
-  },
-  {
-    name: 'Department',
-    selector: (row) => row.department,
-    sortable: true,
-    width: '200px',
-  },
-  {
-    name: 'Status',
-    selector: (row) => row.status,
-    sortable: true,
-    width: '100px',
   },
   {
     name: 'Action',
     selector: (row) => row.action,
-    width: '300px',
+    width: '370px',
   },
 ];
 
-export default { columns };
+const filterConfig = [
+  {
+    name: 'text',
+    formType: 'input',
+    placeholder: 'Filter...',
+  },
+];
+
+export default { columns, filterConfig };
