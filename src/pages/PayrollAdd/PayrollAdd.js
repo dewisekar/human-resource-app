@@ -26,11 +26,12 @@ const { submitRequest } = handlers;
 const { getRequest, getRupiahString, isObjectEmpty } = utils;
 const {
   employeeDetailFields, allowanceOptions, bonusOptions, getRangeParams,
+  incomeTaxFields, calculate,
 } = config;
 
 const PayrollAddPayrollAdd = () => {
   const {
-    register, handleSubmit, formState: { errors }, control, setError, reset, setValue,
+    register, handleSubmit, formState: { errors }, control, reset, setValue,
   } = useForm();
   const { Modals } = config;
   const history = useHistory();
@@ -46,10 +47,12 @@ const PayrollAddPayrollAdd = () => {
   const [chosenEmployee, setChosenEmployee] = useState('');
   const [employeeData, setEmployeeData] = useState({});
   const [submittedData, setSubmittedData] = useState({});
+  const [fixRate, setFixRate] = useState({});
 
   const resetForm = () => {
     allowanceOptions.forEach(({ name: fieldName }) => setValue(fieldName, 0));
     bonusOptions.forEach(({ name: fieldName }) => setValue(fieldName, 0));
+    incomeTaxFields.forEach(({ name: fieldName }) => setValue(fieldName, 0));
     setEmployeeData({});
     setSubmittedData({});
   };
@@ -59,6 +62,7 @@ const PayrollAddPayrollAdd = () => {
       setIsLoadingEmployee(true);
       resetForm();
       setChosenEmployee('');
+      const [rate] = await getRequest(URL.Payroll.FIX_RATE_LATEST);
       const month = chosenMonth.getMonth() + 1;
       const year = chosenMonth.getFullYear();
       const params = `?month=${month}&year=${year}`;
@@ -71,6 +75,7 @@ const PayrollAddPayrollAdd = () => {
 
       setEmployees(mappedOptions);
       setIsLoadingEmployee(false);
+      setFixRate(rate);
     };
 
     init();
@@ -103,23 +108,41 @@ const PayrollAddPayrollAdd = () => {
   }, [chosenEmployee]);
 
   const renderSpinner = () => (
-    <div className='grid' style={{ justifyContent: 'center' }}>
+    <div className='grid mt-3' style={{ justifyContent: 'center' }}>
       <MoonLoader color={COLOR.GREEN} size={30} />
     </div>
   );
 
   const openModalHandler = (modal) => setIsModalShown({ ...isModalShown, [modal]: true });
 
-  const closeModalHandler = (modal) => setIsModalShown({ ...isModalShown, [modal]: false });
+  const closeAlertModal = () => {
+    setIsModalShown({ ...isModalShown, [Modals.ALERT]: false });
+    window.location.reload();
+  };
 
   const onSubmit = async (data) => {
     const submitHandler = { openModalHandler, setAlertMessage, setAlertModalType };
+    const month = chosenMonth.getMonth() + 1;
+    const year = chosenMonth.getFullYear();
+    const { realBaseSalary } = employeeData;
+    const { transportAllowance, positionAllowance, familyAllowance } = data;
+    const fixAllowance = realBaseSalary + transportAllowance + positionAllowance + familyAllowance;
+    const calculated = calculate({ ...data, fixAllowance }, fixRate);
+    const payload = {
+      baseSalary: realBaseSalary,
+      ...calculated,
+      ...data,
+      user: chosenEmployee,
+      month,
+      year,
+    };
+    setSubmittedData(payload);
 
-    // setIsSubmitting(true);
-    // await submitRequest(data, submitHandler);
-    // setIsSubmitting(false);
+    setIsSubmitting(true);
+    await submitRequest(payload, submitHandler);
+    setIsSubmitting(false);
 
-    // reset();
+    reset();
   };
 
   const onPreviewCalculation = (data) => {
@@ -185,21 +208,27 @@ const PayrollAddPayrollAdd = () => {
   );
 
   const renderCalculationPreview = () => (
-    <PreviewTable {...submittedData}/>
+    <PreviewTable data={submittedData}/>
+  );
+
+  const renderButtons = () => (
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Button className="mt-5 mr-3" style={{ backgroundColor: COLOR.GREEN, width: '68%' }}
+        onClick={handleSubmit(onSubmit)}>Simpan</Button>
+      <Button className="mt-5" style={{ backgroundColor: COLOR.BLUE, width: '30%' }} onClick={handleSubmit(onPreviewCalculation)}
+      >Lihat Perhitungan</Button>
+    </div>
   );
 
   const renderFormInput = () => (
-    <form onSubmit={handleSubmit(onSubmit)} >
+    <form >
       <p className='font-semibold mb-1 text-gray-600'>Cash Allowance</p>
       {allowanceOptions.map((option) => renderFormField(option))}
       <p className='font-semibold mb-1 mt-3 text-gray-600'>Bonus</p>
       {bonusOptions.map((option) => renderFormField(option))}
-      {!isSubmitting ? <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button className="mt-5 mr-3" style={{ backgroundColor: COLOR.GREEN, width: '68%' }}
-          onClick={handleSubmit(onSubmit)}>Simpan</Button>
-        <Button className="mt-5" style={{ backgroundColor: COLOR.BLUE, width: '30%' }} onClick={handleSubmit(onPreviewCalculation)}
-        >Lihat Perhitungan</Button></div>
-        : renderSpinner()}
+      <p className='font-semibold mb-1 mt-3 text-gray-600'>Income Tax</p>
+      {incomeTaxFields.map((option) => renderFormField(option))}
+      {!isSubmitting ? renderButtons() : renderSpinner()}
     </form>
   );
 
@@ -234,7 +263,7 @@ const PayrollAddPayrollAdd = () => {
       </Card>
       {isModalShown[Modals.SESSION] && <SessionExpiredModal history={history}/>}
       {isModalShown[Modals.ALERT] && <AlertModal message={alertMessage}
-        onClose={() => closeModalHandler(Modals.ALERT)} type={alertModalType}/>}
+        onClose={closeAlertModal} type={alertModalType}/>}
     </>
   );
 };

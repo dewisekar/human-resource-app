@@ -5,22 +5,26 @@ import config from './PreviewTable.config';
 import utils from '../../../utils';
 import constants from '../../../constants';
 
-const { fields, companyFields, calculate } = config;
+const {
+  fields, companyFields, calculate, employeeFields, thpFields,
+  bonusPreviewOptions,
+} = config;
 const { getRequest, getRupiahString } = utils;
 const { URL } = constants;
 
 const PreviewTable = (props) => {
+  const { data } = props;
   const {
     baseSalary = 0, transportAllowance = 0, positionAllowance = 0, familyAllowance = 0,
-  } = props;
-  const [data, setData] = useState({});
+  } = data;
+  const [previewData, setPreviewData] = useState({});
 
   useEffect(() => {
     const init = async () => {
       const fixAllowance = baseSalary + transportAllowance + positionAllowance + familyAllowance;
       const [fixRate] = await getRequest(URL.Payroll.FIX_RATE_LATEST);
-      const calculated = calculate(fixAllowance, fixRate);
-      setData({ fixAllowance: getRupiahString(fixAllowance), ...calculated });
+      const calculated = calculate({ ...data, fixAllowance }, fixRate);
+      setPreviewData({ ...data, fixAllowance: getRupiahString(fixAllowance), ...calculated });
     };
 
     init();
@@ -28,9 +32,15 @@ const PreviewTable = (props) => {
 
   return (
     <>
-      <VerticalTable data={data} fields={fields} padding="py-1 px-2"/>
+      <VerticalTable data={previewData} fields={fields} padding="py-1 px-2"/>
+      <p className='font-semibold mb-1 text-sm text-gray-600'>Bonus</p>
+      <VerticalTable data={previewData} fields={bonusPreviewOptions} isNumber padding="py-1 px-2"/>
       <p className='font-semibold mb-1 text-sm text-gray-600'>Tarif Tunjangan BPJS yang dibayar perusahaan</p>
-      <VerticalTable data={data} fields={companyFields} padding="py-1 px-2"/>
+      <VerticalTable data={previewData} fields={companyFields} padding="py-1 px-2"/>
+      <p className='font-semibold mb-1 text-sm text-gray-600'>Tarif Potongan Premi BPJS & Kontribusi Pegawai</p>
+      <VerticalTable data={previewData} fields={employeeFields} padding="py-1 px-2"/>
+      <p className='font-semibold mb-1 text-sm text-gray-600'>Take Home Pay</p>
+      <VerticalTable data={previewData} fields={thpFields} padding="py-1 px-2"/>
     </>
 
   );

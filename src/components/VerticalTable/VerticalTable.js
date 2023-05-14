@@ -1,16 +1,19 @@
 import React from 'react';
 
 import './VerticalTable.css';
+import utils from '../../utils';
+
+const { getRupiahString } = utils;
 
 const VerticalTable = ({
-  data, fields, padding = 'py-2 px-3', column = 1,
+  data, fields, padding = 'py-2 px-3', column = 1, isNumber = false,
 }) => {
   const lastIndex = fields.length - 1;
 
   const renderSingleColumn = (item) => (
     <tr key={item.key}>
       <td className={`${padding} heading`}>{item.label}</td>
-      <td className={`${padding} content`}>{data[item.key]}</td>
+      <td className={`${padding} content`}>{isNumber ? getRupiahString(data[item.key]) : data[item.key]}</td>
     </tr>
   );
 
@@ -21,7 +24,7 @@ const VerticalTable = ({
       return (
         <tr key={item.key}>
           <td className={`${padding} heading`} style={{ maxWidth: '250px' }}>{item.label}</td>
-          <td className={`${padding} content`}>{data[item.key]}</td>
+          <td className={`${padding} content`}>{isNumber ? getRupiahString(data[item.key]) : data[item.key]}</td>
         </tr>
       );
     }
@@ -29,9 +32,9 @@ const VerticalTable = ({
     return (
       <tr key={item.key}>
         <td className={`${padding} heading`} style={{ maxWidth: '250px' }}>{fields[index].label}</td>
-        <td className={`${padding} content`}>{data[fields[index].key]}</td>
+        <td className={`${padding} content`}>{isNumber ? getRupiahString(data[fields[index].key]) : data[fields[index].key]}</td>
         <td className={`${padding} heading`} style={{ maxWidth: '250px' }}>{fields[index + 1].label}</td>
-        <td className={`${padding} content`}>{data[fields[index + 1].key]}</td>
+        <td className={`${padding} content`}>{isNumber ? getRupiahString(data[fields[index + 1].key]) : data[fields[index + 1].key]}</td>
       </tr>
     );
   };

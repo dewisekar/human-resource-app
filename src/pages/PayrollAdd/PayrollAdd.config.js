@@ -27,7 +27,6 @@ const bonusOptions = [
     rules: { },
     formType: 'currency',
   },
-
 ];
 
 const allowanceOptions = [
@@ -63,6 +62,16 @@ const allowanceOptions = [
     label: 'Other Allowance',
     name: 'otherAllowance',
     placeholder: 'Other Allowance...',
+    rules: { },
+    formType: 'currency',
+  },
+];
+
+const incomeTaxFields = [
+  {
+    label: 'Income Tax',
+    name: 'incomeTax',
+    placeholder: 'Income Tax...',
     rules: { },
     formType: 'currency',
   },
@@ -120,6 +129,53 @@ const getRangeParams = (employeeId, chosenMonth) => {
   return `?employee=${employeeId}&startDate=${StartDate}&endDate=${endDate}`;
 };
 
+const calculate = (data, fixRate) => {
+  const { maxSalaryJaminanKesehatan, maxSalaryJaminanPensiun, umr } = fixRate;
+  const {
+    fixAllowance, incomeTax, mealAllowance = 0, otherAllowance = 0,
+  } = data;
+  let bonuses = 0;
+  // eslint-disable-next-line no-return-assign
+  bonusOptions.forEach(({ name }) => bonuses += data[name]);
+
+  let bpjskesCompany = (fixAllowance * 0.04);
+  let bpjskesEmployee = (fixAllowance * 0.01);
+  if (fixAllowance < umr) {
+    bpjskesCompany = (0);
+    bpjskesEmployee = (0);
+  }
+  if (fixAllowance > maxSalaryJaminanKesehatan) {
+    bpjskesCompany = (maxSalaryJaminanKesehatan * 0.04);
+    bpjskesEmployee = (maxSalaryJaminanKesehatan * 0.01);
+  }
+  const jhtEmployee = (fixAllowance * 0.02);
+  const jpEmployee = fixAllowance > maxSalaryJaminanPensiun
+    ? (maxSalaryJaminanPensiun * 0.01)
+    : (fixAllowance * 0.01);
+  const thp = (fixAllowance + bonuses + otherAllowance + mealAllowance
+    - jhtEmployee - jpEmployee - bpjskesEmployee - incomeTax) || 0;
+
+  return {
+    jhtCompany: (fixAllowance * 0.037),
+    jkkCompany: (fixAllowance * 0.0024),
+    jkmCompany: (fixAllowance * 0.003),
+    jpCompany: fixAllowance > maxSalaryJaminanPensiun
+      ? (maxSalaryJaminanPensiun * 0.02)
+      : (fixAllowance * 0.02),
+    bpjskesCompany,
+    jhtEmployee,
+    jpEmployee,
+    bpjskesEmployee,
+    thp,
+  };
+};
+
 export default {
-  allowanceOptions, Modals, employeeDetailFields, bonusOptions, getRangeParams,
+  allowanceOptions,
+  Modals,
+  employeeDetailFields,
+  bonusOptions,
+  getRangeParams,
+  incomeTaxFields,
+  calculate,
 };
