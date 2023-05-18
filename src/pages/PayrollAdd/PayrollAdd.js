@@ -53,6 +53,7 @@ const PayrollAddPayrollAdd = () => {
     allowanceOptions.forEach(({ name: fieldName }) => setValue(fieldName, 0));
     bonusOptions.forEach(({ name: fieldName }) => setValue(fieldName, 0));
     incomeTaxFields.forEach(({ name: fieldName }) => setValue(fieldName, 0));
+    setValue('notes', null);
     setEmployeeData({});
     setSubmittedData({});
   };
@@ -226,7 +227,7 @@ const PayrollAddPayrollAdd = () => {
       {allowanceOptions.map((option) => renderFormField(option))}
       <p className='font-semibold mb-1 mt-3 text-gray-600'>Bonus</p>
       {bonusOptions.map((option) => renderFormField(option))}
-      <p className='font-semibold mb-1 mt-3 text-gray-600'>Income Tax</p>
+      <p className='font-semibold mb-1 mt-3 text-gray-600'>Others</p>
       {incomeTaxFields.map((option) => renderFormField(option))}
       {!isSubmitting ? renderButtons() : renderSpinner()}
     </form>

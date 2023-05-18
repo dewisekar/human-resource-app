@@ -75,6 +75,12 @@ const incomeTaxFields = [
     rules: { },
     formType: 'currency',
   },
+  {
+    label: 'Notes',
+    name: 'notes',
+    formType: 'textarea',
+    rules: {},
+  },
 ];
 
 const Modals = {
