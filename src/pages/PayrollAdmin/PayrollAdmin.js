@@ -9,6 +9,7 @@ import constants from '../../constants';
 import utils from '../../utils';
 import config from './PayrollAdmin.config';
 import * as Icons from '../../icons';
+import { baseUrl } from '../../config';
 
 const {
   DocumentIcon, EditIcon, DownloadIcon, PlusCircleIcon,
@@ -23,6 +24,10 @@ const PayrollAdmin = () => {
   const [filterText, setFilterText] = useState({});
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
+  const onDownload = (id) => {
+    window.location.href = baseUrl + URL.Payroll.DOWNLOAD + id;
+  };
+
   const renderActionButton = (id) => (
     <>
       <Button tag={Link} to={`${PATH.Employees.DETAIL}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
@@ -31,7 +36,7 @@ const PayrollAdmin = () => {
       <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
         <EditIcon className='w-4 h-4 mr-1'/>Edit
       </Button>
-      <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} size="small" style={{ backgroundColor: COLOR.GREEN }}>
+      <Button onClick={() => onDownload(id)} size="small" style={{ backgroundColor: COLOR.GREEN }}>
         <DownloadIcon className='w-4 h-4 mr-1'/>Download Slip
       </Button>
     </>
@@ -66,8 +71,9 @@ const PayrollAdmin = () => {
     (item) => {
       const { month = '', year = '', text = '' } = filterText;
       const { employee, month: monthData, year: yearData } = item;
-      const monthFilter = !isEmptyString(month) ? month === monthData : monthData;
-      const yearFilter = !isEmptyString(year) ? year === yearData : yearData;
+      const monthFilter = !isEmptyString(month) ? month.toString() === monthData.toString()
+        : monthData;
+      const yearFilter = !isEmptyString(year) ? year.toString() === yearData.toString() : yearData;
       const textFilter = employee.toLowerCase().includes(text.toLowerCase());
 
       return monthFilter && yearFilter && textFilter;

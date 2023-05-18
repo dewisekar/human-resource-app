@@ -64,6 +64,7 @@ const URL = {
     FIX_RATE_LATEST: '/payroll/fix-rate/latest',
     PAYROLL: '/payroll',
     ADMIN: '/payroll/admin',
+    DOWNLOAD: '/payroll/download/',
   },
 };
 
