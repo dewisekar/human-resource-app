@@ -1,43 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Card, CardBody,
+  Card, CardBody, Button,
 } from '@windmill/react-ui';
 import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
+import Select from 'react-select';
 
 import SectionTitle from '../../components/Typography/SectionTitle';
-import MultiplePropertyFilter from '../../components/Datatable/MultiplePropertyFilter/MultiplePropertyFilter';
+import DateRangeFilter from '../../components/Datatable/DateRangeFilter/DateRangeFilter';
 import PageUtil from '../../utils/PageUtil';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './OvertimeSummaryAdmin.config';
+import * as Icons from '../../icons';
 
+const { SearchIcon } = Icons;
 const {
   COLOR, URL, PATH, RequestStatus,
 } = constants;
 const { getRequest, convertDataToSelectOptions, getRupiahString } = utils;
 const { columns } = config;
-const { isEmptyString, customTableSort } = PageUtil;
+const { customTableSort } = PageUtil;
 
 const OvertimeSummaryAdmin = () => {
   const [overtimeData, setOvertimeData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterOptions, setFilterOptions] = useState({});
   const [filterText, setFilterText] = useState({});
-  const filterTitle = 'Filter by Employee / Department / Month / Year';
-
-  const filterConfig = [
-    {
-      name: 'employee',
-      formType: 'select',
-      placeholder: 'Employee...',
-    },
-    {
-      name: 'department',
-      formType: 'select',
-      placeholder: 'Department...',
-    },
-  ];
+  const [dateRangeError, setDateRangeError] = useState(null);
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
+  const filterStyle = { display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' };
 
   useEffect(() => {
     const init = async () => {
@@ -82,23 +74,45 @@ const OvertimeSummaryAdmin = () => {
     init();
   }, []);
 
-  const onSearch = (data) => {
-    setFilterText(data);
+  const onSearch = () => {
+    const { startDate: startDateFilter, endDate: endDateFilter } = dateRange;
+    const dateStart = new Date(startDateFilter);
+    const dateEnd = new Date(endDateFilter);
+
+    if ((startDateFilter === null && endDateFilter !== null) || (endDateFilter === null
+       && startDateFilter !== null)) {
+      setDateRangeError('Please fill start and end dates');
+      return;
+    }
+    if (dateStart > dateEnd) {
+      setDateRangeError('Start date has to be the same or earlier than end date!');
+      return;
+    }
+    setDateRangeError('');
+    setFilterText({ ...filterText, ...dateRange });
+  };
+
+  const onFilterChange = (event) => {
+    const {
+      name, value = '', checked, type,
+    } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+
+    setFilterText({ ...filterText, [name]: newValue.toLowerCase() });
   };
 
   const filteredItems = overtimeData.filter(
     (item) => {
       const { realOvertimeDate } = item;
-      const { month = '', year = '' } = filterText;
-      const monthFilter = !isEmptyString(month)
-        ? realOvertimeDate.getMonth() + 1 === parseInt(month, 10)
-        : realOvertimeDate;
-      const yearFilter = !isEmptyString(year)
-        ? realOvertimeDate.getFullYear() === parseInt(year, 10)
-        : realOvertimeDate;
+      const {
+        startDate = null, endDate = null,
+      } = filterText;
+      const isDateRange = startDate !== null && endDate !== null;
+      const dateFilter = isDateRange ? new Date(startDate) <= realOvertimeDate
+      && new Date(endDate) >= realOvertimeDate : realOvertimeDate;
 
       return (
-        monthFilter && yearFilter
+        dateFilter
         && item.realRequesterName.toLowerCase().includes(filterText.employee || '')
       && item.department.toLowerCase().includes(filterText.department || ''));
     },
@@ -116,17 +130,39 @@ const OvertimeSummaryAdmin = () => {
     </div>
   );
 
-  const mappedFilterConfigs = filterConfig.map((item) => {
-    const { formType, name } = item;
-    const isSelect = formType === 'select';
-    return isSelect ? { ...item, options: filterOptions[name] } : item;
-  });
-
   const renderCard = () => (
     <Card className="mb-8 shadow-md data-table">
       <CardBody style={{ minHeight: '300px' }}>
-        <MultiplePropertyFilter buttonColor={COLOR.BLUE}
-          onSubmit={onSearch} title={filterTitle} fields={mappedFilterConfigs}/>
+        <div className="grid grid-cols-12 gap-2 mb-5" style={{ width: '100% ' }}>
+          <div className="col-span-2" style={filterStyle}>
+            <Select options={filterOptions.employee}
+              name="employee"
+              onChange={(value, action) => { onFilterChange({ target: { ...value, ...action } }); }}
+              placeholder="Employee..."
+              isClearable/>
+          </div>
+          <div className="col-span-2" style={filterStyle}>
+            <Select options={filterOptions.department}
+              name="department"
+              onChange={(value, action) => { onFilterChange({ target: { ...value, ...action } }); }}
+              placeholder="Department..."
+              isClearable/>
+          </div>
+          <div className="col-span-6" style={filterStyle}>
+            <DateRangeFilter
+              onFilter={setDateRange}
+              dateValue={dateRange}
+              buttonColor={COLOR.BLUE}
+              size="100%"
+              errorMessage={dateRangeError}
+            />
+          </div>
+          <div className="col-span-1" style={filterStyle}>
+            <Button onClick={onSearch} size="small" className="font-semibold" style={{ padding: '7px', backgroundColor: COLOR.BLUE, height: '41px' }}>
+              <SearchIcon className='w-4 h-4 mr-1'/> Search
+            </Button>
+          </div>
+        </div>
         <div className="grid grid-cols-12 gap-5 mt-5">
           <div className='col-span-12'>
             <b>Summary:</b>
