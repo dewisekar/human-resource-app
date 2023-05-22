@@ -130,9 +130,12 @@ const employeeDetailFields = [
 const getRangeParams = (employeeId, chosenMonth) => {
   const month = chosenMonth.getMonth() + 1;
   const year = chosenMonth.getFullYear();
-  const StartDate = `${year}-${month - 1}-29`;
-  const endDate = `${year}-${month}-28`;
-  return `?employee=${employeeId}&startDate=${StartDate}&endDate=${endDate}`;
+  let startDate = `${year}-${month - 1}-16`;
+  if (chosenMonth === 1) {
+    startDate = `${year - 1}-${12}-16`;
+  }
+  const endDate = `${year}-${month}-15`;
+  return `?employee=${employeeId}&startDate=${startDate}&endDate=${endDate}`;
 };
 
 const calculate = (data, fixRate) => {
