@@ -34,6 +34,8 @@ const AttendanceScan = () => {
   const [employees, setEmployees] = useState([]);
   const [chosenEmployee, setChosenEmployee] = useState('');
   const filterStyle = { display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' };
+  const scanInData = attendance.filter(({ type }) => type === 'Scan In');
+  const scanOutData = attendance.filter(({ type }) => type === 'Scan Out');
 
   useEffect(() => {
     const init = async () => {
@@ -158,6 +160,19 @@ const AttendanceScan = () => {
     <Card className="mb-8 shadow-md data-table">
       <CardBody style={{ minHeight: '400px' }}>
         {renderFilter()}
+        <div className="grid grid-cols-12 gap-5 mt-5">
+          <div className='col-span-12'>
+            <b>Summary:</b>
+            <div className="grid grid-cols-12 gap-1">
+              <div className='col-span-12 md:col-span-3'>
+                <p className="text-md font-semibold text-gray-500">Total Scan In: {scanInData.length}</p>
+              </div>
+              <div className='col-span-12 md:col-span-3'>
+                <p className="text-md font-semibold text-gray-500">Total Scan Out: {scanOutData.length}</p>
+              </div>
+            </div>
+          </div>
+        </div>
         {isLoading ? renderSpinner() : renderTable()}
       </CardBody>
     </Card>
