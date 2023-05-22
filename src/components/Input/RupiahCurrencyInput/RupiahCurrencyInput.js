@@ -10,7 +10,7 @@ const { AdditionalClasses } = constants;
 
 const RupiahCurrencyInput = (props) => {
   const {
-    name, errors, label, register, rules, control, ...otherProps
+    name, errors, label, register, rules, control, subtitle = '', ...otherProps
   } = props;
   const { required } = rules;
 
@@ -25,7 +25,8 @@ const RupiahCurrencyInput = (props) => {
 
   return (
     <Label className="mt-4">
-      <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span>
+      <span>{label}{required && <HelperText valid={false} className="ml-1">*</HelperText>}</span><br/>
+      <HelperText className="text-gray-500 mb-1">{subtitle}</HelperText>
       <Controller
         name={name}
         control={control}

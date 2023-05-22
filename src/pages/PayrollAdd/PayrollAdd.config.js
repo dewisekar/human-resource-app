@@ -29,7 +29,7 @@ const bonusOptions = [
   },
 ];
 
-const allowanceOptions = [
+const allowanceOptions = (days = 0) => [
   {
     label: 'Position Allowance',
     name: 'positionAllowance',
@@ -55,6 +55,7 @@ const allowanceOptions = [
     label: 'Meal Allowance',
     name: 'mealAllowance',
     placeholder: 'Meal Allowance...',
+    subtitle: `Jumlah hari absen: ${days}`,
     rules: { },
     formType: 'currency',
   },
@@ -125,9 +126,13 @@ const employeeDetailFields = [
     key: 'baseSalary',
     label: 'Base Salary',
   },
+  {
+    key: 'convertedBasicMealAllowance',
+    label: 'Meal Allowance Per Day',
+  },
 ];
 
-const getRangeParams = (employeeId, chosenMonth) => {
+const getRangeParams = (id, chosenMonth, isOvertime = true) => {
   const month = chosenMonth.getMonth() + 1;
   const year = chosenMonth.getFullYear();
   let startDate = `${year}-${month - 1}-16`;
@@ -135,7 +140,11 @@ const getRangeParams = (employeeId, chosenMonth) => {
     startDate = `${year - 1}-${12}-16`;
   }
   const endDate = `${year}-${month}-15`;
-  return `?employee=${employeeId}&startDate=${startDate}&endDate=${endDate}`;
+
+  if (isOvertime) {
+    return `?employee=${id}&startDate=${startDate}&endDate=${endDate}`;
+  }
+  return `?pin=${id}&startDate=${startDate}&endDate=${endDate}`;
 };
 
 const calculate = (data, fixRate) => {

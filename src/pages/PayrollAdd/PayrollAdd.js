@@ -47,10 +47,12 @@ const PayrollAddPayrollAdd = () => {
   const [chosenEmployee, setChosenEmployee] = useState('');
   const [employeeData, setEmployeeData] = useState({});
   const [submittedData, setSubmittedData] = useState({});
+  const [mealDays, setMealDays] = useState(0);
   const [fixRate, setFixRate] = useState({});
 
   const resetForm = () => {
-    allowanceOptions.forEach(({ name: fieldName }) => setValue(fieldName, 0));
+    setMealDays(0);
+    allowanceOptions(0).forEach(({ name: fieldName }) => setValue(fieldName, 0));
     bonusOptions.forEach(({ name: fieldName }) => setValue(fieldName, 0));
     incomeTaxFields.forEach(({ name: fieldName }) => setValue(fieldName, 0));
     setValue('notes', null);
@@ -89,8 +91,15 @@ const PayrollAddPayrollAdd = () => {
         resetForm();
         const overtimeParams = getRangeParams(chosenEmployee, chosenMonth);
         const fetchedDetail = await getRequest(URL.User.USE_DETAIL_URL + chosenEmployee);
+        const { fingerprintPin } = fetchedDetail;
+        const attendanceParams = getRangeParams(fingerprintPin, chosenMonth, false);
+        const fetchedAttendance = await getRequest(URL.Attendance.SCAN + attendanceParams);
+        const scanIn = fetchedAttendance.filter(({ type }) => type === 'Scan In').length;
+        setMealDays(scanIn);
         const { overtimePay = 0 } = await getRequest(URL.Overtime.PAY_BY_DATE + overtimeParams);
-        const { baseSalary, bankAccount, department } = fetchedDetail;
+        const {
+          baseSalary, bankAccount, department, basicMealAllowance,
+        } = fetchedDetail;
         const realBaseSalary = baseSalary;
         setEmployeeData({
           ...fetchedDetail,
@@ -98,13 +107,15 @@ const PayrollAddPayrollAdd = () => {
           baseSalary: getRupiahString(baseSalary),
           bank: bankAccount && bankAccount.name,
           department: department && department.name,
+          convertedBasicMealAllowance: getRupiahString(basicMealAllowance),
         });
 
-        setValue('overtimePay', overtimePay);
-        allowanceOptions.forEach((item) => {
+        allowanceOptions(mealDays).forEach((item) => {
           const { name: keyName } = item;
           setValue(keyName, fetchedDetail[keyName]);
         });
+        setValue('overtimePay', overtimePay);
+        setValue('mealAllowance', scanIn * basicMealAllowance);
       }
       setIsLoadingForm(false);
     };
@@ -228,7 +239,7 @@ const PayrollAddPayrollAdd = () => {
   const renderFormInput = () => (
     <form >
       <p className='font-semibold mb-1 text-gray-600'>Cash Allowance</p>
-      {allowanceOptions.map((option) => renderFormField(option))}
+      {allowanceOptions(mealDays).map((option) => renderFormField(option))}
       <p className='font-semibold mb-1 mt-3 text-gray-600'>Bonus</p>
       {bonusOptions.map((option) => renderFormField(option))}
       <p className='font-semibold mb-1 mt-3 text-gray-600'>Others</p>
