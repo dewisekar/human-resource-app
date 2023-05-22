@@ -123,9 +123,9 @@ const formFields = [
     rules: { required: true },
   },
   {
-    label: 'Base Salary Without Meal',
+    label: 'Base Salary',
     name: 'baseSalary',
-    placeholder: 'Base Salary Without Meal...',
+    placeholder: 'Base Salary..',
     rules: { required: true },
     formType: 'currency',
   },
@@ -148,6 +148,20 @@ const formFields = [
     name: 'familyAllowance',
     placeholder: 'Family Allowance...',
     rules: {},
+    formType: 'currency',
+  },
+  {
+    label: 'Meal Allowance (Per day)',
+    name: 'mealAllowance',
+    placeholder: 'Meal Allowance...',
+    rules: { required: true },
+    formType: 'currency',
+  },
+  {
+    label: 'Overtime Allowance (Per Hour in Weekday)',
+    name: 'overtimeAllowance',
+    placeholder: 'Overtime Allowance...',
+    rules: { required: true },
     formType: 'currency',
   },
   {

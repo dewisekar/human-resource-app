@@ -156,6 +156,20 @@ const formFields = [
     formType: 'currency',
   },
   {
+    label: 'Meal Allowance (Per day)',
+    name: 'mealAllowance',
+    placeholder: 'Meal Allowance...',
+    rules: { required: true },
+    formType: 'currency',
+  },
+  {
+    label: 'Overtime Allowance (Per Hour in Weekday)',
+    name: 'overtimeAllowance',
+    placeholder: 'Overtime Allowance...',
+    rules: { required: true },
+    formType: 'currency',
+  },
+  {
     name: 'maximumCheckInTime',
     label: 'Maximum Check In Time',
     formType: 'input',

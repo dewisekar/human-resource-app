@@ -86,7 +86,14 @@ const requestFields = [
   {
     label: 'Family Allowance',
     key: 'familyAllowance',
-
+  },
+  {
+    label: 'Meal Allowance (Per Day)',
+    key: 'mealAllowance',
+  },
+  {
+    label: 'Overtime Allowance (Per Hour in Weekday)',
+    key: 'overtimeAllowance',
   },
   {
     key: 'maximumCheckInTime',
