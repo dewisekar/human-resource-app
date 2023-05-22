@@ -200,6 +200,12 @@ const sidebarRoutes = {
       type: 'DIVIDER',
     },
     {
+      path: PATH.Payroll.PAYROLL,
+      icon: 'WalletIcon',
+      name: 'Payroll',
+      type: 'MENU',
+    },
+    {
       icon: 'MoneyIcon',
       name: 'Reimbursement',
       type: 'SUBMENU_HEADER',

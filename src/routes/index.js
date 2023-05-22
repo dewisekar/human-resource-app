@@ -46,6 +46,7 @@ const AttendanceMissedScan = lazy(() => import('../pages/AttendanceMissedScan/At
 const PayrollFixRate = lazy(() => import('../pages/PayrollFixRate/PayrollFixRate'));
 const PayrollAdmin = lazy(() => import('../pages/PayrollAdmin/PayrollAdmin'));
 const PayrollAdd = lazy(() => import('../pages/PayrollAdd/PayrollAdd'));
+const PayrollStaff = lazy(() => import('../pages/PayrollStaff/PayrollStaff'));
 
 const routes = [
   {
@@ -257,6 +258,11 @@ const routes = [
     path: PATH.Payroll.ADD,
     component: PayrollAdd,
     accessibility: [Accessibility.ADMIN],
+  },
+  {
+    path: PATH.Payroll.PAYROLL,
+    component: PayrollStaff,
+    accessibility: [Accessibility.STAFF],
   },
 ];
 
