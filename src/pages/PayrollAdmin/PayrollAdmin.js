@@ -48,8 +48,14 @@ const PayrollAdmin = () => {
       console.log(fetchedData);
       const mappedData = fetchedData.map((item) => {
         const {
-          employee: { name: employeeName }, maker: { name: makerName }, createdAt, id,
+          employee: {
+            name: employeeName, department,
+            division,
+          }, maker: { name: makerName }, createdAt, id,
         } = item;
+
+        const departmentName = department ? department.name : '';
+        const divisonName = division ? division.name : '';
         return {
           ...item,
           employee: employeeName,
@@ -57,6 +63,8 @@ const PayrollAdmin = () => {
           createdAt: new Date(createdAt).toLocaleDateString('id-ID'),
           realCreatedAt: createdAt,
           action: renderActionButton(id),
+          department: departmentName,
+          division: divisonName,
         };
       });
 

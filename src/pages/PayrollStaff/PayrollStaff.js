@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardBody, Button } from '@windmill/react-ui';
 import MoonLoader from 'react-spinners/MoonLoader';
 import DataTable from 'react-data-table-component';
-import { Link } from 'react-router-dom';
 
 import MultiplePropertyFilter from '../../components/Datatable/MultiplePropertyFilter/MultiplePropertyFilter';
 import constants from '../../constants';
@@ -11,8 +10,8 @@ import config from './PayrollStaff.config';
 import * as Icons from '../../icons';
 import { baseUrl } from '../../config';
 
-const { DownloadIcon, PlusCircleIcon } = Icons;
-const { COLOR, URL, PATH } = constants;
+const { DownloadIcon } = Icons;
+const { COLOR, URL } = constants;
 const { getRequest, customTableSort, isEmptyString } = utils;
 const { columns } = config;
 

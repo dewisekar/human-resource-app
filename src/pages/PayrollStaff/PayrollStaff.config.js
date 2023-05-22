@@ -14,7 +14,7 @@ const columns = [
   {
     name: 'Action',
     selector: (row) => row.action,
-    width: '370px',
+    width: '350px',
   },
 ];
 

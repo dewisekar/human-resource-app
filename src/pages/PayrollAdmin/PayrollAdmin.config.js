@@ -9,25 +9,24 @@ const columns = [
     name: 'Month',
     selector: (row) => row.month,
     sortable: true,
-    width: '150px',
   },
   {
     name: 'Year',
     selector: (row) => row.year,
     sortable: true,
   },
-  // {
-  //   name: 'Division',
-  //   selector: (row) => row.division,
-  //   sortable: true,
-  //   width: '200px',
-  // },
-  // {
-  //   name: 'Department',
-  //   selector: (row) => row.department,
-  //   sortable: true,
-  //   width: '200px',
-  // },
+  {
+    name: 'Division',
+    selector: (row) => row.division,
+    sortable: true,
+    width: '200px',
+  },
+  {
+    name: 'Department',
+    selector: (row) => row.department,
+    sortable: true,
+    width: '200px',
+  },
   {
     name: 'Maker',
     selector: (row) => row.maker,
@@ -38,12 +37,12 @@ const columns = [
     name: 'Created At',
     selector: (row) => row.createdAt,
     sortable: true,
-    width: '200px',
+    width: '150px',
   },
   {
     name: 'Action',
     selector: (row) => row.action,
-    width: '370px',
+    width: '350px',
   },
 ];
 
