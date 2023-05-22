@@ -152,14 +152,14 @@ const formFields = [
   },
   {
     label: 'Meal Allowance (Per day)',
-    name: 'mealAllowance',
+    name: 'basicMealAllowance',
     placeholder: 'Meal Allowance...',
     rules: { required: true },
     formType: 'currency',
   },
   {
     label: 'Overtime Allowance (Per Hour in Weekday)',
-    name: 'overtimeAllowance',
+    name: 'basicOvertimeAllowance',
     placeholder: 'Overtime Allowance...',
     rules: { required: true },
     formType: 'currency',

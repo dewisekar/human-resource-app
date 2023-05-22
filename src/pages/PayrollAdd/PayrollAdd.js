@@ -101,6 +101,10 @@ const PayrollAddPayrollAdd = () => {
         });
 
         setValue('overtimePay', overtimePay);
+        allowanceOptions.forEach((item) => {
+          const { name: keyName } = item;
+          setValue(keyName, fetchedDetail[keyName]);
+        });
       }
       setIsLoadingForm(false);
     };

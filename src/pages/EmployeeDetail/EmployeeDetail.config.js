@@ -89,11 +89,11 @@ const requestFields = [
   },
   {
     label: 'Meal Allowance (Per Day)',
-    key: 'mealAllowance',
+    key: 'basicMealAllowance',
   },
   {
     label: 'Overtime Allowance (Per Hour in Weekday)',
-    key: 'overtimeAllowance',
+    key: 'basicOvertimeAllowance',
   },
   {
     key: 'maximumCheckInTime',
