@@ -11,12 +11,10 @@ import config from './PayrollStaff.config';
 import * as Icons from '../../icons';
 import { baseUrl } from '../../config';
 
-const {
-  DocumentIcon, EditIcon, DownloadIcon, PlusCircleIcon,
-} = Icons;
+const { DownloadIcon, PlusCircleIcon } = Icons;
 const { COLOR, URL, PATH } = constants;
 const { getRequest, customTableSort, isEmptyString } = utils;
-const { columns, filterConfig } = config;
+const { columns } = config;
 
 const PayrollStaff = () => {
   const [payrollData, setPayrollData] = useState([]);
@@ -30,12 +28,6 @@ const PayrollStaff = () => {
 
   const renderActionButton = (id) => (
     <>
-      <Button tag={Link} to={`${PATH.Employees.DETAIL}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
-        <DocumentIcon className='w-4 h-4 mr-1'/>Detail
-      </Button>
-      <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
-        <EditIcon className='w-4 h-4 mr-1'/>Edit
-      </Button>
       <Button onClick={() => onDownload(id)} size="small" style={{ backgroundColor: COLOR.GREEN }}>
         <DownloadIcon className='w-4 h-4 mr-1'/>Download Slip
       </Button>
@@ -44,19 +36,20 @@ const PayrollStaff = () => {
 
   useEffect(() => {
     const init = async () => {
-      const fetchedData = await getRequest(URL.Payroll.ADMIN);
-      console.log(fetchedData);
+      const fetchedData = await getRequest(URL.Payroll.STAFF);
       const mappedData = fetchedData.map((item) => {
         const {
-          employee: { name: employeeName }, maker: { name: makerName }, createdAt, id,
+          createdAt, id, month, year,
         } = item;
+        const newDate = new Date(`${year}-${month}-01`);
+        const monthDate = newDate.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
         return {
           ...item,
-          employee: employeeName,
-          maker: makerName,
           createdAt: new Date(createdAt).toLocaleDateString('id-ID'),
           realCreatedAt: createdAt,
           action: renderActionButton(id),
+          monthDate,
+          realMonthDate: newDate,
         };
       });
 
@@ -69,14 +62,13 @@ const PayrollStaff = () => {
 
   const filteredItems = payrollData.filter(
     (item) => {
-      const { month = '', year = '', text = '' } = filterText;
-      const { employee, month: monthData, year: yearData } = item;
+      const { month = '', year = '' } = filterText;
+      const { month: monthData, year: yearData } = item;
       const monthFilter = !isEmptyString(month) ? month.toString() === monthData.toString()
         : monthData;
       const yearFilter = !isEmptyString(year) ? year.toString() === yearData.toString() : yearData;
-      const textFilter = employee.toLowerCase().includes(text.toLowerCase());
 
-      return monthFilter && yearFilter && textFilter;
+      return monthFilter && yearFilter;
     },
   );
 
@@ -97,15 +89,12 @@ const PayrollStaff = () => {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
         <h3 className='m-0' style={{ fontWeight: '500' }}>
-          Manage Payroll
+          Payroll
         </h3>
-        <Button tag={Link} to={PATH.Payroll.ADD} size="small" className="mb-3" style={{ backgroundColor: COLOR.GREEN }}>
-          <PlusCircleIcon className='w-4 h-4 mr-1'/>Add Payroll
-        </Button>
       </div>
       <Card className="shadow-md data-table">
         <CardBody>
-          <MultiplePropertyFilter buttonColor={COLOR.GREEN} onSubmit={onSearch} title={'Filter Payroll Data'} fields={filterConfig}/>
+          <MultiplePropertyFilter buttonColor={COLOR.GREEN} onSubmit={onSearch} title={'Filter Payroll Data'}/>
           <DataTable
             columns={columns}
             data={filteredItems}

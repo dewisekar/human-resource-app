@@ -11,7 +11,7 @@ const { SearchIcon } = Icons;
 const { MonthsSelectOptions } = constants;
 
 const MultiplePropertyFilter = ({
-  onSubmit, buttonColor, fields, title,
+  onSubmit, buttonColor, fields = [], title,
 }) => {
   const [state, setState] = useState({});
 
