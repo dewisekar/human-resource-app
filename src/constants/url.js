@@ -66,6 +66,7 @@ const URL = {
     ADMIN: '/payroll/admin',
     DOWNLOAD: '/payroll/download/',
     STAFF: '/payroll/staff',
+    DETAIL: '/payroll/detail/',
   },
 };
 

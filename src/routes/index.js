@@ -47,6 +47,7 @@ const PayrollFixRate = lazy(() => import('../pages/PayrollFixRate/PayrollFixRate
 const PayrollAdmin = lazy(() => import('../pages/PayrollAdmin/PayrollAdmin'));
 const PayrollAdd = lazy(() => import('../pages/PayrollAdd/PayrollAdd'));
 const PayrollStaff = lazy(() => import('../pages/PayrollStaff/PayrollStaff'));
+const PayrollDetail = lazy(() => import('../pages/PayrollDetail/PayrollDetail'));
 
 const routes = [
   {
@@ -263,6 +264,11 @@ const routes = [
     path: PATH.Payroll.PAYROLL,
     component: PayrollStaff,
     accessibility: [Accessibility.STAFF],
+  },
+  {
+    path: PATH.Payroll.DETAIL,
+    component: PayrollDetail,
+    accessibility: [Accessibility.ADMIN],
   },
 ];
 
