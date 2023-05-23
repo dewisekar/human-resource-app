@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import utils from '../../../utils';
 import globalConfig from '../PayrollAdd.config';
 
@@ -76,6 +77,45 @@ const employeeFields = [
   },
 ];
 
+const deductionOptions = [
+  {
+    label: 'Kasbon (Cash Receipt)',
+    key: 'cashReceipt',
+  },
+  {
+    label: 'Late Charge',
+    key: 'lateCharge',
+  },
+  {
+    label: 'Basic Salary Prorate',
+    key: 'baseSalaryProrate',
+  },
+  {
+    label: 'Position Allowance Prorate',
+    key: 'positionAllowanceProrate',
+  },
+  {
+    label: 'Transport Allowance Prorate',
+    key: 'transportAllowanceProrate',
+  },
+  {
+    label: 'Family Allowance Prorate',
+    key: 'familyAllowanceProrate',
+  },
+  {
+    label: 'Meal Allowance Prorate',
+    key: 'mealAllowanceProrate',
+  },
+  {
+    label: 'Other Allowance Prorate',
+    key: 'otherAllowanceProrate',
+  },
+  {
+    label: 'Income Tax',
+    key: 'incomeTax',
+  },
+];
+
 const thpFields = [
   {
     key: 'thp',
@@ -85,12 +125,11 @@ const thpFields = [
 
 const calculate = (data, fixRate) => {
   const { maxSalaryJaminanKesehatan, maxSalaryJaminanPensiun, umr } = fixRate;
-  const {
-    fixAllowance, incomeTax, mealAllowance = 0, otherAllowance = 0,
-  } = data;
+  const { fixAllowance, mealAllowance = 0, otherAllowance = 0 } = data;
   let bonuses = 0;
-  // eslint-disable-next-line no-return-assign
-  bonusOptions.forEach(({ name }) => bonuses += data[name]);
+  let deduction = 0;
+  bonusOptions.forEach(({ name }) => bonuses += data[name] || 0);
+  deductionOptions.forEach(({ key }) => deduction += data[key] || 0);
 
   let bpjskesCompany = (fixAllowance * 0.04);
   let bpjskesEmployee = (fixAllowance * 0.01);
@@ -108,7 +147,7 @@ const calculate = (data, fixRate) => {
     : (fixAllowance * 0.01);
 
   const thp = (fixAllowance + bonuses + otherAllowance + mealAllowance
-  - jhtEmployee - jpEmployee - bpjskesEmployee - incomeTax) || 0;
+  - jhtEmployee - jpEmployee - bpjskesEmployee - deduction) || 0;
 
   return {
     jhtCompany: getRupiahString(fixAllowance * 0.037),
@@ -132,4 +171,5 @@ export default {
   employeeFields,
   thpFields,
   bonusPreviewOptions,
+  deductionOptions,
 };

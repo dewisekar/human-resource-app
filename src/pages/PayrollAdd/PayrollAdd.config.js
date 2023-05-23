@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 const bonusOptions = [
   {
     label: 'Overtime Pay',
@@ -68,13 +69,78 @@ const allowanceOptions = (days = 0) => [
   },
 ];
 
-const incomeTaxFields = [
+const deductionFields = [
+  {
+    label: 'Kasbon (Cash Receipt)',
+    name: 'cashReceipt',
+    placeholder: 'Kasbon...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Late Charge',
+    name: 'lateCharge',
+    placeholder: 'Late Charge...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Basic Salary Prorate',
+    name: 'baseSalaryProrate',
+    placeholder: 'Basic Salary Prorate...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Position Allowance Prorate',
+    name: 'positionAllowanceProrate',
+    placeholder: 'Position Allowance Prorate...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Transport Allowance Prorate',
+    name: 'transportAllowanceProrate',
+    placeholder: 'Transport Allowance Prorate...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Family Allowance Prorate',
+    name: 'familyAllowanceProrate',
+    placeholder: 'Family Allowance Prorate...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Meal Allowance Prorate',
+    name: 'mealAllowanceProrate',
+    placeholder: 'Meal Allowance Prorate...',
+    rules: { },
+    formType: 'currency',
+  },
+  {
+    label: 'Other Allowance Prorate',
+    name: 'otherAllowanceProrate',
+    placeholder: 'Other Allowance Prorate...',
+    rules: { },
+    formType: 'currency',
+  },
   {
     label: 'Income Tax',
     name: 'incomeTax',
     placeholder: 'Income Tax...',
     rules: { },
     formType: 'currency',
+  },
+];
+
+const otherFields = [
+  {
+    label: 'Tax Status',
+    name: 'taxStatus',
+    formType: 'input',
+    rules: { required: true },
   },
   {
     label: 'Notes',
@@ -150,11 +216,12 @@ const getRangeParams = (id, chosenMonth, isOvertime = true) => {
 const calculate = (data, fixRate) => {
   const { maxSalaryJaminanKesehatan, maxSalaryJaminanPensiun, umr } = fixRate;
   const {
-    fixAllowance, incomeTax, mealAllowance = 0, otherAllowance = 0,
+    fixAllowance, mealAllowance = 0, otherAllowance = 0,
   } = data;
   let bonuses = 0;
-  // eslint-disable-next-line no-return-assign
+  let deduction = 0;
   bonusOptions.forEach(({ name }) => bonuses += data[name]);
+  deductionFields.forEach(({ name }) => deduction += data[name]);
 
   let bpjskesCompany = (fixAllowance * 0.04);
   let bpjskesEmployee = (fixAllowance * 0.01);
@@ -171,7 +238,7 @@ const calculate = (data, fixRate) => {
     ? (maxSalaryJaminanPensiun * 0.01)
     : (fixAllowance * 0.01);
   const thp = (fixAllowance + bonuses + otherAllowance + mealAllowance
-    - jhtEmployee - jpEmployee - bpjskesEmployee - incomeTax) || 0;
+    - jhtEmployee - jpEmployee - bpjskesEmployee - deduction) || 0;
 
   return {
     jhtCompany: (fixAllowance * 0.037),
@@ -194,6 +261,7 @@ export default {
   employeeDetailFields,
   bonusOptions,
   getRangeParams,
-  incomeTaxFields,
+  deductionFields,
   calculate,
+  otherFields,
 };

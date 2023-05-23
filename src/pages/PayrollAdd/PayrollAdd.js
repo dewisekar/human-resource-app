@@ -26,7 +26,7 @@ const { submitRequest } = handlers;
 const { getRequest, getRupiahString, isObjectEmpty } = utils;
 const {
   employeeDetailFields, allowanceOptions, bonusOptions, getRangeParams,
-  incomeTaxFields, calculate,
+  deductionFields, calculate, otherFields,
 } = config;
 
 const PayrollAddPayrollAdd = () => {
@@ -54,7 +54,7 @@ const PayrollAddPayrollAdd = () => {
     setMealDays(0);
     allowanceOptions(0).forEach(({ name: fieldName }) => setValue(fieldName, 0));
     bonusOptions.forEach(({ name: fieldName }) => setValue(fieldName, 0));
-    incomeTaxFields.forEach(({ name: fieldName }) => setValue(fieldName, 0));
+    deductionFields.forEach(({ name: fieldName }) => setValue(fieldName, 0));
     setValue('notes', null);
     setEmployeeData({});
     setSubmittedData({});
@@ -112,7 +112,7 @@ const PayrollAddPayrollAdd = () => {
 
         allowanceOptions(mealDays).forEach((item) => {
           const { name: keyName } = item;
-          setValue(keyName, fetchedDetail[keyName]);
+          setValue(keyName, fetchedDetail[keyName] || 0);
         });
         setValue('overtimePay', overtimePay);
         setValue('mealAllowance', scanIn * basicMealAllowance);
@@ -240,10 +240,12 @@ const PayrollAddPayrollAdd = () => {
     <form >
       <p className='font-semibold mb-1 text-gray-600'>Cash Allowance</p>
       {allowanceOptions(mealDays).map((option) => renderFormField(option))}
-      <p className='font-semibold mb-1 mt-3 text-gray-600'>Bonus</p>
+      <p className='font-semibold mb-1 mt-5 text-gray-600'>Bonus</p>
       {bonusOptions.map((option) => renderFormField(option))}
-      <p className='font-semibold mb-1 mt-3 text-gray-600'>Others</p>
-      {incomeTaxFields.map((option) => renderFormField(option))}
+      <p className='font-semibold mb-1 mt-5 text-gray-600'>Pengurangan</p>
+      {deductionFields.map((option) => renderFormField(option))}
+      <p className='font-semibold mb-1 mt-5 text-gray-600'>Others</p>
+      {otherFields.map((option) => renderFormField(option))}
       {!isSubmitting ? renderButtons() : renderSpinner()}
     </form>
   );
