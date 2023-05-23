@@ -17,7 +17,10 @@ const { COLOR, URL, PATH } = constants;
 const {
   getRequest, checkPageIdIsValid, getRole,
 } = utils;
-const { requestFields, dateOptions, convertData } = config;
+const {
+  employeeDetailFields, convertData, incomeFields, deductionFields,
+  thpFields,
+} = config;
 
 const PayrollDetail = () => {
   const location = useLocation();
@@ -38,8 +41,7 @@ const PayrollDetail = () => {
         console.log(convertedData);
         setEmployeeData(convertedData);
       } catch (error) {
-        // history.replace(PATH.Dashboard);
-        console.log('ii err', error);
+        history.replace(PATH.Dashboard);
       }
 
       setIsLoading(false);
@@ -57,7 +59,19 @@ const PayrollDetail = () => {
   const renderTable = () => (
     <>
       <p className='font-semibold text-gray-600'>Employee Info</p>
-      <VerticalTable data={employeeData} fields={requestFields}/>
+      <VerticalTable data={employeeData} fields={employeeDetailFields} padding="py-1 px-2"/>
+      <div className="grid grid-cols-12 gap-2" style={{ width: '100% ' }}>
+        <div className="col-span-6">
+          <p className='font-semibold text-gray-600'>Income</p>
+          <VerticalTable data={employeeData} fields={incomeFields} padding="py-1 px-2"/>
+        </div>
+        <div className="col-span-6">
+          <p className='font-semibold text-gray-600'>Deduction</p>
+          <VerticalTable data={employeeData} fields={deductionFields} padding="py-1 px-2"/>
+        </div>
+      </div>
+      <p className='font-semibold text-gray-600'>Take Home Pay</p>
+      <VerticalTable data={employeeData} fields={thpFields} padding="py-1 px-2"/>
     </>
   );
 
@@ -65,7 +79,7 @@ const PayrollDetail = () => {
     <Card className="mb-8 shadow-md">
       <CardBody>
         <div>{renderTable()}</div>
-        <Button tag={Link} to={PATH.Employees.LIST} layout="outline" className="mr-2">
+        <Button tag={Link} to={PATH.Payroll.ADMIN} layout="outline" className="mr-2">
           Back
         </Button>
         { isAdmin && <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} layout="outline" className="bg-gray-200">

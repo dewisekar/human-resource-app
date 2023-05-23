@@ -30,7 +30,7 @@ const PayrollAdmin = () => {
 
   const renderActionButton = (id) => (
     <>
-      <Button tag={Link} to={`${PATH.Employees.DETAIL}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
+      <Button tag={Link} to={`${PATH.Payroll.DETAIL}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
         <DocumentIcon className='w-4 h-4 mr-1'/>Detail
       </Button>
       <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
