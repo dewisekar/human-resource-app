@@ -15,7 +15,9 @@ const { URL } = constants;
 const PreviewTable = (props) => {
   const { data } = props;
   const {
-    baseSalary = 0, transportAllowance = 0, positionAllowance = 0, familyAllowance = 0,
+    baseSalary = 0, transportAllowance = 0, positionAllowance = 0,
+    familyAllowance = 0, mealAllowance = 0,
+    otherAllowance = 0,
   } = data;
   const [previewData, setPreviewData] = useState({});
 
@@ -24,7 +26,13 @@ const PreviewTable = (props) => {
       const fixAllowance = baseSalary + transportAllowance + positionAllowance + familyAllowance;
       const [fixRate] = await getRequest(URL.Payroll.FIX_RATE_LATEST);
       const calculated = calculate({ ...data, fixAllowance }, fixRate);
-      setPreviewData({ ...data, fixAllowance: getRupiahString(fixAllowance), ...calculated });
+      setPreviewData({
+        ...data,
+        fixAllowance: getRupiahString(fixAllowance),
+        mealAllowance: getRupiahString(mealAllowance),
+        otherAllowance: getRupiahString(otherAllowance),
+        ...calculated,
+      });
     };
 
     init();

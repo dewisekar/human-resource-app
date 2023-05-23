@@ -9,6 +9,14 @@ const fields = [
     key: 'fixAllowance',
     label: 'Allowance Tetap',
   },
+  {
+    key: 'mealAllowance',
+    label: 'Meal Allowance',
+  },
+  {
+    key: 'otherAllowance',
+    label: 'Other Allowance',
+  },
 ];
 
 const companyFields = [
