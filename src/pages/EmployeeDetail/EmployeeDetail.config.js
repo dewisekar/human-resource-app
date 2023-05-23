@@ -60,6 +60,10 @@ const requestFields = [
     label: 'Bank Account Owner Name',
   },
   {
+    key: 'employmentStatus',
+    label: 'Employment Status',
+  },
+  {
     key: 'jobTitle',
     label: 'Job Title',
   },

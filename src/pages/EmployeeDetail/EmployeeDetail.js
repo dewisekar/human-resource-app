@@ -35,7 +35,8 @@ const EmployeeDetail = () => {
       level, superior, subordinate, contractStartDate, contractStartDateUna,
       contractEndDateUna, bankAccount, baseSalary, baseSalaryMealAllowance,
       positionAllowance, transportAllowance, familyAllowance, mealAllowance,
-      birthDate, department, division, overtimeAllowance, ...otherProps
+      birthDate, department, division, overtimeAllowance, basicMealAllowance,
+      basicOvertimeAllowance, ...otherProps
     } = data;
     const convertedRoles = level.map((item) => <li key={item.id}>{item.name}</li>);
     const convertedSubordinate = subordinate ? subordinate.map((item) => <li key={item.id}>{item.name}</li>) : '-';
@@ -45,8 +46,8 @@ const EmployeeDetail = () => {
       positionAllowance,
       transportAllowance,
       familyAllowance,
-      mealAllowance,
-      overtimeAllowance,
+      basicMealAllowance,
+      basicOvertimeAllowance,
     };
     const convertedCurrency = convertObjectToRupiahString(toBeConvertedToCurrency);
 
