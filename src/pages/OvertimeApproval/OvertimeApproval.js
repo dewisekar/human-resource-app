@@ -13,6 +13,7 @@ import TextInput from '../../components/Input/TextInput/TextInput';
 import TextAreaInput from '../../components/Input/TextAreaInput/TextAreaInput';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import SessionExpiredModal from '../../components/SessionExpiredModal/SessionExpiredModal';
+import RupiahCurrencyInput from '../../components/Input/RupiahCurrencyInput/RupiahCurrencyInput';
 import constants from '../../constants';
 import utils from '../../utils';
 import config from './OvertimeApproval.config';
@@ -118,6 +119,8 @@ const OvertimeApproval = () => {
 
   const renderTextAreaInput = (options) => <TextAreaInput {...options} key={options.name}/>;
 
+  const renderRupiahInput = (options) => <RupiahCurrencyInput {...options} key={options.name}/>;
+
   const renderFormField = (options, data = null) => {
     const { formType, ...otherOptions } = options;
     const defaultProps = {
@@ -129,6 +132,7 @@ const OvertimeApproval = () => {
     const Forms = {
       input: renderTextInput(props),
       textarea: renderTextAreaInput(props),
+      currency: renderRupiahInput(props),
     };
 
     return Forms[formType];

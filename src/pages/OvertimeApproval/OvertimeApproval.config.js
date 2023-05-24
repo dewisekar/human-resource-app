@@ -83,6 +83,14 @@ const approvalFormOptions = [
     rules: {},
   },
   {
+    label: 'Special Rate (Jika Berlaku)',
+    name: 'specialRate',
+    placeholder: 'Special Rate...',
+    rules: {},
+    formType: 'currency',
+    subtitle: 'Isi dengan rate per jam pada weekday, meskipun overtime terjadi pada hari libur/weekend',
+  },
+  {
     label: 'Approval Note',
     name: 'approvalNote',
     formType: 'textarea',
