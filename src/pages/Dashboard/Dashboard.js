@@ -11,6 +11,7 @@ import EmployeeOverview from './EmployeeOverview/EmployeeOverview';
 import TaskOverview from './TaskOverview/TaskOverview';
 import AttendanceOverview from './AttendanceOverview/AttendanceOverview';
 import AttendanceRegistration from './AttendanceRegistration/AttendanceRegistration';
+import RequestNotification from './RequestNotification/RequestNotification';
 
 const { getRequest, getRole } = utils;
 const { URL, Accessibility } = constants;
@@ -19,6 +20,8 @@ const Dashboard = () => {
   const [userInfo, setUserInfo] = useState({});
   const userRoles = getRole();
   const showOverview = userRoles.includes(Accessibility.BOD)
+  || userRoles.includes(Accessibility.ADMIN);
+  const showNotification = userRoles.includes(Accessibility.SUPERVISOR)
   || userRoles.includes(Accessibility.ADMIN);
 
   useEffect(() => {
@@ -107,9 +110,14 @@ const Dashboard = () => {
       <TaskOverview/>
     </>);
 
+  const renderNotification = () => (
+    <RequestNotification/>
+  );
+
   return (
     <>
       <PageTitle>Dashboard</PageTitle>
+      {showNotification && renderNotification()}
       {renderDefaultDashboard()}
       {showOverview && renderOverviewDashboard()}
     </>

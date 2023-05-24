@@ -21,6 +21,7 @@ const URL = {
     TYPE_URL: '/reimbursement/type/',
     SUMMARY: '/reimbursement/summary',
     TYPE_SUMMARY: '/reimbursement/type/summary',
+    PENDING_REQUEST: '/reimbursement/status/pending',
   },
   Overtime: {
     OVERTIME_URL: '/overtime',
@@ -33,6 +34,7 @@ const URL = {
     DOWNLOAD_PROOF_URL: '/overtime/proof/download/',
     SUMMARY: '/overtime/summary',
     PAY_BY_DATE: '/overtime/pay-by-date',
+    PENDING_REQUEST: '/supervisor/overtime/status/pending',
   },
   Password: {
     PASSWORD: '/password',
