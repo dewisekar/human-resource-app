@@ -196,6 +196,10 @@ const thpFields = [
     key: 'thp',
     label: 'THP',
   },
+  {
+    key: 'notes',
+    label: 'Notes',
+  },
 ];
 
 const dateOptions = {
@@ -207,7 +211,7 @@ const dateOptions = {
 
 const convertData = (data) => {
   const {
-    month, year, employee, taxStatus, thp,
+    month, year, employee, taxStatus, thp, notes,
   } = data;
   const {
     name, employeeId, department: { name: departmentName }, jobTitle,
@@ -248,6 +252,7 @@ const convertData = (data) => {
     totalIncome: getRupiahString(totalIncome),
     totalDeduction: getRupiahString(totalDeduction),
     thp: getRupiahString(thp),
+    notes,
   };
 };
 
