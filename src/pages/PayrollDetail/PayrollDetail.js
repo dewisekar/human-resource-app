@@ -38,7 +38,6 @@ const PayrollDetail = () => {
       try {
         const fetchedDetail = await getRequest(URL.Payroll.DETAIL + id);
         const convertedData = convertData(fetchedDetail);
-        console.log(convertedData);
         setEmployeeData(convertedData);
       } catch (error) {
         history.replace(PATH.Dashboard);

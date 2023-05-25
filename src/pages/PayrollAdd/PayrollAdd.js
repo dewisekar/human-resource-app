@@ -29,7 +29,7 @@ const {
   deductionFields, calculate, otherFields,
 } = config;
 
-const PayrollAddPayrollAdd = () => {
+const PayrollAdd = () => {
   const {
     register, handleSubmit, formState: { errors }, control, reset, setValue,
   } = useForm();
@@ -286,4 +286,4 @@ const PayrollAddPayrollAdd = () => {
   );
 };
 
-export default PayrollAddPayrollAdd;
+export default PayrollAdd;

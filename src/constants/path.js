@@ -53,6 +53,7 @@ const PATH = {
     ADD: '/payroll/add',
     PAYROLL: '/payroll',
     DETAIL: '/payroll/detail',
+    EDIT: '/payroll/edit',
   },
 };
 
