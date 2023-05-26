@@ -234,8 +234,6 @@ const convertData = (data) => {
     totalDeduction += data[key] || 0;
   });
 
-  console.log(convertedData, totalIncome);
-
   return {
     monthYear,
     name,

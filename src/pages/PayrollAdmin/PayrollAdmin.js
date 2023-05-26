@@ -33,7 +33,7 @@ const PayrollAdmin = () => {
       <Button tag={Link} to={`${PATH.Payroll.DETAIL}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
         <DocumentIcon className='w-4 h-4 mr-1'/>Detail
       </Button>
-      <Button tag={Link} to={`${PATH.Employees.EDIT}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
+      <Button tag={Link} to={`${PATH.Payroll.EDIT}?id=${id}`} size="small" className="mr-2" style={{ backgroundColor: COLOR.GREEN }}>
         <EditIcon className='w-4 h-4 mr-1'/>Edit
       </Button>
       <Button onClick={() => onDownload(id)} size="small" style={{ backgroundColor: COLOR.GREEN }}>

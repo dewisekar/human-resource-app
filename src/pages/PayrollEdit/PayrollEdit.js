@@ -19,7 +19,7 @@ import handlers from './PayrollEdit.handlers';
 import utils from '../../utils';
 import PreviewTable from './PreviewTable/PreviewTable';
 
-const { COLOR, URL } = constants;
+const { COLOR, URL, PATH } = constants;
 const { submitRequest } = handlers;
 const { getRequest } = utils;
 const {
@@ -47,21 +47,25 @@ const PayrollEdit = () => {
   const [fixRate, setFixRate] = useState({});
 
   const setForm = (data) => {
-    allowanceOptions.forEach(({ name: fieldName }) => setValue(fieldName, data[fieldName]));
-    bonusOptions.forEach(({ name: fieldName }) => setValue(fieldName, data[fieldName]));
-    deductionFields.forEach(({ name: fieldName }) => setValue(fieldName, data[fieldName]));
+    allowanceOptions.forEach(({ name: fieldName }) => setValue(fieldName, data[fieldName] || 0));
+    bonusOptions.forEach(({ name: fieldName }) => setValue(fieldName, data[fieldName] || 0));
+    deductionFields.forEach(({ name: fieldName }) => setValue(fieldName, data[fieldName] || 0));
     otherFields.forEach(({ name: fieldName }) => setValue(fieldName, data[fieldName]));
   };
 
   useEffect(() => {
     const init = async () => {
-      const [rate] = await getRequest(URL.Payroll.FIX_RATE_LATEST);
-      const fetchedDetail = await getRequest(URL.Payroll.DETAIL + id);
-      const convertedData = convertData(fetchedDetail);
+      try {
+        const [rate] = await getRequest(URL.Payroll.FIX_RATE_LATEST);
+        const fetchedDetail = await getRequest(URL.Payroll.DETAIL + id);
+        const convertedData = convertData(fetchedDetail);
 
-      setEmployeeData(convertedData);
-      setForm(convertedData);
-      setFixRate(rate);
+        setEmployeeData(convertedData);
+        setForm(convertedData);
+        setFixRate(rate);
+      } catch (error) {
+        history.replace(PATH.Dashboard);
+      }
     };
 
     init();
@@ -91,6 +95,7 @@ const PayrollEdit = () => {
       baseSalary: realBaseSalary,
       ...calculated,
       ...data,
+      id,
     };
     setSubmittedData(payload);
 

@@ -7,7 +7,7 @@ const { URL, AlertMessage, AxiosErrorMessage } = constants;
 const { Modals } = config;
 
 const SUCCESS = 'SUCCESS';
-const successMessage = 'Success submit reimbursement request.';
+const successMessage = 'Success add payroll data.';
 
 const submitRequest = async (payload, handlers) => {
   const { openModalHandler, setAlertMessage, setAlertModalType } = handlers;

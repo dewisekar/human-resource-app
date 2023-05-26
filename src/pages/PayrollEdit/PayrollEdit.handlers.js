@@ -2,18 +2,19 @@ import utils from '../../utils';
 import constants from '../../constants';
 import config from './PayrollEdit.config';
 
-const { postRequest, unpackError } = utils;
+const { unpackError, patchRequest } = utils;
 const { URL, AlertMessage, AxiosErrorMessage } = constants;
 const { Modals } = config;
 
 const SUCCESS = 'SUCCESS';
-const successMessage = 'Success submit reimbursement request.';
+const successMessage = 'Success update payroll data.';
 
 const submitRequest = async (payload, handlers) => {
   const { openModalHandler, setAlertMessage, setAlertModalType } = handlers;
+  const { id, ...otherPayload } = payload;
 
   try {
-    await postRequest(URL.Payroll.PAYROLL, payload);
+    await patchRequest(`${URL.Payroll.PAYROLL}/${id}`, otherPayload);
 
     setAlertMessage(successMessage);
     setAlertModalType(SUCCESS);
