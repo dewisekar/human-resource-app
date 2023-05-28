@@ -93,7 +93,8 @@ const PayrollAdd = () => {
         const fetchedDetail = await getRequest(URL.User.USE_DETAIL_URL + chosenEmployee);
         const { fingerprintPin } = fetchedDetail;
         const attendanceParams = getRangeParams(fingerprintPin, chosenMonth, false);
-        const fetchedAttendance = await getRequest(URL.Attendance.SCAN + attendanceParams);
+        const fetchedAttendance = fingerprintPin !== null
+          ? await getRequest(URL.Attendance.SCAN + attendanceParams) : [];
         const scanIn = fetchedAttendance.filter(({ type }) => type === 'Scan In').length;
         setMealDays(scanIn);
         const { overtimePay = 0 } = await getRequest(URL.Overtime.PAY_BY_DATE + overtimeParams);
