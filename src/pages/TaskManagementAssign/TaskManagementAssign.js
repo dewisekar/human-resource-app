@@ -37,6 +37,7 @@ const TaskManagementAssign = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [alertModalType, setAlertModalType] = useState(null);
   const [dropdownOptions, setDropdownOptions] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const init = async () => {
@@ -44,6 +45,7 @@ const TaskManagementAssign = () => {
         const employeeUrl = isBod ? URL.User.USER_ALL_URL : URL.User.USER_SUBORDINATE_URL;
         const fetchedEmployee = await getRequest(employeeUrl);
         setDropdownOptions({ assignee: convertDataToSelectOptions(fetchedEmployee, 'id', 'name') });
+        setIsLoading(false);
       } catch (error) {
         console.log('Error:', error);
       }
@@ -51,6 +53,12 @@ const TaskManagementAssign = () => {
 
     init();
   }, []);
+
+  const renderSpinner = () => (
+    <div className='grid' style={{ justifyContent: 'center' }}>
+      <MoonLoader color={COLOR.SALMON} size={30} />
+    </div>
+  );
 
   const openModalHandler = (modal) => setIsModalShown({ ...isModalShown, [modal]: true });
 
@@ -126,14 +134,18 @@ const TaskManagementAssign = () => {
     </>
   );
 
+  const renderCard = () => (
+    <Card className="mb-8 shadow-md mt-10">
+      <CardBody style={{ overflowX: 'auto' }}>
+        <SectionTitle>Assign Task To Staff</SectionTitle>
+        {renderForm()}
+      </CardBody>
+    </Card>
+  );
+
   return (
     <>
-      <Card className="mb-8 shadow-md mt-10">
-        <CardBody style={{ overflowX: 'auto' }}>
-          <SectionTitle>Assign Task To Staff</SectionTitle>
-          {renderForm()}
-        </CardBody>
-      </Card>
+      {isLoading ? renderSpinner() : renderCard()}
       {isModalShown[Modals.SESSION] && <SessionExpiredModal history={history}/>}
       {isModalShown[Modals.ALERT] && <AlertModal message={alertMessage}
         onClose={() => closeModalHandler(Modals.ALERT)} type={alertModalType}/>}
