@@ -5,7 +5,7 @@ import ErrorMessage from '../../../constants/error-message';
 
 const TextInput = (props) => {
   const {
-    name, errors, label, subtitle, register, rules, disabled = false, value = '', ...otherProps
+    name, errors, label, subtitle, register, rules, disabled = false, value, ...otherProps
   } = props;
   const { type } = props;
   const isCheckbox = type === 'checkbox';
