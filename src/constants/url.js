@@ -59,6 +59,7 @@ const URL = {
     LATE_CHECK_IN: '/attendance/report/late-check-in',
     UNREGISTERED_USER: '/attendance/unregistered-user',
     MISSED_SCAN: '/attendance/report/missed-scan',
+    SYNC: '/attendance/machine',
   },
   Payroll: {
     FIX_RATE: '/payroll/fix-rate',

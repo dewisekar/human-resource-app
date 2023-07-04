@@ -14,6 +14,7 @@ import utils from '../../utils';
 import config from './AttendanceScan.config';
 import * as Icons from '../../icons';
 import handlers from './AttendanceScan.handlers';
+import AttendanceSync from './AttendanceSync/AttendanceSync';
 
 const { SearchIcon, DownloadIcon } = Icons;
 const { COLOR, URL } = constants;
@@ -187,6 +188,12 @@ const AttendanceScan = () => {
         <small>Data scan absen akan tersinkronisasi dengan mesin absen setiap 30 menit kecuali
           pukul 06.00 s/d 08.59 WIB dan 14.00 s/d 15.59 WIB
         </small>
+        <AttendanceSync
+          onFilter={setDateRange}
+          dateValue={dateRange}
+          buttonColor={COLOR.BLUE}
+          size="100%"
+          errorMessage={dateRangeError}/>
       </div>
       {renderContent()}
       {isAlertShown
